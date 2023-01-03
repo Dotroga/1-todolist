@@ -1,0 +1,11 @@
+.App {
+  display: flex;
+  position: absolute;
+  /*left: 50%;*/
+  /*top: 50%;*/
+  /*transform: translate(-50%, -50%);*/
+}
+
+.App > div {
+  margin-right: 30px;
+}
