@@ -1,9 +1,13 @@
 import React from 'react';
 import './TodoList.css'
-import {findAllByDisplayValue} from "@testing-library/react";
+
 type TodoListPropsType = {
   title: string
   tasks: Array<TaskType>
+  removeTask: (taskId: number) => void
+  changeFilter: any
+
+
 }
 export type TaskType = {
   id: number
@@ -12,16 +16,19 @@ export type TaskType = {
 }
 
 function TodoList(props: TodoListPropsType) {
+
   let tasksList = props.tasks.length
     ? props.tasks.map((task:TaskType) => {
+      const removeTask = () => props.removeTask(task.id)
       return (
         <li>
           <input type="checkbox" checked={task.isDone}/>
           <span>{task.title}</span>
+          <button onClick={removeTask}>x</button>
         </li>
       )
     })
-    : <span>Your taskslist is empty</span>
+    : <span>Your tasks list is empty</span>
 
   return (
       <div className='todoList'>
@@ -32,9 +39,9 @@ function TodoList(props: TodoListPropsType) {
         </div>
         {tasksList}
         <div>
-          <button>All</button>
-          <button>Active</button>
-          <button>Completed</button>
+          <button onClick={()=>props.changeFilter(null)}>All</button>
+          <button onClick={()=>props.changeFilter(false)}>Active</button>
+          <button onClick={()=>props.changeFilter(true)}>Completed</button>
         </div>
       </div>);
 }
