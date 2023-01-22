@@ -5,30 +5,29 @@ import {TaskType} from './TodoList'
 import {v1} from "uuid";
 
 
-export type FilterValueType = boolean | null
-
+export type FilterValueType = 'All' | 'Active' | 'Completed'
 
 function App() {
   const todoListTitle_1: string = 'What to learn'
-  // const todoListTitle_2: string = 'What to bay'
-
-  // const task_2: Array<TaskType> = [
-  //   {id: 4, title: 'Book', isDone: true},
-  //   {id: 5, title: 'Brake discs', isDone: false},
-  //   {id: 6, title: 'Food', isDone: true}
-  // ]
-  const [tasks, setTask] = useState([
+  const tasks1: TaskType[] = [
     {id: v1(), title: 'JS', isDone: true},
     {id: v1(), title: 'CSS - HTML', isDone: true},
-    {id: v1(), title: 'React', isDone: false}
-  ])
+    {id: v1(), title: 'TS', isDone: false},
+    {id: v1(), title: 'Redux', isDone: false},
+    {id: v1(), title: 'React', isDone: true}
+  ]
+  const [tasks, setTask] = useState<TaskType[]>(tasks1)
 
-  const [filter,setFilter] = useState<FilterValueType>(null)
+  const [filter, setFilter] = useState<FilterValueType>('All')
 
-  const getFilteredTaskForRender = (tasks: Array<TaskType>, filter:FilterValueType):Array<TaskType> => {
-     return filter == null
-       ? tasks
-       : tasks.filter((task) => task.isDone === filter)
+  const getFilteredTaskForRender = (tasks: TaskType[], filter: FilterValueType): TaskType[] => {
+    let filterTasks = tasks
+    if (filter ===  'Active') {
+      filterTasks = tasks.filter(t=>!t.isDone)
+    } else if (filter === 'Completed' ) {
+      filterTasks = tasks.filter(t=>t.isDone)
+    }
+    return filterTasks
   }
 
   const addTask = (title: string) => {
@@ -38,16 +37,16 @@ function App() {
       isDone: false
     }
     setTask([...tasks, newTask])
-
   }
 
-  const removeTask = (taskId:string) => {
-    setTask(tasks.filter((task)=> task.id !== taskId))
+  const removeTask = (taskId: string) => {
+    setTask(tasks.filter((task) => task.id !== taskId))
   }
-  useEffect(()=>{
-  },[tasks])
 
-  const changeFilter = (filter:FilterValueType ) => {
+  useEffect(() => {
+  }, [tasks])
+
+  const changeFilter = (filter: FilterValueType) => {
     setFilter(filter)
   }
 
@@ -68,3 +67,5 @@ function App() {
 }
 
 export default App;
+
+
