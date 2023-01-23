@@ -20,14 +20,10 @@ function App() {
 
   const [filter, setFilter] = useState<FilterValueType>('All')
 
-  const getFilteredTaskForRender = (tasks: TaskType[], filter: FilterValueType): TaskType[] => {
-    let filterTasks = tasks
-    if (filter === 'Active') {
-      filterTasks = tasks.filter(t=>!t.isDone)
-    } else if (filter === 'Completed' ) {
-      filterTasks = tasks.filter(t=>t.isDone)
-    }
-    return filterTasks
+  const getFilteredTaskForRender = (tasks: Array<TaskType>, filter:FilterValueType):Array<TaskType> => {
+     return filter == null
+       ? tasks
+       : tasks.filter((task) => task.isDone === filter)
   }
 
   const addTask = (title: string) => {
@@ -37,6 +33,7 @@ function App() {
       isDone: false
     }
     setTask([...tasks, newTask])
+
   }
 
   const removeTask = (taskId: string) => {
@@ -72,5 +69,3 @@ function App() {
 }
 
 export default App;
-
-
