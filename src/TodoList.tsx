@@ -62,7 +62,6 @@ const TodoList: React.FC<TodoListPropsType> = (
     setTitleTask(e.currentTarget.value)}
   const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => e.key === 'Enter' && addTaskHandler()
   const handlerCreator = (filter: FilterValueType) => () => changeFilter(filter) //функция возвращает функцию, возвращает калбэк
-
   return (
     <div className='todoList'>
       <h3>{title}</h3>

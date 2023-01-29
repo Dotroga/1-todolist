@@ -5,6 +5,7 @@ import {TaskType} from './TodoList'
 import {v1} from "uuid";
 
 
+
 export type FilterValueType = 'All' | 'Active' | 'Completed'
 
 function App() {
@@ -20,10 +21,14 @@ function App() {
 
   const [filter, setFilter] = useState<FilterValueType>('All')
 
-  const getFilteredTaskForRender = (tasks: Array<TaskType>, filter:FilterValueType):Array<TaskType> => {
-     return filter == null
-       ? tasks
-       : tasks.filter((task) => task.isDone === filter)
+  const getFilteredTaskForRender = (tasks: TaskType[], filter: FilterValueType): TaskType[] => {
+    let filterTasks = tasks
+    if (filter === 'Active') {
+      filterTasks = tasks.filter(t=>!t.isDone)
+    } else if (filter === 'Completed' ) {
+      filterTasks = tasks.filter(t=>t.isDone)
+    }
+    return filterTasks
   }
 
   const addTask = (title: string) => {
@@ -33,7 +38,6 @@ function App() {
       isDone: false
     }
     setTask([...tasks, newTask])
-
   }
 
   const removeTask = (taskId: string) => {
@@ -50,6 +54,7 @@ function App() {
   const filteredTaskForRender = getFilteredTaskForRender(tasks, filter)
   const changeTaskStatus = (taskId: string, isDone: boolean) => {
     setTask(tasks.map(t => t.id === taskId ? {...t, isDone: isDone} : t))
+
   }
 
   return (
@@ -63,7 +68,6 @@ function App() {
         changeTaskStatus={changeTaskStatus}
         filter={filter}
       />
-      {/*<TodoList title={todoListTitle_2} tasks={task_2}/>*/}
     </div>
   );
 }
