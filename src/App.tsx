@@ -75,6 +75,14 @@ function App() {
         [listId]: {...state.tasks[listId],
           data: [...state.tasks[listId].data.map(t=>t.id === taskId ? {...t, isDone} : t)]}}})
   }
+  const renameTaskList = (listId: string, title: string) => {
+    setState({...state, lists: state.lists.map(l=>l.id===listId ?{...l, title}: l)})
+  }
+  const renameTask = (listId: string, taskId:string, title: string) => {
+    setState({...state, tasks:{...state.tasks,
+        [listId]:{...state.tasks[listId],
+          data: state.tasks[listId].data.map(t=>t.id===taskId?{...t, title}: t)}}})
+  }
 
   return (
     <div className="App">
@@ -96,6 +104,8 @@ function App() {
             addTask={addTask}
             changeTaskStatus={changeTaskStatus}
             filter={state.tasks[l.id].filter}
+            renameTask={renameTask}
+            renameTaskList={renameTaskList}
           />)})}
     </div>
   );
