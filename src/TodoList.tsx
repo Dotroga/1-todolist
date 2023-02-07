@@ -1,24 +1,22 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import './TodoList.css'
 import {FilterValueType} from "./App";
+import {SuperInput} from "./Components/SuperInput/SuperInput";
 
 type TodoListPropsType = {
+  listId: string
   title: string
-  tasks: TaskType[]
+  tasks: any
   filter: string
-  removeTask: (taskId: string) => void
-  changeFilter: (filter: FilterValueType) => void
-  addTask: (title: string) => void
-  changeTaskStatus: (taskId: string, isDone: boolean) => void
-}
-export type TaskType = {
-  id: string
-  title: string
-  isDone: boolean
+  removeTask: (listId: string, taskId: string) => void
+  changeFilter: (listId: string, filter: FilterValueType) => void
+  addTask: (listId: string, title: string) => void
+  changeTaskStatus: (listId: string, taskId: string, isDone: boolean) => void
 }
 
 const TodoList: React.FC<TodoListPropsType> = (
   {
+    listId,
     title,
     tasks,
     removeTask,
@@ -28,52 +26,28 @@ const TodoList: React.FC<TodoListPropsType> = (
     filter,
   }) => {
 
-  const [titleTask, setTitleTask] = useState<string>('')
-  const [error, setError] = useState<boolean>(false)
-
   let tasksList = tasks.length
-    ? tasks.map((task: TaskType) => {
-      const removeTaskHandler = () => removeTask(task.id)
-      const changeTaskS = (e: ChangeEvent<HTMLInputElement>) => {
-        changeTaskStatus(task.id, e.currentTarget.checked)
-      }
+    ? tasks.map((task: any) => {
+      const removeTaskHandler = () => removeTask(listId, task.id)
+      const changeTaskS = (e: ChangeEvent<HTMLInputElement>) =>
+        changeTaskStatus(listId, task.id, e.currentTarget.checked)
+
 
       return (
         <li key={task.id} >
           <input type="checkbox" checked={task.isDone} onChange={changeTaskS}/>
           <span className={ task.isDone ? 'task-done' : ''}>  {task.title}</span>
           <button onClick={removeTaskHandler}>x</button>
-        </li>
-      )
-    })
+        </li>)})
     : <span>Your tasks list is empty</span>
 
-  const addTaskHandler = () => {
-    const trimmedTitle = titleTask.trim()
-    if (trimmedTitle !== '') {
-      addTask(trimmedTitle)
-    } else {
-      setError(true)
-    }
-
-    setTitleTask('')}
-  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    error &&  setError(false)
-    setTitleTask(e.currentTarget.value)}
-  const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => e.key === 'Enter' && addTaskHandler()
-  const handlerCreator = (filter: FilterValueType) => () => changeFilter(filter) //функция возвращает функцию, возвращает калбэк
+  const handlerCreator = (filter: FilterValueType) => () => changeFilter(listId,filter)
+  const addNewTask = (title: string) => addTask(listId, title)
   return (
     <div className='todoList'>
       <h3>{title}</h3>
       <div>
-        <input
-          className={error ? 'input-error' : ''}
-          type='text'
-          value={titleTask}
-          onChange={onChangeHandler}
-          onKeyDown={onKeyDownHandler}/>
-        <button onClick={addTaskHandler}>+</button>
-        {error && <p style={{margin: '0', color:'red'}}>Введите текст!</p>}
+        <SuperInput callBack={addNewTask}/>
       </div>
       <div>
         <button
