@@ -56,13 +56,18 @@ function App() {
     const id = v1()
     setState({...state,
       lists:[{id, title},...state.lists],
-      tasks:{...state.tasks, [id]:{data:[], filter: 'Active'}}})
+      tasks:{...state.tasks, [id]:{data:[], filter: 'All'}}})
   }
   const removeTask = (listId: string, taskId: string) => {
     setState({...state,
       tasks:{...state.tasks,
     [listId]: {...state.tasks[listId],
     data: [...state.tasks[listId].data.filter(t=>t.id!==taskId)]}}})
+  }
+  const removeTaskList = (listId: string) => {
+    setState({...state,
+      lists: state.lists.filter(l=>l.id!==listId)})
+    delete state.tasks[listId]
   }
   const changeFilter = (listId: string, filter: FilterValueType) => {
     setState({...state, tasks:
@@ -84,6 +89,7 @@ function App() {
           data: state.tasks[listId].data.map(t=>t.id===taskId?{...t, title}: t)}}})
   }
 
+
   return (
     <div className="App">
       <SuperInput callBack={addTaskList}/>
@@ -99,6 +105,7 @@ function App() {
             key={l.id}
             title={l.title}
             tasks={tasksForFilter}
+            removeTaskList={removeTaskList}
             removeTask={removeTask}
             changeFilter={changeFilter}
             addTask={addTask}

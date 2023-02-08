@@ -4,6 +4,13 @@
     padding: 30px;
     border-radius: 10px;
     margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+}
+
+.closeButton {
+margin-left: auto ;
+    width: 23px;
 }
 
 .task-done {

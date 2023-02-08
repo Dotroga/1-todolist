@@ -9,6 +9,7 @@ type TodoListPropsType = {
   title: string
   tasks: any
   filter: string
+  removeTaskList: (listId: string) => void
   removeTask: (listId: string, taskId: string) => void
   changeFilter: (listId: string, filter: FilterValueType) => void
   addTask: (listId: string, title: string) => void
@@ -22,6 +23,7 @@ const TodoList: React.FC<TodoListPropsType> = (
     listId,
     title,
     tasks,
+    removeTaskList,
     removeTask,
     changeFilter,
     addTask,
@@ -49,11 +51,14 @@ const TodoList: React.FC<TodoListPropsType> = (
         </li>)})
     : <span>Your tasks list is empty</span>
 
+
   const handlerCreator = (filter: FilterValueType) => () => changeFilter(listId,filter)
   const addNewTask = (title: string) => addTask(listId, title)
   const renameTaskListHandler = (title: string) => renameTaskList(listId, title)
+  const removeTaskListHandler = () => removeTaskList(listId)
   return (
     <div className='todoList'>
+      <button className='closeButton' onClick={removeTaskListHandler}>x</button>
       <NameAndRename name={title} callBack={renameTaskListHandler}/>
       <div>
         <SuperInput callBack={addNewTask}/>
