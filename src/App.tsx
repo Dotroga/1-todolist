@@ -9,10 +9,7 @@ export type ListsType = {id: string, title: string, filter: FilterValueType}
 export type TaskType = { id: string, title: string, isDone: boolean }
 export type FilterValueType = 'All' | 'Active' | 'Completed'
 export type TasksType = {
-  [key: string]: {
-    data: TaskType[]
-    filter: FilterValueType
-  }
+  [key: string]: TaskType[]
 }
 
 
@@ -82,11 +79,7 @@ function App() {
               key={l.id}
               title={l.title}
               removeTaskList={removeTaskList}
-              removeTask={removeTask}
               changeFilter={changeFilter}
-              addTask={addTask}
-              changeTaskStatus={changeTaskStatus}
-              renameTask={renameTask}
               renameTaskList={renameTaskList}
             />)})}
       </div>
