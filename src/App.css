@@ -1,8 +1,16 @@
 .App {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  margin: 30px;
 }
-
+.NewToDO {
+  margin-bottom: 40px;
+  margin-left: 40px;
+}
+.TodoList {
+  display: flex;
+  flex-wrap: wrap;
+}
 .App > div {
   margin-right: 30px;
 }

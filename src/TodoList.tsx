@@ -1,14 +1,13 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import './TodoList.css'
-import {FilterValueType} from "./App";
+import {FilterValueType, todolistId1, todolistId2} from "./App";
 import {SuperInput} from "./Components/SuperInput/SuperInput";
 import NameAndRename from "./Components/NameAndRename/NameAndRename";
+import {v1} from "uuid";
 
 type TodoListPropsType = {
   listId: string
   title: string
-  tasks: any
-  filter: string
   removeTaskList: (listId: string) => void
   removeTask: (listId: string, taskId: string) => void
   changeFilter: (listId: string, filter: FilterValueType) => void
@@ -22,19 +21,28 @@ const TodoList: React.FC<TodoListPropsType> = (
   {
     listId,
     title,
-    tasks,
     removeTaskList,
     removeTask,
     changeFilter,
     addTask,
     changeTaskStatus,
-    filter,
     renameTask,
     renameTaskList,
   }) => {
 
-  let tasksList = tasks.length
-    ? tasks.map((task: any) => {
+  const [state, setState] = useState({
+    [todolistId1]: [
+      {id: v1(), title: "HTML&CSS", isDone: true},
+      {id: v1(), title: "JS", isDone: true}
+    ],
+    [todolistId2]: [
+      {id: v1(), title: "Books", isDone: true},
+      {id: v1(), title: "Food", isDone: false}
+    ]
+  })
+
+  let tasksList = state[listId].length
+    ? state[listId].map((task: any) => {
       const removeTaskHandler = () => removeTask(listId, task.id)
       const changeTaskS = (e: ChangeEvent<HTMLInputElement>) =>
         changeTaskStatus(listId, task.id, e.currentTarget.checked)
@@ -66,15 +74,18 @@ const TodoList: React.FC<TodoListPropsType> = (
       <div>
         <button
           onClick={handlerCreator('All')}
-          className={filter === 'All' ? 'activeButton' : ''}>All
+          // className={filter === 'All' ? 'activeButton' : ''}
+        >All
         </button>
         <button
           onClick={handlerCreator("Active")}
-          className={filter === 'Active' ? 'activeButton' : ''}>Active
+          // className={filter === 'Active' ? 'activeButton' : ''}
+        >Active
         </button>
         <button
           onClick={handlerCreator("Completed")}
-          className={filter === 'Completed' ? 'activeButton' : ''}>Completed
+          // className={filter === 'Completed' ? 'activeButton' : ''}
+        >Completed
         </button>
       </div>
       {tasksList}
