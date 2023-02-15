@@ -1,5 +1,6 @@
 import {v1} from "uuid";
-import {TasksType} from "../TodoList";
+import {TasksType} from "../App";
+
 
 // не забыть про тесты
 
@@ -21,6 +22,9 @@ export const tasksReducer = (tasks: TasksType, action:TsarType): TasksType => {
       return {...tasks, [action.listId]: tasks[action.listId]
           .map(t=> t.id === action.id ? {...t, title: action.title}: t)}
     }
+    case 'ADD-NEW-TASK-LIST': {
+      return {...tasks, [action.listId]:[]}
+    }
     default: return tasks
   }
 }
@@ -28,25 +32,29 @@ type TsarType =
   removeTaskACType |
   addTaskACType |
   changeTaskStatusACType |
-  renameTaskACType
+  renameTaskACType |
+  addNewTaskListAC
 
 type removeTaskACType = ReturnType<typeof removeTaskAC>
 type addTaskACType = ReturnType<typeof addTaskAC>
 type changeTaskStatusACType = ReturnType<typeof changeTaskStatusAC>
 type renameTaskACType = ReturnType<typeof renameTaskAC>
+type addNewTaskListAC = ReturnType<typeof addNewTaskListAC>
 
-export const removeTaskAC =(listId: string, id: string)=>
+export const removeTaskAC = (listId: string, id: string) =>
   ({type: 'REMOVE-TASK', listId, id} as const )
 
-export const addTaskAC =(listId: string, title: string)=>
+export const addTaskAC = (listId: string, title: string) =>
   ({type: 'ADD-TASK', listId, title} as const )
 
 export const changeTaskStatusAC = (listId:string, id:string, isDone: boolean) =>
-  ({
-    type: 'CHANGE-TASK-STATUS', listId, id, isDone} as const);
+  ({type: 'CHANGE-TASK-STATUS', listId, id, isDone} as const);
 
 export const renameTaskAC = (listId: string, id: string, title: string) =>
   ({type: 'RENAME-TASK', listId, id, title} as const)
+
+export const addNewTaskListAC = (listId: string) =>
+  ({type: 'ADD-NEW-TASK-LIST', listId} as const)
 
 
 

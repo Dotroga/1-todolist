@@ -1,7 +1,8 @@
 import React, {ChangeEvent} from 'react';
 import {changeTaskStatusAC, removeTaskAC, renameTaskAC} from "../../reducers/taskReducer";
 import NameAndRename from "../NameAndRename/NameAndRename";
-import {TasksType} from "../../TodoList";
+import {TasksType} from "../../App";
+
 
 
 type TaskListsPropsType = {
