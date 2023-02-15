@@ -5,6 +5,12 @@ import {SuperInput} from "./Components/SuperInput/SuperInput";
 import NameAndRename from "./Components/NameAndRename/NameAndRename";
 import {v1} from "uuid";
 import {addTaskAC, changeTaskStatusAC, removeTaskAC, renameTaskAC, tasksReducer} from "./reducers/taskReducer";
+import TaskLists from "./Components/TaskLists/TaskLists";
+
+export type TaskType = { id: string, title: string, isDone: boolean }
+export type TasksType = {
+  [key: string]: TaskType[]
+}
 
 type TodoListPropsType = {
   listId: string
@@ -33,27 +39,11 @@ const TodoList: React.FC<TodoListPropsType> = (
       {id: v1(), title: "Food", isDone: false}
     ]})
   const addTask = (title: string) => tasksDispatch(addTaskAC(listId,title))
-
-  let tasksList = tasks[listId].length
-    ? tasks[listId].map((task: any) => {
-      const removeTask = () => tasksDispatch(removeTaskAC(listId, task.id))
-      const changeTask = (e: ChangeEvent<HTMLInputElement>) =>
-        tasksDispatch(changeTaskStatusAC(listId, task.id, e.currentTarget.checked))
-      const renameTask = (title: string) =>
-        tasksDispatch(renameTaskAC(listId, task.id, title))
-
-      return (
-        <li key={task.id} >
-          <input type="checkbox" checked={task.isDone} onChange={changeTask}/>
-          <NameAndRename
-            // className={ task.isDone ? 'task-done' : ''}
-            name={task.title}
-            callBack={renameTask}/>
-          <button onClick={removeTask}>x</button>
-        </li>)})
-    : <span>Your tasks list is empty</span>
-
-
+  const removeTask = (id: string) => tasksDispatch(removeTaskAC(listId, id))
+  const changeTask = (id: string, isDone: boolean) =>
+    tasksDispatch(changeTaskStatusAC(listId, id, isDone))
+  const renameTask = (id: string, title: string) =>
+    tasksDispatch(renameTaskAC(listId, id, title))
   const handlerCreator = (filter: FilterValueType) => () => changeFilter(listId,filter)
   const renameTaskListHandler = (title: string) => renameTaskList(listId, title)
   const removeTaskListHandler = () => removeTaskList(listId)
@@ -82,7 +72,13 @@ const TodoList: React.FC<TodoListPropsType> = (
         >Completed
         </button>
       </div>
-      {tasksList}
+      <TaskLists
+        tasks={tasks}
+        listId={listId}
+        removeTask={removeTask}
+        changeTask={changeTask}
+        renameTask={renameTask}
+      />
     </div>);
 }
 

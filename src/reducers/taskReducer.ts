@@ -1,5 +1,6 @@
 import {v1} from "uuid";
-import {TasksType} from "../App";
+import {TasksType} from "../TodoList";
+
 // не забыть про тесты
 
 export const tasksReducer = (tasks: TasksType, action:TsarType): TasksType => {
