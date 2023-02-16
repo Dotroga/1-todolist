@@ -26,10 +26,7 @@ const TaskLists: React.FC<TaskListsPropsType>= (
       return (
         <li key={task.id} >
           <input type="checkbox" checked={task.isDone} onChange={changeTaskHandler}/>
-          <NameAndRename
-            // className={ task.isDone ? 'task-done' : ''}
-            name={task.title}
-            callBack={renameTaskHandler}/>
+          <NameAndRename name={task.title} callBack={renameTaskHandler}/>
           <button onClick={removeTaskHandler}>x</button>
         </li>)})
     : <span>Your tasks list is empty</span>

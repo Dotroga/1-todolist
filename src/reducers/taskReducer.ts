@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import {TasksType} from "../App";
+import {TasksType, TaskType} from "../App";
 
 // не забыть про тесты
 
@@ -10,7 +10,7 @@ export const tasksReducer = (tasks: TasksType, action:TsarType): TasksType => {
           .filter(t=>t.id!==action.id)  }
     }
     case 'ADD-TASK': {
-      let task = { id: v1(), title: action.title, isDone: false };
+      let task: TaskType = { id: v1(), title: action.title, isDone: false };
       return {...tasks, [action.listId]: [...tasks[action.listId], task]}
     }
     case 'CHANGE-TASK-STATUS': {

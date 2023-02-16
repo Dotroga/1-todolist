@@ -14,8 +14,8 @@ import {
 } from "./reducers/taskReducer";
 
 
-export type ListsType = {id: string, title: string, filter: string}
-export type FilterValueType = 'All' | 'Active' | 'Completed'
+export type ListsType = {id: string, title: string, filter: FilterType}
+export type FilterType = 'All' | 'Active' | 'Completed'
 export type TaskType = { id: string, title: string, isDone: boolean }
 export type TasksType = {
   [key: string]: TaskType[]
@@ -28,7 +28,7 @@ export let todolistId2 = v1();
 function App() {
 
   const [lists, listsD] = useReducer(listsReducer,[
-    {id: todolistId1, title: "What to learn", filter: "Active"},
+    {id: todolistId1, title: "What to learn", filter: "All"},
     {id: todolistId2, title: "What to buy", filter: "Active"}])
 
   const[tasks, tasksD] = useReducer(tasksReducer,{
@@ -58,7 +58,7 @@ function App() {
     tasksD(deleteArrTasksAC(listId))
   }
 
-  const changeFilter = (listId: string, filter: FilterValueType) => {
+  const changeFilter = (listId: string, filter: FilterType) => {
     listsD(changeFilterAC(listId, filter))
   }
 
