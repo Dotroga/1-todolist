@@ -1,32 +1,28 @@
 import React, {ChangeEvent} from 'react';
-import {changeTaskStatusAC, removeTaskAC, renameTaskAC} from "../../reducers/taskReducer";
 import NameAndRename from "../NameAndRename/NameAndRename";
-import {TasksType} from "../../App";
+import {TaskType} from "../../App";
 
 
 
 type TaskListsPropsType = {
-  tasks: TasksType
-  listId: string
+  tasks: TaskType[]
   removeTask:  any
   changeTask: any
   renameTask: any
 }
 
 const TaskLists: React.FC<TaskListsPropsType>= (
-  {
-    tasks,
-    listId,
+  {tasks,
     removeTask,
     changeTask,
     renameTask
   }) => {
-  let tasksList = tasks[listId].length
-    ? tasks[listId].map((task: any) => {
+  let tasksList = tasks.length
+    ? tasks.map((task) => {
       const removeTaskHandler = () => removeTask(task.id)
       const changeTaskHandler = (e: ChangeEvent<HTMLInputElement>) =>
         changeTask(task.id, e.currentTarget.checked)
-      const renameTaskHandler = ( title: string) => renameTask(task.id, title)
+      const renameTaskHandler = (title: string) => renameTask(task.id, title)
       return (
         <li key={task.id} >
           <input type="checkbox" checked={task.isDone} onChange={changeTaskHandler}/>

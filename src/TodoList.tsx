@@ -1,5 +1,5 @@
 import React from 'react';
-import {FilterValueType, TasksType, todolistId1, todolistId2} from "./App";
+import {FilterValueType, ListsType, TaskType,} from "./App";
 import {SuperInput} from "./Components/SuperInput/SuperInput";
 import NameAndRename from "./Components/NameAndRename/NameAndRename";
 import TaskLists from "./Components/TaskLists/TaskLists";
@@ -8,9 +8,8 @@ import './TodoList.css'
 
 
 type TodoListPropsType = {
-  tasks: TasksType
-  listId: string
-  title: string
+  list: ListsType
+  tasks: TaskType[]
   addTask: (listId: string, title: string)=> void
   removeTask: (listId: string, id: string)=> void
   changeTask: (listId: string, id: string, isDone: boolean)=> void
@@ -22,9 +21,8 @@ type TodoListPropsType = {
 
 const TodoList: React.FC<TodoListPropsType> = (
   {
+    list,
     tasks,
-    listId,
-    title,
     addTask,
     removeTask,
     changeTask,
@@ -34,43 +32,42 @@ const TodoList: React.FC<TodoListPropsType> = (
     renameTaskList,
   }) => {
 
-  const addTaskHandler = (title: string) => addTask(listId, title)
-  const removeTaskHandler = (id: string) => removeTask(listId, id)
-  const changeTaskHandler = (id: string, isDone: boolean) => changeTask(listId, id, isDone)
-  const renameTaskHandler = (id: string, title: string) => renameTask(listId, id, title)
+  const addTaskHandler = (title: string) => addTask(list.id, title)
+  const removeTaskHandler = (id: string) => removeTask(list.id, id)
+  const changeTaskHandler = (id: string, isDone: boolean) => changeTask(list.id, id, isDone)
+  const renameTaskHandler = (id: string, title: string) => renameTask(list.id, id, title)
 
 
-  const handlerCreator = (filter: FilterValueType) => () => changeFilter(listId,filter)
-  const renameTaskListHandler = (title: string) => renameTaskList(listId, title)
-  const removeTaskListHandler = () => removeTaskList(listId)
+  const handlerCreator = (filter: FilterValueType) => () => changeFilter(list.id,filter)
+  const renameTaskListHandler = (title: string) => renameTaskList(list.id, title)
+  const removeTaskListHandler = () => removeTaskList(list.id)
 
   return (
     <div className='todoList'>
       <button className='closeButton' onClick={removeTaskListHandler}>x</button>
-      <NameAndRename name={title} callBack={renameTaskListHandler}/>
+      <NameAndRename name={list.title} callBack={renameTaskListHandler}/>
       <div>
         <SuperInput callBack={addTaskHandler}/>
       </div>
       <div>
         <button
           onClick={handlerCreator('All')}
-          // className={filter === 'All' ? 'activeButton' : ''}
+          className={list.filter === 'All' ? 'activeButton' : ''}
         >All
         </button>
         <button
           onClick={handlerCreator("Active")}
-          // className={filter === 'Active' ? 'activeButton' : ''}
+          className={list.filter === 'Active' ? 'activeButton' : ''}
         >Active
         </button>
         <button
           onClick={handlerCreator("Completed")}
-          // className={filter === 'Completed' ? 'activeButton' : ''}
+          className={list.filter === 'Completed' ? 'activeButton' : ''}
         >Completed
         </button>
       </div>
       <TaskLists
         tasks={tasks}
-        listId={listId}
         removeTask={removeTaskHandler}
         changeTask={changeTaskHandler}
         renameTask={renameTaskHandler}
