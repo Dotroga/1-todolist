@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import {TasksType, TaskType} from "../App";
+import {TasksType, TaskType} from "../state";
 
 // не забыть про тесты
 

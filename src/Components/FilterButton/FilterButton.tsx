@@ -1,5 +1,5 @@
 import React from 'react';
-import {FilterType} from "../../App";
+import {FilterType} from "../../state";
 import './FilterButton.css'
 
 
@@ -18,13 +18,13 @@ const FilterButton: React.FC<FilterButtonPropsType> = (
     return (
       <button
         key={f.length}
-        className={f === filterList ? 'activeButton' : ''}
+        className={f === filterList ? 'activeButton' : 'button'}
         onClick={()=>callback(f)}
       >{f}</button>
     )
   })
 
-  return <div>
+  return <div className='buttons'>
     {filterButton}
   </div>
   ;

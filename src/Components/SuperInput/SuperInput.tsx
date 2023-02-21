@@ -1,4 +1,5 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import './SuperInput.css'
 
 type PropsType={
   callBack:(title: string)=>void
@@ -29,12 +30,12 @@ export const SuperInput = (props:PropsType) => {
   }
 
   return (
-    <div>
+    <div >
       <input
         value={title}
         onChange={onChangeHandler}
         onKeyPress={onKeyPressHandler}
-        className={error ? "error" : ""}
+        className={error ? "error" : "superInput"}
       />
       <button onClick={addTask}>+</button>
       {error && <div className="error-message">{error}</div>}

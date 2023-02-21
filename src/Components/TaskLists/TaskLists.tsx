@@ -1,6 +1,6 @@
 import React, {ChangeEvent} from 'react';
 import NameAndRename from "../NameAndRename/NameAndRename";
-import {TaskType} from "../../App";
+import {TaskType} from "../../state";
 
 
 
@@ -31,7 +31,7 @@ const TaskLists: React.FC<TaskListsPropsType>= (
         </li>)})
     : <span>Your tasks list is empty</span>
   return (
-    <div>
+    <div >
       {tasksList}
     </div>
   );

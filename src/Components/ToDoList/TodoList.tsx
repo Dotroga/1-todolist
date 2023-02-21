@@ -1,10 +1,10 @@
 import React from 'react';
-import {FilterType, ListsType, TaskType,} from "./App";
-import {SuperInput} from "./Components/SuperInput/SuperInput";
-import NameAndRename from "./Components/NameAndRename/NameAndRename";
-import TaskLists from "./Components/TaskLists/TaskLists";
+import {FilterType, ListsType, TaskType,} from "../../state";
+import {SuperInput} from "../SuperInput/SuperInput";
+import NameAndRename from "../NameAndRename/NameAndRename";
+import TaskLists from "../TaskLists/TaskLists";
 import './TodoList.css'
-import FilterButton from "./Components/FilterButton/FilterButton";
+import FilterButton from "../FilterButton/FilterButton";
 
 
 

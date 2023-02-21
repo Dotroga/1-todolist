@@ -1,5 +1,4 @@
-import {FilterType, ListsType} from "../App";
-
+import {FilterType, ListsType} from "../state";
 
 export const listsReducer = (lists: ListsType[], action:aType):ListsType[] => {
   switch (action.type) {
@@ -27,15 +26,15 @@ type aType =
   changeFilterACType
 
 type addListACType = ReturnType<typeof addListAC>
-type renameTaskListACType = ReturnType<typeof renameTaskListAC>
-type removeTaskListACType = ReturnType<typeof removeTaskListAC>
+type renameTaskListACType = ReturnType<typeof renameListAC>
+type removeTaskListACType = ReturnType<typeof removeListAC>
 type changeFilterACType = ReturnType<typeof changeFilterAC>
 
 export const addListAC = (id: string, title: string) => ({
   type: 'ADD-LIST', id, title} as const)
-export const renameTaskListAC = (listId: string, title: string) => ({
+export const renameListAC = (listId: string, title: string) => ({
   type: 'RENAME-TASK-LIST', listId, title} as const)
-export const removeTaskListAC = (listId: string) => ({
+export const removeListAC = (listId: string) => ({
   type: 'REMOVE-TASK-LIST', listId} as const)
 export const changeFilterAC = (listId: string, filter: FilterType) => ({
   type: 'CHANGE-FILTER', listId, filter} as const )

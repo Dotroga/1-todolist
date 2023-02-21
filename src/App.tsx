@@ -1,9 +1,9 @@
 import React, {useReducer} from 'react';
 import './App.css';
-import TodoList from "./TodoList";
+import TodoList from "./Components/ToDoList/TodoList";
 import {v1} from "uuid";
 import {SuperInput} from "./Components/SuperInput/SuperInput";
-import {addListAC, changeFilterAC, listsReducer, removeTaskListAC, renameTaskListAC} from "./reducers/listsReducer";
+import {addListAC, changeFilterAC, listsReducer, removeListAC, renameListAC} from "./reducers/listsReducer";
 import {
   addNewTaskListAC,
   addTaskAC,
@@ -12,33 +12,15 @@ import {
   renameTaskAC,
   tasksReducer
 } from "./reducers/taskReducer";
-
-
-export type ListsType = {id: string, title: string, filter: FilterType}
-export type FilterType = 'All' | 'Active' | 'Completed'
-export type TaskType = { id: string, title: string, isDone: boolean }
-export type TasksType = {
-  [key: string]: TaskType[]
-}
-
-export let todolistId1 = v1();
-export let todolistId2 = v1();
+import {FilterType, listsToDo, tasksToDo} from "./state";
 
 
 function App() {
 
-  const [lists, listsD] = useReducer(listsReducer,[
-    {id: todolistId1, title: "What to learn", filter: "All"},
-    {id: todolistId2, title: "What to buy", filter: "Active"}])
+  const [lists, listsD] = useReducer(listsReducer, listsToDo)
+  const[tasks, tasksD] = useReducer(tasksReducer, tasksToDo)
 
-  const[tasks, tasksD] = useReducer(tasksReducer,{
-    [todolistId1]: [
-      {id: v1(), title: "HTML&CSS", isDone: true},
-      {id: v1(), title: "JS", isDone: true}],
-    [todolistId2]: [
-      {id: v1(), title: "Books", isDone: true},
-      {id: v1(), title: "Food", isDone: true}]})
-
+  console.log(tasks)
   const addTaskList = (title: string) => {
     const id = v1()
     listsD(addListAC(id, title))
@@ -50,24 +32,20 @@ function App() {
     tasksD(changeTaskStatusAC(listId, id, isDone))
   const renameTask = (listId: string, id: string, title: string) =>
     tasksD(renameTaskAC(listId, id, title))
-  const renameTaskList = (listId: string, title: string) => {
-    listsD(renameTaskListAC(listId, title))
-  }
+  const renameTaskList = (listId: string, title: string) =>
+    listsD(renameListAC(listId, title))
   const removeTaskList = (listId: string) => {
-    listsD(removeTaskListAC(listId))
-    tasksD(deleteArrTasksAC(listId))
-  }
-
-  const changeFilter = (listId: string, filter: FilterType) => {
+    listsD(removeListAC(listId))
+    tasksD(deleteArrTasksAC(listId))}
+  const changeFilter = (listId: string, filter: FilterType) =>
     listsD(changeFilterAC(listId, filter))
-  }
 
 
   return (
     <div className="App">
       <div className='NewToDO'><SuperInput callBack={addTaskList} /></div>
       <div className='TodoList'>
-        {lists.map((l)=>{
+        {lists && lists.map((l)=>{
           const tasksForFilter = l.filter === 'Active'
             ? tasks[l.id].filter(t => !t.isDone)
             : l.filter === 'Completed'

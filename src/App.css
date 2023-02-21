@@ -10,6 +10,7 @@
 .TodoList {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 .App > div {
   margin-right: 30px;
