@@ -1,5 +1,6 @@
 import {v1} from "uuid";
 import {TasksType, TaskType} from "../state";
+import {addNewListACType, removeTaskListACType} from "./listsReducer";
 
 // не забыть про тесты
 
@@ -21,27 +22,29 @@ export const tasksReducer = (tasks: TasksType, action:TsarType): TasksType => {
       return {...tasks, [action.listId]: tasks[action.listId]
           .map(t=> t.id === action.id ? {...t, title: action.title}: t)}
     }
-    case 'ADD-NEW-TASK-LIST': {
-      return {...tasks, [action.listId]:[]}
+    case 'ADD-LIST': {
+      return {...tasks, [action.id]:[]}
+    }
+    case "REMOVE-TASK-LIST": {
+      const {[action.listId]: [], ...rest} = {...tasks}
+      return rest
     }
     default: return tasks
   }
 }
 
-type TsarType =
-  removeTaskACType |
-  addTaskACType |
-  changeTaskStatusACType |
-  renameTaskACType |
-  addNewTaskListACType |
-  deleteArrTasksACtType
+type TsarType = removeTaskACType
+  | addTaskACType
+  | changeTaskStatusACType
+  | renameTaskACType
+  | addNewListACType
+  | removeTaskListACType
 
 type removeTaskACType = ReturnType<typeof removeTaskAC>
 type addTaskACType = ReturnType<typeof addTaskAC>
 type changeTaskStatusACType = ReturnType<typeof changeTaskStatusAC>
 type renameTaskACType = ReturnType<typeof renameTaskAC>
-type addNewTaskListACType = ReturnType<typeof addNewTaskListAC>
-type deleteArrTasksACtType = ReturnType<typeof deleteArrTasksAC>
+
 
 export const removeTaskAC = (listId: string, id: string) =>
   ({type: 'REMOVE-TASK', listId, id} as const )
@@ -51,9 +54,6 @@ export const changeTaskStatusAC = (listId:string, id:string, isDone: boolean) =>
   ({type: 'CHANGE-TASK-STATUS', listId, id, isDone} as const);
 export const renameTaskAC = (listId: string, id: string, title: string) =>
   ({type: 'RENAME-TASK', listId, id, title} as const)
-export const addNewTaskListAC = (listId: string) =>
-  ({type: 'ADD-NEW-TASK-LIST', listId} as const)
-export const deleteArrTasksAC = (listId: string) =>
-  ({type: 'REMOVE-TASK-LIST', listId} as const)
+
 
 

@@ -1,10 +1,10 @@
 import {v1} from 'uuid';
-import {addListAC, changeFilterAC, listsReducer, removeListAC, renameListAC} from "./listsReducer";
+import {addNewListAC, changeFilterAC, listsReducer, removeListAC, renameListAC} from "./listsReducer";
 import {FilterType, ListsType} from "../state";
 
 let todolistId1 = v1();
 let todolistId2 = v1();
-let todoListId3 = v1()
+
 
 const startState: ListsType[] = [
   {id: todolistId1, title: "What to learn", filter: "All"},
@@ -22,7 +22,7 @@ test('correct todolist should be added', () => {
 
   let newTodolistTitle = "New Todolist";
 
-  const endState = listsReducer(startState, addListAC(todoListId3, newTodolistTitle))
+  const endState = listsReducer(startState, addNewListAC(newTodolistTitle))
 
   expect(endState.length).toBe(3);
   expect(endState[2].title).toBe(newTodolistTitle);

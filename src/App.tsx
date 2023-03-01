@@ -1,11 +1,15 @@
 import React, {useReducer} from 'react';
 import './App.css';
 import TodoList from "./Components/ToDoList/TodoList";
-import {v1} from "uuid";
 import {SuperInput} from "./Components/SuperInput/SuperInput";
-import {addListAC, changeFilterAC, listsReducer, removeListAC, renameListAC} from "./reducers/listsReducer";
 import {
-  addNewTaskListAC,
+  addNewListAC,
+  changeFilterAC,
+  listsReducer,
+  removeListAC,
+  renameListAC
+} from "./reducers/listsReducer";
+import {
   addTaskAC,
   changeTaskStatusAC, deleteArrTasksAC,
   removeTaskAC,
@@ -14,17 +18,13 @@ import {
 } from "./reducers/taskReducer";
 import {FilterType, listsToDo, tasksToDo} from "./state";
 
-
 function App() {
 
   const [lists, listsD] = useReducer(listsReducer, listsToDo)
   const[tasks, tasksD] = useReducer(tasksReducer, tasksToDo)
 
-  console.log(tasks)
   const addTaskList = (title: string) => {
-    const id = v1()
-    listsD(addListAC(id, title))
-    tasksD(addNewTaskListAC(id))
+    listsD(addNewListAC(title))
   }
   const addTask = (listId: string, title: string) => tasksD(addTaskAC(listId,title))
   const removeTask = (listId: string, id: string) => tasksD(removeTaskAC(listId, id))
