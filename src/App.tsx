@@ -11,7 +11,7 @@ import {
 } from "./reducers/listsReducer";
 import {
   addTaskAC,
-  changeTaskStatusAC, deleteArrTasksAC,
+  changeTaskStatusAC,
   removeTaskAC,
   renameTaskAC,
   tasksReducer
@@ -24,7 +24,9 @@ function App() {
   const[tasks, tasksD] = useReducer(tasksReducer, tasksToDo)
 
   const addTaskList = (title: string) => {
-    listsD(addNewListAC(title))
+    const action = addNewListAC(title)
+    listsD(action)
+    tasksD(action)
   }
   const addTask = (listId: string, title: string) => tasksD(addTaskAC(listId,title))
   const removeTask = (listId: string, id: string) => tasksD(removeTaskAC(listId, id))
@@ -36,7 +38,7 @@ function App() {
     listsD(renameListAC(listId, title))
   const removeTaskList = (listId: string) => {
     listsD(removeListAC(listId))
-    tasksD(deleteArrTasksAC(listId))}
+    tasksD(removeListAC(listId))}
   const changeFilter = (listId: string, filter: FilterType) =>
     listsD(changeFilterAC(listId, filter))
 
