@@ -1,6 +1,7 @@
 import React, {ChangeEvent} from 'react';
 import NameAndRename from "../NameAndRename/NameAndRename";
 import {TaskType} from "../../state";
+import './TaskList.css'
 
 
 
@@ -24,11 +25,15 @@ const TaskLists: React.FC<TaskListsPropsType>= (
         changeTask(task.id, e.currentTarget.checked)
       const renameTaskHandler = (title: string) => renameTask(task.id, title)
       return (
-        <li key={task.id} >
+        <div className='task'  key={task.id} >
+
           <input type="checkbox" checked={task.isDone} onChange={changeTaskHandler}/>
-          <NameAndRename name={task.title} callBack={renameTaskHandler}/>
-          <button onClick={removeTaskHandler}>x</button>
-        </li>)})
+          <div className='text'>
+            <NameAndRename name={task.title} callBack={renameTaskHandler}/>
+            <div className='date'>{task.date}</div>
+          </div>
+          <button className='delete' onClick={removeTaskHandler}>x</button>
+        </div>)})
     : <span>Your tasks list is empty</span>
   return (
     <div >

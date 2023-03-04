@@ -4,7 +4,7 @@ import {v1} from "uuid";
 export const listsReducer = (lists: ListsType[], action:aType):ListsType[] => {
   switch (action.type) {
     case 'ADD-LIST': {
-      const newList: ListsType = {id: action.id, title: action.title, filter:'Active'}
+      const newList: ListsType = {id: action.id, title: action.title, filter:'All'}
       return [...lists, newList]
     }
     case "RENAME-TASK-LIST": {

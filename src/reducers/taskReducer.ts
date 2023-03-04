@@ -11,7 +11,11 @@ export const tasksReducer = (tasks: TasksType, action:TsarType): TasksType => {
           .filter(t=>t.id!==action.id)  }
     }
     case 'ADD-TASK': {
-      let task: TaskType = { id: v1(), title: action.title, isDone: false };
+      const d = new Date()
+      const monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"]
+      const date = `${d.getMonth() + 1} ${monthNames[d.getMonth()]} ${d.toTimeString().slice(0,5)}`
+      let task: TaskType = { id: v1(), title: action.title, isDone: false, date};
       return {...tasks, [action.listId]: [...tasks[action.listId], task]}
     }
     case 'CHANGE-TASK-STATUS': {

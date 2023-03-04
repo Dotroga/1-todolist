@@ -1,0 +1,19 @@
+.task {
+    display: flex;
+    height: 40px;
+    align-items: center;
+    gap: 20px;
+    border-bottom: 1px solid #c9c9c9;
+
+}
+.text{
+    font-size: 17px;
+}
+.text .date{
+    color: #757575;
+    font-size: 13px;
+}
+
+.delete {
+    margin-left: auto;
+}
