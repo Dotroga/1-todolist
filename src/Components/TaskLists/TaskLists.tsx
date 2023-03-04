@@ -2,6 +2,7 @@ import React, {ChangeEvent, useState} from 'react';
 import NameAndRename from "../NameAndRename/NameAndRename";
 import {TaskType} from "../../state";
 import './TaskList.css'
+import DeleteButton from "../DeleteButton/DeleteButton";
 
 
 
@@ -34,7 +35,8 @@ const TaskLists: React.FC<TaskListsPropsType>= (
             <NameAndRename name={task.title} callBack={renameTaskHandler}/>
             <div className='date'>{task.date}</div>
           </div>
-          {onMouse && <button className='delete' onClick={removeTaskHandler}>x</button>}
+
+          {onMouse && <DeleteButton callBack={removeTaskHandler}/> }
         </div>)
 };
 

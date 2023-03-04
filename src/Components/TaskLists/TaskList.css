@@ -11,9 +11,22 @@
 }
 .text .date{
     color: #757575;
-    font-size: 13px;
 }
 
 .delete {
     margin-left: auto;
+    width: 24px;
+    opacity: 0.3;
+    cursor: pointer;
+    transition: all 0.2s ease-in;
+}
+.delete:hover{
+    transform: rotate(90deg) scale(1.15);
+    transition: all 0.2s ease-in;
+    opacity: 0.7;
+}
+.delete:active{
+    opacity: 1;
+    transition: all 0.2s ease-in;
+    transform:rotate(90deg) scale(1.3);
 }

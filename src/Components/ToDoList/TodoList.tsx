@@ -5,6 +5,7 @@ import NameAndRename from "../NameAndRename/NameAndRename";
 import TaskLists from "../TaskLists/TaskLists";
 import './TodoList.css'
 import FilterButton from "../FilterButton/FilterButton";
+import DeleteButton from "../DeleteButton/DeleteButton";
 
 
 
@@ -44,13 +45,14 @@ const TodoList: React.FC<TodoListPropsType> = (
 
   return (
     <div className='todoList'>
-      <button className='closeButton' onClick={removeTaskListHandler}>x</button>
+      <DeleteButton callBack={removeTaskListHandler}/>
       <NameAndRename name={list.title} callBack={renameTaskListHandler}/>
       <SuperInput callBack={addTaskHandler}/>
       <FilterButton filterList={list.filter} callback={changeFilterHandler} />
       {tasks.length
         ? tasks.map((task=>{
         return (<TaskLists
+          key={task.id}
           task={task}
           removeTask={removeTaskHandler}
           changeTask={changeTaskHandler}
