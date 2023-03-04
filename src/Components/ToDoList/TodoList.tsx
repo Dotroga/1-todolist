@@ -48,12 +48,17 @@ const TodoList: React.FC<TodoListPropsType> = (
       <NameAndRename name={list.title} callBack={renameTaskListHandler}/>
       <SuperInput callBack={addTaskHandler}/>
       <FilterButton filterList={list.filter} callback={changeFilterHandler} />
-      <TaskLists
-        tasks={tasks}
-        removeTask={removeTaskHandler}
-        changeTask={changeTaskHandler}
-        renameTask={renameTaskHandler}
-      />
+      {tasks.length
+        ? tasks.map((task=>{
+        return (<TaskLists
+          task={task}
+          removeTask={removeTaskHandler}
+          changeTask={changeTaskHandler}
+          renameTask={renameTaskHandler}
+        />)
+      }))
+      : <span>Task list is empty</span>}
+
     </div>);
 }
 
