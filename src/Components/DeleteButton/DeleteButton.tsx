@@ -2,14 +2,12 @@ import React from 'react';
 import cross from './../../Icons/delete.svg'
 
 const DeleteButton = (props:{callBack: ()=>void}) => {
-  return (
-    <>
+  return <>
       <img
         className='delete'
         onClick={()=>props.callBack()}
-        src={cross} alt=""/>
+        src={cross} alt="x"/>
     </>
-  );
 };
 
 export default DeleteButton;

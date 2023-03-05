@@ -1,11 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {FilterType, ListsType, TaskType,} from "../../state";
-import {SuperInput} from "../SuperInput/SuperInput";
+import SuperInput from "../SuperInput/SuperInput";
 import NameAndRename from "../NameAndRename/NameAndRename";
 import TaskLists from "../TaskLists/TaskLists";
 import './TodoList.css'
 import FilterButton from "../FilterButton/FilterButton";
 import DeleteButton from "../DeleteButton/DeleteButton";
+import filter from './../../Icons/filter.svg'
+
 
 
 
@@ -34,6 +36,8 @@ const TodoList: React.FC<TodoListPropsType> = (
     renameTaskList,
   }) => {
 
+  const [onFilter, setOnFilter] = useState(false)
+
   const addTaskHandler = (title: string) => addTask(list.id, title)
   const removeTaskHandler = (id: string) => removeTask(list.id, id)
   const changeTaskHandler = (id: string, isDone: boolean) => changeTask(list.id, id, isDone)
@@ -45,10 +49,23 @@ const TodoList: React.FC<TodoListPropsType> = (
 
   return (
     <div className='todoList'>
-      <DeleteButton callBack={removeTaskListHandler}/>
-      <NameAndRename name={list.title} callBack={renameTaskListHandler}/>
-      <SuperInput callBack={addTaskHandler}/>
-      <FilterButton filterList={list.filter} callback={changeFilterHandler} />
+      <div className='TitleList'>
+        <NameAndRename name={list.title} callBack={renameTaskListHandler}/>
+        <DeleteButton callBack={removeTaskListHandler}/>
+      </div>
+      <div className='AddContainer'>
+        <SuperInput callBack={addTaskHandler} title='Add task'/>
+        <img
+          className='filter'
+          src={filter}
+          alt="filter"
+          onClick={()=>setOnFilter(!onFilter)}/>
+      </div>
+      <FilterButton
+        filterList={list.filter}
+        callback={changeFilterHandler}
+        onFilter={onFilter}
+      />
       {tasks.length
         ? tasks.map((task=>{
         return (<TaskLists

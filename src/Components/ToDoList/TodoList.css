@@ -8,18 +8,32 @@
     flex-direction: column;
     width: 300px;
 }
+.TitleList{
+    display: flex;
+    font-size: 30px;
+    align-items: center;
+    margin-bottom: 10px;
+}
 
 .closeButton {
 margin-left: auto ;
     width: 23px;
 }
+.AddContainer {
+    display: flex;
+    justify-content: space-between;
+}
+.filter{
+    height: 28px;
+    cursor: pointer;
+    opacity: 0.6;
+}
+.filter:hover{
+    opacity: 1;
+}
 
 .task-done {
     opacity: 0.5;
-}
-
-.activeButton {
-    background-color: #b596cc;
 }
 
 .input-error {

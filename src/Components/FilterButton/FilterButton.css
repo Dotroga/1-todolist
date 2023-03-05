@@ -1,13 +1,21 @@
 .buttons {
     display: flex;
     justify-content: space-between;
-    padding: 10px 0;
+    padding: 10px 30px;
     border-bottom: 1px solid #c9c9c9;
+    cursor: pointer;
+    transition: 0.5s;
 }
 
 .button {
-
+    padding: 0 5px;
+    transition: 0.5s;
+    border-bottom: 1px solid #ffffff;
+    color: #626262;
 }
 .activeButton {
-    background-color: #b596cc;
+    border-bottom: 1px solid black;
+    padding: 0 5px;
+    transition: 0.5s;
+    color: #000000;
 }

@@ -1,7 +1,7 @@
 import React, {useReducer} from 'react';
 import './App.css';
 import TodoList from "./Components/ToDoList/TodoList";
-import {SuperInput} from "./Components/SuperInput/SuperInput";
+import SuperInput from "./Components/SuperInput/SuperInput";
 import {
   addNewListAC,
   changeFilterAC,
@@ -45,7 +45,9 @@ function App() {
 
   return (
     <div className="App">
-      <div className='NewToDO'><SuperInput callBack={addTaskList} /></div>
+      <div className='NewToDO'>
+        <SuperInput callBack={addTaskList} title='Add list'/>
+      </div>
       <div className='TodoList'>
         {lists && lists.map((l)=>{
           const tasksForFilter = l.filter === 'Active'

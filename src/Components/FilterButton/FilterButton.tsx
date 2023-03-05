@@ -6,26 +6,22 @@ import './FilterButton.css'
 type FilterButtonPropsType = {
   filterList: FilterType
   callback: (filter: FilterType)=>void
+  onFilter: boolean
 }
 
 const FilterButton: React.FC<FilterButtonPropsType> = (
-  {filterList, callback}) => {
+  {filterList, callback, onFilter}) => {
 
   const filters: FilterType[] = ['All' , 'Active' , 'Completed']
-
   const filterButton = filters.map(f=>{
-
-    return (
-      <button
+    return (<div
         key={f.length}
         className={f === filterList ? 'activeButton' : 'button'}
         onClick={()=>callback(f)}
-      >{f}</button>
-    )
+      >{f}</div>)
   })
-
   return <div className='buttons'>
-    {filterButton}
+    {onFilter && filterButton}
   </div>
   ;
 };

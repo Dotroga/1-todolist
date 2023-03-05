@@ -6,6 +6,7 @@
 .NewToDO {
   margin-bottom: 40px;
   margin-left: 40px;
+  width: 350px;
 }
 .TodoList {
   display: flex;

@@ -1,20 +1,21 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import './SuperInput.css'
 
+
 type PropsType={
   callBack:(title: string)=>void
+  title: string
 }
-
-export const SuperInput = (props:PropsType) => {
-  let [title, setTitle] = useState("")
-  let [error, setError] = useState<string | null>(null)
+const SuperInput: React.FC<PropsType> = ({callBack, title}) => {
+  const [value, setTitle] = useState("")
+  const [error, setError] = useState<string | null>(null)
 
   const addTask = () => {
-    let newTitle = title.trim();
-    if (newTitle !== "") {
-      props.callBack(newTitle);
-      setTitle("");
-    } else {
+    let newTitle = value.trim();
+   if (newTitle !== "") {
+     callBack(newTitle)
+     setTitle("")
+   } else {
       setError("Title is required");
     }
   }
@@ -23,22 +24,20 @@ export const SuperInput = (props:PropsType) => {
   }
 
   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    setError(null);
-    if (e.key==='Enter') {
-      addTask();
-    }
+    setError(null); e.key==='Enter' && addTask()
   }
-
   return (
-    <div >
+    <div  className='inputBox'>
       <input
-        value={title}
+        value={value}
         onChange={onChangeHandler}
         onKeyPress={onKeyPressHandler}
-        className={error ? "error" : "superInput"}
+        type='text'
+        required={true}
       />
-      <button onClick={addTask}>+</button>
-      {error && <div className="error-message">{error}</div>}
+      <span>{error ? error : title}</span>
     </div>
   );
 };
+
+export default SuperInput

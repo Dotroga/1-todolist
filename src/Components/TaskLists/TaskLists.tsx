@@ -35,7 +35,6 @@ const TaskLists: React.FC<TaskListsPropsType>= (
             <NameAndRename name={task.title} callBack={renameTaskHandler}/>
             <div className='date'>{task.date}</div>
           </div>
-
           {onMouse && <DeleteButton callBack={removeTaskHandler}/> }
         </div>)
 };
