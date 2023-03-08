@@ -1,7 +1,8 @@
-import {FilterType, ListsType} from "../state";
+import {FilterType, listsToDo, ListsType} from "../state";
 import {v1} from "uuid";
 
-export const listsReducer = (lists: ListsType[], action:aType):ListsType[] => {
+
+export const listsReducer = (lists: ListsType[] = listsToDo, action:ListActionsType):ListsType[] => {
   switch (action.type) {
     case 'ADD-LIST': {
       const newList: ListsType = {id: action.id, title: action.title, filter:'All'}
@@ -20,7 +21,7 @@ export const listsReducer = (lists: ListsType[], action:aType):ListsType[] => {
   }
 }
 
-type aType =
+export type ListActionsType =
   addNewListACType |
   renameTaskListACType |
   removeTaskListACType |

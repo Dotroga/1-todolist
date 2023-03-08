@@ -1,47 +1,46 @@
-import React, {useReducer} from 'react';
+import React from 'react';
 import './App.css';
 import TodoList from "./Components/ToDoList/TodoList";
 import SuperInput from "./Components/SuperInput/SuperInput";
 import {
   addNewListAC,
   changeFilterAC,
-  listsReducer,
   removeListAC,
   renameListAC
-} from "./reducers/listsReducer";
+} from "./store/listsReducer";
 import {
   addTaskAC,
   changeTaskStatusAC,
   removeTaskAC,
   renameTaskAC,
-  tasksReducer
-} from "./reducers/taskReducer";
-import {FilterType, listsToDo, tasksToDo} from "./state";
+} from "./store/taskReducer";
+import {FilterType, ListsType, TasksType} from "./state";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType} from "./store/store";
 
-function App() {
+const App = ()  => {
 
-  const [lists, listsD] = useReducer(listsReducer, listsToDo)
-  const[tasks, tasksD] = useReducer(tasksReducer, tasksToDo)
+  let lists = useSelector<AppRootStateType, ListsType[]>(state => state.lists)
+  let tasks = useSelector<AppRootStateType, TasksType>(state => state.tasks)
 
-  const addTaskList = (title: string) => {
-    const action = addNewListAC(title)
-    listsD(action)
-    tasksD(action)
-  }
-  const addTask = (listId: string, title: string) => tasksD(addTaskAC(listId,title))
-  const removeTask = (listId: string, id: string) => tasksD(removeTaskAC(listId, id))
+  const dispatch = useDispatch()
+
+  const addTaskList = (title: string) =>
+    dispatch(addNewListAC(title))
+  const addTask = (listId: string, title: string) =>
+    dispatch(addTaskAC(listId,title))
+  const removeTask = (listId: string, id: string) =>
+    dispatch(removeTaskAC(listId, id))
   const changeTask = (listId: string, id: string, isDone: boolean) =>
-    tasksD(changeTaskStatusAC(listId, id, isDone))
+    dispatch(changeTaskStatusAC(listId, id, isDone))
   const renameTask = (listId: string, id: string, title: string) =>
-    tasksD(renameTaskAC(listId, id, title))
+    dispatch(renameTaskAC(listId, id, title))
   const renameTaskList = (listId: string, title: string) =>
-    listsD(renameListAC(listId, title))
-  const removeTaskList = (listId: string) => {
-    listsD(removeListAC(listId))
-    tasksD(removeListAC(listId))}
+    dispatch(renameListAC(listId, title))
+  const removeTaskList = (listId: string) =>
+    dispatch(removeListAC(listId))
   const changeFilter = (listId: string, filter: FilterType) =>
-    listsD(changeFilterAC(listId, filter))
-
+    dispatch(changeFilterAC(listId, filter))
 
   return (
     <div className="App">
@@ -49,7 +48,7 @@ function App() {
         <SuperInput callBack={addTaskList} title='Add list'/>
       </div>
       <div className='TodoList'>
-        {lists && lists.map((l)=>{
+        {lists.map((l)=>{
           const tasksForFilter = l.filter === 'Active'
             ? tasks[l.id].filter(t => !t.isDone)
             : l.filter === 'Completed'

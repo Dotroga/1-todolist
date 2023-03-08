@@ -1,10 +1,8 @@
 import {v1} from "uuid";
-import {TasksType, TaskType} from "../state";
+import {tasksToDo, TasksType, TaskType} from "../state";
 import {addNewListACType, removeTaskListACType} from "./listsReducer";
 
-// не забыть про тесты
-
-export const tasksReducer = (tasks: TasksType, action:TsarType): TasksType => {
+export const tasksReducer = (tasks: TasksType = tasksToDo, action:TsarType): TasksType => {
   switch (action.type) {
     case 'REMOVE-TASK': {
       return {...tasks, [action.listId] :tasks[action.listId]
