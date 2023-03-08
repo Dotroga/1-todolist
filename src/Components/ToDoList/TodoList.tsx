@@ -6,78 +6,70 @@ import TaskLists from "../TaskLists/TaskLists";
 import './TodoList.css'
 import FilterButton from "../FilterButton/FilterButton";
 import DeleteButton from "../DeleteButton/DeleteButton";
-import filter from './../../Icons/filter.svg'
-
-
-
+import filterIcons from './../../Icons/filter.svg'
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType} from "../../store/store";
+import {addTaskAC, changeTaskStatusAC, removeTaskAC, renameTaskAC} from "../../store/taskReducer";
+import {changeFilterAC, removeListAC, renameListAC} from "../../store/listsReducer";
 
 type TodoListPropsType = {
   list: ListsType
-  tasks: TaskType[]
-  addTask: (listId: string, title: string)=> void
-  removeTask: (listId: string, id: string)=> void
-  changeTask: (listId: string, id: string, isDone: boolean)=> void
-  renameTask: (listId: string,id: string, title: string)=> void
-  removeTaskList: (listId: string) => void
-  changeFilter: (listId: string, filter: FilterType) => void
-  renameTaskList: (listId: string, title: string) => void
 }
 
-const TodoList: React.FC<TodoListPropsType> = (
-  {
-    list,
-    tasks,
-    addTask,
-    removeTask,
-    changeTask,
-    renameTask,
-    removeTaskList,
-    changeFilter,
-    renameTaskList,
-  }) => {
+const TodoList: React.FC<TodoListPropsType> = ({list}) => {
+
+  const {id, title, filter} = list
 
   const [onFilter, setOnFilter] = useState(false)
 
-  const addTaskHandler = (title: string) => addTask(list.id, title)
-  const removeTaskHandler = (id: string) => removeTask(list.id, id)
-  const changeTaskHandler = (id: string, isDone: boolean) => changeTask(list.id, id, isDone)
-  const renameTaskHandler = (id: string, title: string) => renameTask(list.id, id, title)
-  const changeFilterHandler = (filter: FilterType) => changeFilter(list.id, filter)
+  let tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[list.id])
 
-  const renameTaskListHandler = (title: string) => renameTaskList(list.id, title)
-  const removeTaskListHandler = () => removeTaskList(list.id)
+  const dispatch = useDispatch()
+
+  const addTask = (title: string) => dispatch(addTaskAC(id, title))
+  const removeTask = (taskId: string) => dispatch(removeTaskAC(id, taskId))
+  const changeTask = (taskId: string, isDone: boolean) => dispatch(changeTaskStatusAC(id, taskId, isDone))
+  const renameTask = (taskId: string, title: string) => dispatch(renameTaskAC(id, taskId, title))
+  const renameTaskList = (title: string) => dispatch(renameListAC(id, title))
+  const removeTaskList = () => dispatch(removeListAC(id))
+  const changeFilter = (filter: FilterType) => dispatch(changeFilterAC(id, filter))
+
+  const tasksFilter = filter === 'Active'
+    ? tasks.filter(t=>!t.isDone)
+    : filter === 'Completed'
+      ? tasks.filter(t=>t.isDone)
+      : tasks
 
   return (
     <div className='todoList'>
       <div className='TitleList'>
-        <NameAndRename name={list.title} callBack={renameTaskListHandler}/>
-        <DeleteButton callBack={removeTaskListHandler}/>
+        <NameAndRename name={title} callBack={renameTaskList}/>
+        <DeleteButton callBack={removeTaskList}/>
       </div>
       <div className='AddContainer'>
-        <SuperInput callBack={addTaskHandler} title='Add task'/>
+        <SuperInput callBack={addTask} title='Add task'/>
         <img
           className='filter'
-          src={filter}
+          src={filterIcons}
           alt="filter"
           onClick={()=>setOnFilter(!onFilter)}/>
       </div>
       <FilterButton
         filterList={list.filter}
-        callback={changeFilterHandler}
+        callback={changeFilter}
         onFilter={onFilter}
       />
-      {tasks.length
-        ? tasks.map((task=>{
+      {tasksFilter.length
+        ? tasksFilter.map((task=>{
         return (<TaskLists
           key={task.id}
           task={task}
-          removeTask={removeTaskHandler}
-          changeTask={changeTaskHandler}
-          renameTask={renameTaskHandler}
+          removeTask={removeTask}
+          changeTask={changeTask}
+          renameTask={renameTask}
         />)
       }))
       : <span>Task list is empty</span>}
-
     </div>);
 }
 
