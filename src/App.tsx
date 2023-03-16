@@ -22,9 +22,6 @@ const App = ()  => {
   return (
     <div className={s.App}>
       <SideBar/>
-      {lists.map((l,i)=>
-          <NavLink key={i} to={`/${l.title.split(" ").join("")}`}>{l.title}</NavLink>
-      )}
       {/*<NavLink to={{}} >Hello</NavLink>*/}
       {/*<NavLink to={'/todo'} >todo</NavLink>*/}
       {/*<div className={s.NewToDo}>*/}
@@ -32,10 +29,14 @@ const App = ()  => {
       {/*</div>*/}
       <div className={s.TodoLists}>
         <Routes>
+          <Route
+            path={'/'}
+            element={lists.map(l=><TodoList key={l.id} list={l}/>)}
+          />
           {lists.map(l=>
             <Route path={`/${l.title.split(" ").join("")}`}
-                   element={<TodoList key={l.id} list={l}/>}/>
-          )}
+                   element={<TodoList key={l.id} list={l}/>}
+            />)}
         </Routes>
       </div>
     </div>

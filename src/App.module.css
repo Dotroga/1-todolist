@@ -1,7 +1,11 @@
+*{
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+}
+
 .App {
   display: flex;
-  flex-direction: column;
-  margin: 30px;
 }
 .NewToDO {
   margin-bottom: 40px;
@@ -14,6 +18,5 @@
   justify-content: center;
 }
 .App > div {
-  margin-right: 30px;
 }
 
