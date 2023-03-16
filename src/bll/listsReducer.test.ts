@@ -1,6 +1,6 @@
 import {v1} from 'uuid';
 import {addNewListAC, changeFilterAC, listsReducer, removeListAC, renameListAC} from "./listsReducer";
-import {FilterType, ListsType} from "../state";
+import {FilterType, ListsType} from "./state";
 
 let todolistId1: string
 let todolistId2: string

@@ -8,7 +8,7 @@
   margin-left: 40px;
   width: 350px;
 }
-.TodoList {
+.TodoLists {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

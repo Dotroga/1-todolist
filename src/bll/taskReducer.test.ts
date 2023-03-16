@@ -1,5 +1,5 @@
 import {addTaskAC, changeTaskStatusAC, removeTaskAC, renameTaskAC, tasksReducer} from "./taskReducer";
-import {TasksType} from "../state";
+import {TasksType} from "./state";
 
 const startState: TasksType  = {
   "todolistId1": [

@@ -1,4 +1,4 @@
-import {ListsType, TasksType} from "../state";
+import {ListsType, TasksType} from "./state";
 import {tasksReducer} from "./taskReducer";
 import {addNewListAC, listsReducer, removeListAC} from "./listsReducer";
 

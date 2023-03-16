@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useState} from 'react';
 import NameAndRename from "../NameAndRename/NameAndRename";
-import {TaskType} from "../../state";
+import {TaskType} from "../../bll/state";
 import './TaskList.css'
 import DeleteButton from "../DeleteButton/DeleteButton";
 

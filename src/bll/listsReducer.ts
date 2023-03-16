@@ -1,4 +1,4 @@
-import {FilterType, listsToDo, ListsType} from "../state";
+import {FilterType, listsToDo, ListsType} from "./state";
 import {v1} from "uuid";
 
 

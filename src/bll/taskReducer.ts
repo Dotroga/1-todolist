@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import {tasksToDo, TasksType, TaskType} from "../state";
+import {tasksToDo, TasksType, TaskType} from "./state";
 import {addNewListACType, removeTaskListACType} from "./listsReducer";
 
 export const tasksReducer = (tasks: TasksType = tasksToDo, action:TsarType): TasksType => {

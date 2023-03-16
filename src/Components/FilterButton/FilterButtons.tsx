@@ -1,5 +1,5 @@
 import React from 'react';
-import {FilterType} from "../../state";
+import {FilterType} from "../../bll/state";
 import './FilterButton.css'
 import {changeFilterAC} from "../../bll/listsReducer";
 import {useDispatch} from "react-redux";
