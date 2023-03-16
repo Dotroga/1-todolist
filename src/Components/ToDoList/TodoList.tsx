@@ -1,16 +1,16 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {FilterType, ListsType, TaskType,} from "../../state";
 import SuperInput from "../SuperInput/SuperInput";
 import NameAndRename from "../NameAndRename/NameAndRename";
-import TaskLists from "../TaskLists/TaskLists";
+import Task from "../TaskLists/TaskLists";
 import './TodoList.css'
-import FilterButton from "../FilterButton/FilterButton";
+import {FilterButtons} from "../FilterButton/FilterButtons";
 import DeleteButton from "../DeleteButton/DeleteButton";
 import filterIcons from './../../Icons/filter.svg'
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../../store/store";
-import {addTaskAC, changeTaskStatusAC, removeTaskAC, renameTaskAC} from "../../store/taskReducer";
-import {changeFilterAC, removeListAC, renameListAC} from "../../store/listsReducer";
+import {AppRootStateType} from "../../bll/store";
+import {addTaskAC, changeTaskStatusAC, removeTaskAC, renameTaskAC} from "../../bll/taskReducer";
+import {changeFilterAC, removeListAC, renameListAC} from "../../bll/listsReducer";
 
 type TodoListPropsType = {
   list: ListsType
@@ -26,13 +26,14 @@ const TodoList: React.FC<TodoListPropsType> = ({list}) => {
 
   const dispatch = useDispatch()
 
-  const addTask = (title: string) => dispatch(addTaskAC(id, title))
+  const addTask = useCallback((title: string) =>
+    dispatch(addTaskAC(id, title)),[dispatch, id])
   const removeTask = (taskId: string) => dispatch(removeTaskAC(id, taskId))
   const changeTask = (taskId: string, isDone: boolean) => dispatch(changeTaskStatusAC(id, taskId, isDone))
   const renameTask = (taskId: string, title: string) => dispatch(renameTaskAC(id, taskId, title))
   const renameTaskList = (title: string) => dispatch(renameListAC(id, title))
   const removeTaskList = () => dispatch(removeListAC(id))
-  const changeFilter = (filter: FilterType) => dispatch(changeFilterAC(id, filter))
+
 
   const tasksFilter = filter === 'Active'
     ? tasks.filter(t=>!t.isDone)
@@ -54,14 +55,10 @@ const TodoList: React.FC<TodoListPropsType> = ({list}) => {
           alt="filter"
           onClick={()=>setOnFilter(!onFilter)}/>
       </div>
-      <FilterButton
-        filterList={list.filter}
-        callback={changeFilter}
-        onFilter={onFilter}
-      />
+      {onFilter && <FilterButtons todoListId={list.id}/>}
       {tasksFilter.length
         ? tasksFilter.map((task=>{
-        return (<TaskLists
+        return (<Task
           key={task.id}
           task={task}
           removeTask={removeTask}

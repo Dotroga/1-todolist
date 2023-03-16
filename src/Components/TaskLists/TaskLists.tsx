@@ -6,14 +6,14 @@ import DeleteButton from "../DeleteButton/DeleteButton";
 
 
 
-type TaskListsPropsType = {
+type TaskPropsType = {
   task: TaskType
   removeTask:  any
   changeTask: any
   renameTask: any
 }
 
-const TaskLists: React.FC<TaskListsPropsType>= (
+const Task: React.FC<TaskPropsType>= (
   {task,
     removeTask,
     changeTask,
@@ -39,4 +39,4 @@ const TaskLists: React.FC<TaskListsPropsType>= (
         </div>)
 };
 
-export default TaskLists;
+export default Task;

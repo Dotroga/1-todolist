@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, memo, useState} from 'react';
 import './SuperInput.css'
 
 
@@ -6,13 +6,15 @@ type PropsType={
   callBack:(title: string)=>void
   title: string
 }
-const SuperInput: React.FC<PropsType> = ({callBack, title}) => {
+const SuperInput: React.FC<PropsType>  = memo(  ({callBack, title}) => {
   const [value, setTitle] = useState("")
   const [error, setError] = useState<string | null>(null)
 
+  console.log('Render InputForm')
+
   const addTask = () => {
     let newTitle = value.trim();
-   if (newTitle !== "") {
+    if (newTitle !== "") {
      callBack(newTitle)
      setTitle("")
    } else {
@@ -24,7 +26,7 @@ const SuperInput: React.FC<PropsType> = ({callBack, title}) => {
   }
 
   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    setError(null); e.key==='Enter' && addTask()
+    error && setError(null); e.key==='Enter' && addTask()
   }
   return (
     <div  className='inputBox'>
@@ -38,6 +40,6 @@ const SuperInput: React.FC<PropsType> = ({callBack, title}) => {
       <span>{error ? error : title}</span>
     </div>
   );
-};
+});
 
 export default SuperInput

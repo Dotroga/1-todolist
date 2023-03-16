@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
 import TodoList from "./Components/ToDoList/TodoList";
 import SuperInput from "./Components/SuperInput/SuperInput";
-import {addNewListAC} from "./store/listsReducer";
+import {addNewListAC} from "./bll/listsReducer";
 import {ListsType} from "./state";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./store/store";
+import {AppRootStateType} from "./bll/store";
 
 const App = ()  => {
 
@@ -13,7 +13,8 @@ const App = ()  => {
 
   const dispatch = useDispatch()
 
-  const addList = (title: string) => dispatch(addNewListAC(title))
+  const addList = useCallback((title: string) =>
+    dispatch(addNewListAC(title)),[dispatch])
 
   return (
     <div className="App">
