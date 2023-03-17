@@ -5,11 +5,13 @@ import {
   useSelector,
   TypedUseSelectorHook,
 } from 'react-redux'
+import {sectionsReducer} from "./sectionsReducer";
 
 
 const rootReducer = combineReducers({
-  tasks: tasksReducer,
-  lists: listsReducer
+  lists: listsReducer,
+  sections : sectionsReducer,
+  tasks: tasksReducer
 })
 
 export const store = createStore(rootReducer)

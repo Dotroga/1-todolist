@@ -24,9 +24,9 @@ export const tasksReducer = (tasks: TasksType = tasksToDo, action:TsarType): Tas
       return {...tasks, [action.listId]: tasks[action.listId]
           .map(t=> t.id === action.id ? {...t, title: action.title}: t)}
     }
-    case 'ADD-LIST': {
-      return {...tasks, [action.id]:[]}
-    }
+    // case 'ADD-LIST': {
+    //   return {...tasks, [action.id]:[]}
+    // }
     case "REMOVE-TASK-LIST": {
       const {[action.listId]: [], ...rest} = {...tasks}
       return rest

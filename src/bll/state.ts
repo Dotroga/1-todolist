@@ -1,6 +1,6 @@
 import {v1} from "uuid";
 
-export type ListsType = {id: string, title: string, filter: FilterType}
+export type ListsType = {id: string, title: string, path: string, color: string, isActive: boolean}
 export type FilterType = 'All' | 'Active' | 'Completed'
 export type TaskType = { id: string, title: string, isDone: boolean ,date: string}
 export type TasksType = {
@@ -11,8 +11,8 @@ export let todolistId1 = v1();
 export let todolistId2 = v1();
 
 export const listsToDo: ListsType[] = [
-  {id: todolistId1, title: "What to learn", filter: "All"},
-  {id: todolistId2, title: "What to buy", filter: "All"}
+  {id: todolistId1, title: "What to learn", path: '/sgsag', color: '#c70505' , isActive: false},
+  {id: todolistId2, title: "What to buy", path: '/sgsag', color: '#c70505', isActive: true}
 ]
 
 export const tasksToDo: TasksType = {
@@ -27,4 +27,39 @@ export const tasksToDo: TasksType = {
     {id: v1(), title: "Food", isDone: true, date: '4 March 22:31'}
   ]
 }
+const idSubsection =  '1234'
+export const newState = {
+  tasks: {
+    [idSubsection]: [
+      {id: v1(),
+        title: 'learn in a week',
+        description: 'all js and react',
+        priority: '3.2.1',
+        dateAdded: {
+          date: {month: 'March', day: '15', dayOfWeek: 'Wednesday'},
+          time: '22:03'
+        },
+        termExecution: {
+          date: {month: 'March', day: '22', dayOfWeek: 'Wednesday'},
+          time: '22:03'
+        },
+      }
+    ]
+  },
+  sections: {
+    ['idList']: {
+      id: '123',
+      title: 'Подраздел',
+      color: '#8241d2',
+    }
+  },
+  lists: [
+    {
+      id: '1234',
+      title: 'section',
+
+    }
+  ]
+}
+
 

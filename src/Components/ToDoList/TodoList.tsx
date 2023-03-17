@@ -4,13 +4,12 @@ import SuperInput from "../SuperInput/SuperInput";
 import NameAndRename from "../NameAndRename/NameAndRename";
 import Task from "../TaskLists/TaskLists";
 import './TodoList.css'
-import {FilterButtons} from "../FilterButton/FilterButtons";
 import DeleteButton from "../DeleteButton/DeleteButton";
 import filterIcons from './../../Icons/filter.svg'
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../bll/store";
 import {addTaskAC, changeTaskStatusAC, removeTaskAC, renameTaskAC} from "../../bll/taskReducer";
-import {changeFilterAC, removeListAC, renameListAC} from "../../bll/listsReducer";
+import {removeListAC, renameListAC} from "../../bll/listsReducer";
 
 type TodoListPropsType = {
   list: ListsType
@@ -18,7 +17,7 @@ type TodoListPropsType = {
 
 const TodoList: React.FC<TodoListPropsType> = ({list}) => {
 
-  const {id, title, filter} = list
+  const {id, title} = list
 
   const [onFilter, setOnFilter] = useState(false)
 
@@ -35,11 +34,6 @@ const TodoList: React.FC<TodoListPropsType> = ({list}) => {
   const removeTaskList = () => dispatch(removeListAC(id))
 
 
-  const tasksFilter = filter === 'Active'
-    ? tasks.filter(t=>!t.isDone)
-    : filter === 'Completed'
-      ? tasks.filter(t=>t.isDone)
-      : tasks
 
   return (
     <div className='todoList'>
@@ -55,9 +49,7 @@ const TodoList: React.FC<TodoListPropsType> = ({list}) => {
           alt="filter"
           onClick={()=>setOnFilter(!onFilter)}/>
       </div>
-      {onFilter && <FilterButtons todoListId={list.id}/>}
-      {tasksFilter.length
-        ? tasksFilter.map((task=>{
+      {tasks ? tasks.map((task=>{
         return (<Task
           key={task.id}
           task={task}
@@ -66,7 +58,7 @@ const TodoList: React.FC<TodoListPropsType> = ({list}) => {
           renameTask={renameTask}
         />)
       }))
-      : <span>Task list is empty</span>}
+       : <span>Task list is empty</span>}
     </div>);
 }
 

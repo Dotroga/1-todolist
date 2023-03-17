@@ -1,6 +1,6 @@
 import {v1} from 'uuid';
-import {addNewListAC, changeFilterAC, listsReducer, removeListAC, renameListAC} from "./listsReducer";
-import {FilterType, ListsType} from "./state";
+import {addNewListAC, listsReducer, removeListAC, renameListAC} from "./listsReducer";
+import {ListsType} from "./state";
 
 let todolistId1: string
 let todolistId2: string
@@ -9,8 +9,8 @@ beforeEach(()=> {
   todolistId1 = v1();
   todolistId2 = v1();
   startState = [
-    {id: todolistId1, title: "What to learn", filter: "All"},
-    {id: todolistId2, title: "What to buy", filter: "All"}
+    {id: todolistId1, title: "What to learn", path: '/sgsag', color: '#c70505', isActive: true},
+    {id: todolistId2, title: "What to buy", path: '/sgsag', color: '#c70505', isActive: true}
   ]
 })
 
@@ -40,14 +40,6 @@ test('correct todolist should change its name', () => {
   expect(endState[0].title).toBe("What to learn");
   expect(endState[1].title).toBe(newTodolistTitle);
 });
-test('correct todolist should change filter', () => {
 
-  const newFilter: FilterType = 'Completed'
-
-  const endState = listsReducer(startState,changeFilterAC(todolistId2,newFilter))
-
-  expect(endState[0].filter).toBe('All')
-  expect(endState[1].filter).toBe('Completed')
-})
 
 
