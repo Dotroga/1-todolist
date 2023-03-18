@@ -6,10 +6,8 @@ export const listsReducer = (lists = listsToDo, action:ListActionsType) => {
   switch (action.type) {
     case 'ADD-LIST': {
       const newList: ListsType = {id: action.id, title: action.title, path: '',
-        color: '', isActive: true}
-      const newState = [...lists.map(l=>({...l, isActive: false})), newList]
-      debugger
-      return  newState
+        color: ''}
+      return  [...lists, newList]
     }
     case "RENAME-TASK-LIST": {
 

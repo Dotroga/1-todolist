@@ -9,8 +9,8 @@ beforeEach(()=> {
   todolistId1 = v1();
   todolistId2 = v1();
   startState = [
-    {id: todolistId1, title: "What to learn", path: '/sgsag', color: '#c70505', isActive: true},
-    {id: todolistId2, title: "What to buy", path: '/sgsag', color: '#c70505', isActive: true}
+    {id: todolistId1, title: "What to learn", path: '/sgsag', color: '#c70505'},
+    {id: todolistId2, title: "What to buy", path: '/sgsag', color: '#c70505'}
   ]
 })
 

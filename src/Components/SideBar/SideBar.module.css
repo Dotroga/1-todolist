@@ -9,7 +9,7 @@
 }
 .active{
     display: flex;
-    background-color: blue;
+    background-color: #98989a;
     gap: 20px;
 }
 .item {

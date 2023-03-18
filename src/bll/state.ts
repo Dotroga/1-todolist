@@ -1,6 +1,6 @@
 import {v1} from "uuid";
 
-export type ListsType = {id: string, title: string, path: string, color: string, isActive: boolean}
+export type ListsType = {id: string, title: string, path: string, color: string}
 export type FilterType = 'All' | 'Active' | 'Completed'
 export type TaskType = { id: string, title: string, isDone: boolean ,date: string}
 export type TasksType = {
@@ -11,8 +11,8 @@ export let todolistId1 = v1();
 export let todolistId2 = v1();
 
 export const listsToDo: ListsType[] = [
-  {id: todolistId1, title: "What to learn", path: '/sgsag', color: '#c70505' , isActive: false},
-  {id: todolistId2, title: "What to buy", path: '/sgsag', color: '#c70505', isActive: true}
+  {id: todolistId1, title: "What to learn", path: '/sgsag', color: '#c70505' },
+  {id: todolistId2, title: "What to buy", path: '/sgsag', color: '#c70505'}
 ]
 
 export const tasksToDo: TasksType = {

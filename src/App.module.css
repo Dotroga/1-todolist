@@ -14,8 +14,7 @@
 }
 .TodoLists {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
 }
 .App > div {
 }
