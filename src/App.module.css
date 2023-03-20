@@ -5,17 +5,15 @@
 }
 
 .App {
-  display: flex;
+display: flex;
 }
 .NewToDO {
   margin-bottom: 40px;
   margin-left: 40px;
   width: 350px;
 }
-.TodoLists {
+.Content{
   display: flex;
-  flex-direction: column;
 }
-.App > div {
-}
+
 

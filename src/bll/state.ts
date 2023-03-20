@@ -2,19 +2,32 @@ import {v1} from "uuid";
 
 export type ListsType = {id: string, title: string, path: string, color: string}
 export type FilterType = 'All' | 'Active' | 'Completed'
+export type sectionType = {id: string, title: string, color: string}
+export type sectionsType = {[key: string]: sectionType[]}
 export type TaskType = { id: string, title: string, isDone: boolean ,date: string}
-export type TasksType = {
-  [key: string]: TaskType[]
-}
+export type TasksType = { [key: string]: TaskType[] }
+
 
 export let todolistId1 = v1();
 export let todolistId2 = v1();
+export let sectionId1 = v1()
+export let sectionId2 = v1()
+export let sectionId3 = v1()
 
 export const listsToDo: ListsType[] = [
   {id: todolistId1, title: "What to learn", path: '/sgsag', color: '#c70505' },
   {id: todolistId2, title: "What to buy", path: '/sgsag', color: '#c70505'}
 ]
 
+export const sections: sectionsType = {
+  [todolistId1]: [
+    {id: sectionId1, title: '1', color: '#8241d2'},
+    {id: sectionId2, title: '2', color: '#8241d2'}
+  ],
+  [todolistId2]: [
+    {id: sectionId3, title: '3', color: '#8241d2'}
+  ]
+}
 export const tasksToDo: TasksType = {
   [todolistId1]: [
     {id: v1(), title: "HTML&CSS", isDone: true, date: '10 July 22:03'},
@@ -45,21 +58,7 @@ export const newState = {
         },
       }
     ]
-  },
-  sections: {
-    ['idList']: {
-      id: '123',
-      title: 'Подраздел',
-      color: '#8241d2',
-    }
-  },
-  lists: [
-    {
-      id: '1234',
-      title: 'section',
-
-    }
-  ]
+  }
 }
 
 

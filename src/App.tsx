@@ -8,28 +8,25 @@ import {Route, Routes} from "react-router-dom";
 import {List} from "./Components/List/List";
 
 
-const App = ()  => {
+
+export const App = ()  => {
 
   const lists = useSelector<AppRootStateType, ListsType[]>(state => state.lists)
 
   return (
     <div className={s.App}>
       <SideBar/>
-      <div className={s.TodoLists}>
+      <div className={s.Content}>
         <Routes>
+          <Route path={'/'} element={lists.map(l=><List list={l}/>)}/>
           {lists.map(l=>
             <Route
               key={l.id}
               path={`/${l.title}`}
               element={<List list={l}/>}/>)}
-          <Route
-            path={'/'}
-            element={lists.map(l=><List list={l}/>)}
-          />
         </Routes>
       </div>
     </div>
   );
 }
 
-export default App;
