@@ -4,9 +4,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../bll/store";
 import {ListsType} from "../../bll/state";
 import s from './SideBar.module.css'
-import menuBurger from './../../Icons/menuBurger.svg'
+
 
 import {AddNewList} from "../List/AddNewList/AddNewList";
+import {MenuBurger} from "./MenuBurger/menuBurger";
+import styled from "styled-components";
 
 export const SideBar = () => {
 
@@ -15,17 +17,20 @@ export const SideBar = () => {
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const lists = useSelector<AppRootStateType, ListsType[]>(state => state.lists)
-  const toggle = () => setIsOpen(!isOpen)
+  const toggle = () => {
+    setIsOpen(!isOpen)
+    setVisibleAddListForm(false)
+  }
   const [visibleAddListForm, setVisibleAddListForm] = useState(true)
-  const changeAddListForm = () => setVisibleAddListForm(!visibleAddListForm)
+  const changeAddListForm = () => {
+    setVisibleAddListForm(!visibleAddListForm)
+  }
 
 
 
   return (
     <div style={{width: isOpen ? '300px' : '40px'}} className={s.Sidebar}>
-      <div className={s.BurgerMenu}>
-        <img src={menuBurger} onClick={toggle}/>
-      </div>
+       <MenuBurger isOpen={isOpen} toggle={toggle} />
       <div>
         <NavLink className={navData=>navData.isActive ? s.active : s.item} to={'/'}>
           <div className={s.ItemIcon}>X</div>
@@ -44,4 +49,5 @@ export const SideBar = () => {
     </div>
   );
 };
+
 
