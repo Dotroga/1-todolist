@@ -1,53 +1,54 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
-import {NavLink} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import React, {useState} from 'react';
+import {useSelector} from "react-redux";
 import {AppRootStateType} from "../../bll/store";
 import {ListsType} from "../../bll/state";
-import s from './SideBar.module.css'
+import {MenuBurger} from "./MenuBurger";
+import {AddNewList} from "./AddNewList/AddNewList";
+import styled, {css} from "styled-components";
+import {SideBarIcons} from "./SideBarIcons";
 
-
-import {AddNewList} from "../List/AddNewList/AddNewList";
-import {MenuBurger} from "./MenuBurger/menuBurger";
-import styled from "styled-components";
 
 export const SideBar = () => {
 
-  const dispatch = useDispatch()
-
+  // const dispatch = useDispatch()
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [visibleAddListForm, setVisibleAddListForm] = useState(true)
+
   const lists = useSelector<AppRootStateType, ListsType[]>(state => state.lists)
   const toggle = () => {
     setIsOpen(!isOpen)
-    setVisibleAddListForm(false)
-  }
-  const [visibleAddListForm, setVisibleAddListForm] = useState(true)
-  const changeAddListForm = () => {
-    setVisibleAddListForm(!visibleAddListForm)
-  }
+    setVisibleAddListForm(false)}
 
+  const changeAddListForm = () => setVisibleAddListForm(!visibleAddListForm)
 
-
-  return (
-    <div style={{width: isOpen ? '300px' : '40px'}} className={s.Sidebar}>
-       <MenuBurger isOpen={isOpen} toggle={toggle} />
-      <div>
-        <NavLink className={navData=>navData.isActive ? s.active : s.item} to={'/'}>
-          <div className={s.ItemIcon}>X</div>
-          <div className={s.ItemText} style={{display: isOpen ? 'block' : 'none'}}>All tasks</div>
-        </NavLink>
-        <span>lists</span>
-        <button onClick={changeAddListForm} >+</button>
-        {visibleAddListForm && <AddNewList visible={visibleAddListForm} callBack={changeAddListForm }/>}
-      </div>
-      {lists.map((l,i)=>
-        <NavLink className={navData=>navData.isActive ? s.active : s.item} key={i} to={`/${l.title}`}>
-          <div className={s.ItemIcon}>{i}</div>
-          <div className={s.ItemText} style={{display: isOpen ? 'block' : 'none'}}>{l.title}</div>
-        </NavLink>
-      )}
-    </div>
-  );
+  return <SideBarContainer isOpen={isOpen} >
+    <MenuBurger isOpen={isOpen} toggle={toggle}/>
+    <SideBarIcons isOpen={isOpen} title='All lists' color='red' to={'/'}/>
+    <AddNewList condition={visibleAddListForm} callback={changeAddListForm} isOpen={isOpen}/>
+    {lists.map((l, i) =>
+      <SideBarIcons key={i} isOpen={isOpen} title={l.title} color='red' to={`/${l.title}`}/>)}
+  </SideBarContainer>
 };
+
+type SideBarContainerPropsType = {
+  isOpen: boolean
+}
+
+const SideBarContainer = styled.div<SideBarContainerPropsType>`
+  display: flex;
+  width: ${({isOpen}) => isOpen ? '260px' : '20px'};
+  flex-direction: column;
+  height: 90vh;
+  padding: 20px;
+  gap: 20px;
+  transition: 0.15s;
+  background-color: rgb(255, 255, 255);
+  color: #989fa7;
+  border-radius: 20px;
+  ${({isOpen})=> !isOpen && css`
+    align-items: center;
+  `}
+`
 
 

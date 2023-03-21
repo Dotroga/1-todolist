@@ -1,6 +1,6 @@
 import React from 'react';
-import menuBurger from "../../../Icons/menuBurger.svg";
-import menuArrow from "../../../Icons/menuArrow.svg";
+import menuBurger from "../../Icons/menuBurger.svg";
+import menuArrow from "../../Icons/menuArrow.svg";
 import styled from "styled-components";
 
 type MenuBurgerType = {

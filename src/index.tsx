@@ -7,6 +7,10 @@ import {BrowserRouter} from "react-router-dom";
 import {createGlobalStyle} from "styled-components";
 
 const GlobalStyled = createGlobalStyle`
+  *{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+  }
   body {
     padding: 20px;
     background-color: #212c41;
