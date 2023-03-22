@@ -1,6 +1,7 @@
 import React from 'react';
 import {useNavigate} from "react-router-dom";
 import styled from "styled-components";
+import {SuperInput} from "../../../SuperInput/SuperInput";
 
 type AddNewListType = {
   condition: boolean
@@ -24,10 +25,10 @@ export const AddListForm : React.FC<AddNewListType> = (props) => {
   // }
   return (
     <Wrapper condition={condition} isOpen={isOpen}>
-        Add new list
-      <div>
-        <input type="text"/>
-      </div>
+      <SuperInput callBack={()=>{}} title='Add List'/>
+      <div>Color</div>
+      <button>Отмена</button>
+      <button>Добавить</button>
     </Wrapper>
   );
 };
@@ -35,7 +36,8 @@ export const AddListForm : React.FC<AddNewListType> = (props) => {
 type WrapperPropsType = {condition: boolean, isOpen: boolean}
 
 const Wrapper = styled.div<WrapperPropsType>`
-  background-color: #ffffff;
+  padding: 10px;
+  background-color: #424d6b;
   border-radius: 10px;
   display: ${({condition, isOpen}) => condition && isOpen ? 'block' : 'none'};
 `

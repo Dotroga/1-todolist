@@ -12,7 +12,7 @@ type AddListButtonPropsType = {
 export const AddListButton: React.FC<AddListButtonPropsType> = (props) => {
   const {condition,callback, isOpen} = props
   return <Wrapper condition={condition} isOpen={isOpen}>
-    <div>Lists</div>
+   <span>Lists</span>
     <div>
       <SvgPlus src={plus} alt="plus" onClick={callback} condition={condition}/>
       <SvgSquare src={square} alt="square" condition={condition}/>
@@ -26,9 +26,14 @@ const Wrapper = styled.div<{isOpen: boolean, condition:boolean}>`
   align-items: center;
   justify-content: space-between;
   div {
+    transition: all 0.2s ease-in;
+    &:hover {
+        transform: scale(1.1);
+  }
+}
+  div, span{
    ${({isOpen}) => !isOpen && css`
-     opacity: 0;
-     z-index: -1;
+     display: none;
    `};
     user-select: none;
   }

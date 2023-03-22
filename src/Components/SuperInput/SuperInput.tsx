@@ -1,12 +1,12 @@
 import React, {ChangeEvent, KeyboardEvent, memo, useState} from 'react';
-import './SuperInput.css'
+import {WrapperInput} from "./SuperInputStyled";
 
 
 type PropsType={
   callBack:(title: string)=>void
   title: string
 }
-const SuperInput: React.FC<PropsType>  = memo(  ({callBack, title}) => {
+export const SuperInput: React.FC<PropsType>  = memo(  ({callBack, title}) => {
   const [value, setTitle] = useState("")
   const [error, setError] = useState<string | null>(null)
 
@@ -29,7 +29,7 @@ const SuperInput: React.FC<PropsType>  = memo(  ({callBack, title}) => {
     error && setError(null); e.key==='Enter' && addTask()
   }
   return (
-    <div  className='inputBox'>
+    <WrapperInput>
       <input
         value={value}
         onChange={onChangeHandler}
@@ -38,8 +38,7 @@ const SuperInput: React.FC<PropsType>  = memo(  ({callBack, title}) => {
         required={true}
       />
       <span>{error ? error : title}</span>
-    </div>
+    </WrapperInput>
   );
 });
 
-export default SuperInput

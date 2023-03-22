@@ -37,16 +37,16 @@ type SideBarContainerPropsType = {
 
 const SideBarContainer = styled.div<SideBarContainerPropsType>`
   display: flex;
-  width: ${({isOpen}) => isOpen ? '260px' : '20px'};
+  width: ${({isOpen}) => isOpen ? '260px' : '43px'};
   flex-direction: column;
   height: 90vh;
-  padding: 20px;
-  gap: 20px;
+  padding: 10px;
+  gap: 5px;
   transition: 0.15s;
-  background-color: rgb(255, 255, 255);
+  border-radius: 15px;
+  background-color: rgb(46, 56, 78);
   color: #989fa7;
-  border-radius: 20px;
-  ${({isOpen})=> !isOpen && css`
+  ${({isOpen}) => !isOpen && css`
     align-items: center;
   `}
 `

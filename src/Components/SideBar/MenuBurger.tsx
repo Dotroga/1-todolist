@@ -23,6 +23,9 @@ const MenuBurgerImg = styled.img`
   cursor: pointer;
   user-select: none;
   transition: 0.2s;
+  &:hover {
+    transform: scale(1.1);
+  }
 `
 
 const Wrapper = styled.div`

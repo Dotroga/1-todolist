@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import {FilterType, ListsType, TaskType,} from "../../bll/state";
-import SuperInput from "../SuperInput/SuperInput";
+import {SuperInput} from "../SuperInput/SuperInput";
 import NameAndRename from "../NameAndRename/NameAndRename";
 import Task from "../TaskLists/TaskLists";
 import './TodoList.css'
