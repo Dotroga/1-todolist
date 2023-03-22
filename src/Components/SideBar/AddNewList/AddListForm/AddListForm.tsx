@@ -1,7 +1,8 @@
 import React from 'react';
-import {useNavigate} from "react-router-dom";
+// import {useNavigate} from "react-router-dom";
 import styled from "styled-components";
 import {SuperInput} from "../../../SuperInput/SuperInput";
+import {SuperButton} from "../../../SuperButton/SuperButton";
 
 type AddNewListType = {
   condition: boolean
@@ -11,7 +12,7 @@ type AddNewListType = {
 
 export const AddListForm : React.FC<AddNewListType> = (props) => {
   const {condition, callback, isOpen} = props
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   // const [titleNewList, setTitleNewList] = useState('')
   // const addList = () => {
@@ -27,8 +28,8 @@ export const AddListForm : React.FC<AddNewListType> = (props) => {
     <Wrapper condition={condition} isOpen={isOpen}>
       <SuperInput callBack={()=>{}} title='Add List'/>
       <div>Color</div>
-      <button>Отмена</button>
-      <button>Добавить</button>
+      <SuperButton title='Cancel' callBack={()=>{}}/>
+      <SuperButton title='Add' callBack={()=>{}}/>
     </Wrapper>
   );
 };
