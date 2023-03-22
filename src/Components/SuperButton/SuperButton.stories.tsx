@@ -4,8 +4,8 @@ import {ComponentMeta, ComponentStory} from "@storybook/react";
 import {action} from "@storybook/addon-actions";
 
 export default {
-  title: 'Components/SuperButton',     // Название компонента
-  component: SuperButton,              // Сам компонент
+  title: 'Components/SuperButton',
+  component: SuperButton,
   argTypes: {
     callBack: {description: 'Button clicked'}
   }
@@ -20,8 +20,15 @@ Primary.args = {
   callBack: action('Button clicked')
 }
 export const Disabled = Template.bind({})
-Disabled .args = {
+Disabled.args = {
   title: 'Задизебленна',
   callBack: action('Button clicked'),
   disabled: true
+}
+export const Cancel = Template.bind({})
+Cancel.args = {
+  title: 'Отмена',
+  callBack: action('Button clicked'),
+  disabled: false,
+  color: 'grey'
 }

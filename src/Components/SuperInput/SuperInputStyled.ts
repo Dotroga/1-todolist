@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const WrapperInput = styled.div`
+export const WrapperInput = styled.div<{color: string}>`
   position: relative;
   display: flex;
 
@@ -29,7 +29,7 @@ export const WrapperInput = styled.div`
   input:valid ~ span,
   input:focus ~ span {
     color: #fbbd49;
-    background-color: #414c6b;
+    background-color: ${({color})=>color ? color : '#414c6b'};
     transform: translateX(10px) translateY(-7px);
     font-size: 0.9em;
     padding: 0 10px;

@@ -5,12 +5,12 @@ import {WrapperInput} from "./SuperInputStyled";
 type PropsType={
   callBack:(title: string)=>void
   title: string
+  color?: string
 }
-export const SuperInput: React.FC<PropsType>  = memo(  ({callBack, title}) => {
+export const SuperInput: React.FC<PropsType>  = memo(  (props) => {
+  const {callBack, title, color} = props
   const [value, setTitle] = useState("")
   const [error, setError] = useState<string | null>(null)
-
-  console.log('Render InputForm')
 
   const addTask = () => {
     let newTitle = value.trim();
@@ -29,7 +29,7 @@ export const SuperInput: React.FC<PropsType>  = memo(  ({callBack, title}) => {
     error && setError(null); e.key==='Enter' && addTask()
   }
   return (
-    <WrapperInput>
+    <WrapperInput color={color!}>
       <input
         value={value}
         onChange={onChangeHandler}
