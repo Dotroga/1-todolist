@@ -29,7 +29,7 @@ export const SuperInput: React.FC<PropsType>  = memo(  (props) => {
     error && setError(null); e.key==='Enter' && addTask()
   }
   return (
-    <WrapperInput color={color!}>
+    <WrapperInput color={color!} error={error}>
       <input
         value={value}
         onChange={onChangeHandler}

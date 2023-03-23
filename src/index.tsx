@@ -10,10 +10,14 @@ const GlobalStyled = createGlobalStyle`
   * {
     font-family: 'Montserrat', sans-serif;
     font-size: 18px;
+    margin: 0;
+    padding: 0;
   }
-
-  body {
-    padding: 20px;
+  body > #root > div {
+    height: 100vh;
+  }
+  body{
+  
     background-color: #232d41;
     font-family: 'Montserrat', sans-serif;
     -webkit-font-smoothing: antialiased;

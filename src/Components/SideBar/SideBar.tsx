@@ -5,7 +5,7 @@ import {ListsType} from "../../bll/state";
 import {MenuBurger} from "./MenuBurger";
 import {AddNewList} from "./AddNewList/AddNewList";
 import styled, {css} from "styled-components";
-import {SideBarIcons} from "./SideBarIcons";
+import {SideBarIcon} from "./SideBarIcon/SideBarIcon";
 
 
 export const SideBar = () => {
@@ -24,10 +24,10 @@ export const SideBar = () => {
 
   return <SideBarContainer isOpen={isOpen} >
     <MenuBurger isOpen={isOpen} toggle={toggle}/>
-    <SideBarIcons isOpen={isOpen} title='All lists' color='red' to={'/'}/>
+    <SideBarIcon isOpen={isOpen} title='All lists' color='red' to={'/'}/>
     <AddNewList condition={visibleAddListForm} callback={changeAddListForm} isOpen={isOpen}/>
     {lists.map((l, i) =>
-      <SideBarIcons key={i} isOpen={isOpen} title={l.title} color='red' to={`/${l.title}`}/>)}
+      <SideBarIcon key={i} isOpen={isOpen} title={l.title} color='red' to={`/${l.title}`}/>)}
   </SideBarContainer>
 };
 
@@ -39,13 +39,14 @@ const SideBarContainer = styled.div<SideBarContainerPropsType>`
   display: flex;
   width: ${({isOpen}) => isOpen ? '260px' : '43px'};
   flex-direction: column;
-  height: 90vh;
+  margin: 10px;
   padding: 10px;
   gap: 5px;
   transition: 0.15s;
   border-radius: 15px;
   background-color: rgb(46, 56, 78);
   color: #989fa7;
+  box-shadow: 0 0 15px 1px #1a2434;
   ${({isOpen}) => !isOpen && css`
     align-items: center;
   `}

@@ -8,27 +8,26 @@ export default {
   component: SuperButton,
   argTypes: {
     callBack: {description: 'Button clicked'}
+  },
+  args: {
+    callBack: action('Button clicked')
   }
 } as ComponentMeta<typeof SuperButton>
 
-// Шаблон нашей компаненты
 const Template: ComponentStory<typeof SuperButton> = (args) => <SuperButton {...args}/>
 
 export const Primary = Template.bind({})
 Primary.args = {
   title: 'Добавить',
-  callBack: action('Button clicked')
 }
 export const Disabled = Template.bind({})
 Disabled.args = {
   title: 'Задизебленна',
-  callBack: action('Button clicked'),
   disabled: true
 }
 export const Cancel = Template.bind({})
 Cancel.args = {
   title: 'Отмена',
-  callBack: action('Button clicked'),
   disabled: false,
   color: 'grey'
 }

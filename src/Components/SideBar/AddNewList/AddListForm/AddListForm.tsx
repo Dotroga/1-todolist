@@ -39,6 +39,7 @@ type WrapperPropsType = {condition: boolean, isOpen: boolean}
 const Wrapper = styled.div<WrapperPropsType>`
   padding: 10px;
   background-color: #424d6b;
+  box-shadow: 0 0 15px 1px #1a2434;
   border-radius: 10px;
   display: ${({condition, isOpen}) => condition && isOpen ? 'block' : 'none'};
 `
