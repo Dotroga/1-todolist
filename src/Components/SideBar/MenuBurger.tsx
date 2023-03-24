@@ -1,6 +1,6 @@
 import React from 'react';
 import menuBurger from "../../Icons/menuBurger.svg";
-import menuArrow from "../../Icons/menuArrow.svg";
+import arrow from "../../Icons/arrow.svg";
 import styled from "styled-components";
 
 type MenuBurgerType = {
@@ -12,7 +12,7 @@ export const MenuBurger: React.FC<MenuBurgerType> = ({isOpen, toggle}) => {
   const toggleHandler = () => toggle(!isOpen)
   return<Wrapper>
     <MenuBurgerImg
-    src={isOpen ? menuArrow : menuBurger}
+    src={isOpen ? arrow : menuBurger}
     onClick={toggleHandler}
     alt='menu'/>
     </Wrapper>
