@@ -7,32 +7,32 @@ import {AddNewList} from "./AddNewList/AddNewList";
 import styled, {css} from "styled-components";
 import {SideBarIcon} from "./SideBarIcon/SideBarIcon";
 
-
 export const SideBar = () => {
 
-  // const dispatch = useDispatch()
+    // const dispatch = useDispatch()
 
-  const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [visibleAddListForm, setVisibleAddListForm] = useState(true)
+    const [isOpen, setIsOpen] = useState<boolean>(false)
+    const [visibleAddListForm, setVisibleAddListForm] = useState(true)
 
-  const lists = useSelector<AppRootStateType, ListsType[]>(state => state.lists)
-  const toggle = () => {
-    setIsOpen(!isOpen)
-    setVisibleAddListForm(false)}
+    const lists = useSelector<AppRootStateType, ListsType[]>(state => state.lists)
+    const toggle = () => {
+        setIsOpen(!isOpen)
+        setVisibleAddListForm(false)
+    }
 
-  const changeAddListForm = () => setVisibleAddListForm(!visibleAddListForm)
+    const changeAddListForm = () => setVisibleAddListForm(!visibleAddListForm)
 
-  return <SideBarContainer isOpen={isOpen} >
-    <MenuBurger isOpen={isOpen} toggle={toggle}/>
-    <SideBarIcon isOpen={isOpen} title='All lists' color='red' to={'/'}/>
-    <AddNewList condition={visibleAddListForm} callback={changeAddListForm} isOpen={isOpen}/>
-    {lists.map((l, i) =>
-      <SideBarIcon key={i} isOpen={isOpen} title={l.title} color='red' to={`/${l.title}`}/>)}
-  </SideBarContainer>
+    return <SideBarContainer isOpen={isOpen}>
+        <MenuBurger isOpen={isOpen} toggle={toggle}/>
+        <SideBarIcon isOpen={isOpen} title='All lists' color='red' to={'/'}/>
+        <AddNewList condition={visibleAddListForm} callback={changeAddListForm} isOpen={isOpen}/>
+        {lists.map((l, i) =>
+            <SideBarIcon key={i} isOpen={isOpen} title={l.title} color='red' to={`/${l.title}`}/>)}
+    </SideBarContainer>
 };
 
 type SideBarContainerPropsType = {
-  isOpen: boolean
+    isOpen: boolean
 }
 
 const SideBarContainer = styled.div<SideBarContainerPropsType>`
