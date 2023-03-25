@@ -16,6 +16,7 @@ type AddNewListType  = {
 }
 
 export type ArrColorType = { color: any, title: string }
+
 export const arr: ArrColorType[] = [
     {color: '#b7256e', title: 'Berry Red'},
     {color: '#d93f35', title: 'Red'},
@@ -39,7 +40,6 @@ export const arr: ArrColorType[] = [
     {color: '#caab92', title: 'Taupe'}
 ]
 
-
 export const AddListForm: React.FC<AddNewListType> = (props) => {
     const {condition, callback, isOpen} = props
 
@@ -48,6 +48,7 @@ export const AddListForm: React.FC<AddNewListType> = (props) => {
 
     const [title, setTitle] = useState('')
     const [error, setError] = useState<string | null>(null)
+    const [color, setColor] = useState<ArrColorType>(arr[0])
 
     const changeTitle = (text: string) => {
         error && setError(null)
@@ -57,15 +58,13 @@ export const AddListForm: React.FC<AddNewListType> = (props) => {
     const addList = () => {
         let newTitle = title.trim();
         if (newTitle !== "") {
-            dispatch(addNewListAC(newTitle))
+            dispatch(addNewListAC(newTitle, color.color))
             navigate(`/${newTitle}`)
             setTitle('')
         } else {
             setError("Title is required");
         }
     }
-
-
 
   //
   // const changeTitleNewList = (e: ChangeEvent<HTMLInputElement>) => {
@@ -80,7 +79,7 @@ export const AddListForm: React.FC<AddNewListType> = (props) => {
           error={error!}/>
       <Color>Color</Color>
         <SelectWrapper>
-            <Select arr={arr}/>
+            <Select arr={arr} color={color} callBack={setColor}/>
         </SelectWrapper>
         <ButtonWrapper>
             <SuperButton title='Cancel' callBack={()=>{}}/>

@@ -9,8 +9,6 @@ import {SideBarIcon} from "./SideBarIcon/SideBarIcon";
 
 export const SideBar = () => {
 
-    // const dispatch = useDispatch()
-
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [visibleAddListForm, setVisibleAddListForm] = useState(true)
 
@@ -27,7 +25,7 @@ export const SideBar = () => {
         <SideBarIcon isOpen={isOpen} title='All lists' color='red' to={'/'}/>
         <AddNewList condition={visibleAddListForm} callback={changeAddListForm} isOpen={isOpen}/>
         {lists.map((l, i) =>
-            <SideBarIcon key={i} isOpen={isOpen} title={l.title} color='red' to={`/${l.title}`}/>)}
+            <SideBarIcon key={i} isOpen={isOpen} title={l.title} color={l.color} to={`/${l.title}`}/>)}
     </SideBarContainer>
 };
 

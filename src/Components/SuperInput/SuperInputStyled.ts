@@ -22,7 +22,7 @@ export const WrapperInput = styled.div<{color: string, error: string | null}>`
     padding: 10px;
     pointer-events: none;
     font-size: 1em;
-    color: #697594;
+    color: ${({error})=>error ? 'red' : '#697594'};
     transition: 0.5s;
   }
 

@@ -6,24 +6,25 @@ import {ArrColorType} from "../SideBar/AddNewList/AddListForm/AddListForm";
 
 type PropsType = {
     arr: ArrColorType[]
+    color: ArrColorType
+    callBack: (color:ArrColorType)=>void
     width?: string
 }
 
-export const Select: React.FC<PropsType> = (
-    {arr, width= '240px'}) => {
+export const Select: React.FC<PropsType> = (props) => {
+    const {arr, color, callBack, width = '240px'} = props
 
-    const [active, setActive] = useState<ArrColorType>(arr[0])
     const [visiblePopUp, setVisiblePopUp] = useState(false)
     const changeVisibility = () => setVisiblePopUp(!visiblePopUp)
     const selectingActive = (i: ArrColorType) => {
-        setActive(i)
+        callBack(i)
         setVisiblePopUp(false)
     }
     return <Wrapper width={width}>
-        <Visible onClick={changeVisibility} visible={visiblePopUp} color={active.color}
+        <Visible onClick={changeVisibility} visible={visiblePopUp} color={color.color}
                  onBlur={()=>setVisiblePopUp(false)}>
             <div>
-                <span></span> {active.title}
+                <span></span> {color.title}
             </div>
             <img src={arrow} alt="arrow"/>
         </Visible>
