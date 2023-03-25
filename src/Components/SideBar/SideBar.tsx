@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import {useSelector} from "react-redux";
-import {AppRootStateType} from "../../bll/store";
+import {useAppSelector} from "../../bll/store";
 import {ListsType} from "../../bll/state";
 import {MenuBurger} from "./MenuBurger";
 import {AddNewList} from "./AddNewList/AddNewList";
@@ -12,7 +11,8 @@ export const SideBar = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [visibleAddListForm, setVisibleAddListForm] = useState(true)
 
-    const lists = useSelector<AppRootStateType, ListsType[]>(state => state.lists)
+    const lists = useAppSelector<ListsType[]>(state => state.lists)
+
     const toggle = () => {
         setIsOpen(!isOpen)
         setVisibleAddListForm(false)

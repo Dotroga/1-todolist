@@ -1,7 +1,7 @@
 import React from 'react';
 import {ComponentMeta, ComponentStory} from "@storybook/react";
 import {SideBar} from "./SideBar";
-import {RouterAndReduxProviderDecorator} from "../../HOKForStories";
+import {RouterAndReduxProviderDecorator} from "../../../.storybook/HOKForStories";
 
 export default {
   title: 'Components/SideBar',
@@ -9,7 +9,7 @@ export default {
   decorators: [RouterAndReduxProviderDecorator]
 } as ComponentMeta<typeof SideBar>
 
-const Template: ComponentStory<typeof SideBar> = (args) => <SideBar/>
+const Template: ComponentStory<typeof SideBar> = () => <SideBar/>
 
 export const Primary = Template.bind({})
 Primary.args = {

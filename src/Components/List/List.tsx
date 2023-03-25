@@ -1,6 +1,7 @@
 import React from 'react';
 import {ListsType} from "../../bll/state";
 import {Section} from "../Section/Section";
+import styled from "styled-components";
 
 type ListType = {
   list: ListsType
@@ -8,10 +9,21 @@ type ListType = {
 
 export const List: React.FC<ListType> = ({list}) => {
   return (
-    <div>
-      {list.title}
+    <Wrapper>
+        <ListTitle color={list.color!}>
+            {list.title}
+        </ListTitle>
+
       <Section listId={list.id}/>
-    </div>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+    
+`
+
+const ListTitle = styled.div<{color: string}>`
+color: ${({color})=>color};
+`
 

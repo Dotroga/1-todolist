@@ -1,10 +1,8 @@
 import React, {useState} from 'react';
-// import {useNavigate} from "react-router-dom";
 import styled from "styled-components";
 import {SuperInput} from "../../../SuperInput/SuperInput";
 import {SuperButton} from "../../../SuperButton/SuperButton";
 import {Select} from "../../../Select/Select";
-import {string} from "prop-types";
 import {addNewListAC} from "../../../../bll/listsReducer";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
@@ -16,7 +14,6 @@ type AddNewListType  = {
 }
 
 export type ArrColorType = { color: any, title: string }
-
 export const arr: ArrColorType[] = [
     {color: '#b7256e', title: 'Berry Red'},
     {color: '#d93f35', title: 'Red'},
@@ -66,10 +63,13 @@ export const AddListForm: React.FC<AddNewListType> = (props) => {
         }
     }
 
-  //
-  // const changeTitleNewList = (e: ChangeEvent<HTMLInputElement>) => {
-  //   setTitleNewList(e.currentTarget.value)
-  // }
+    const closeAddForm = () => {
+        setTitle('')
+        setError(null)
+        callback()
+        setColor(arr[0])
+    }
+
   return (
     <Wrapper condition={condition} isOpen={isOpen}>
       <SuperInput
@@ -82,7 +82,7 @@ export const AddListForm: React.FC<AddNewListType> = (props) => {
             <Select arr={arr} color={color} callBack={setColor}/>
         </SelectWrapper>
         <ButtonWrapper>
-            <SuperButton title='Cancel' callBack={()=>{}}/>
+            <SuperButton title='Cancel' callBack={closeAddForm}/>
             <SuperButton title='Add' callBack={addList}/>
         </ButtonWrapper>
     </Wrapper>
