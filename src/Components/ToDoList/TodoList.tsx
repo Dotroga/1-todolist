@@ -42,7 +42,7 @@ const TodoList: React.FC<TodoListPropsType> = ({list}) => {
         <DeleteButton callBack={removeTaskList}/>
       </div>
       <div className='AddContainer'>
-        <SuperInput callBack={addTask} title='Add task'/>
+        {/*<SuperInput callBack={addTask} title='Add task'/>*/}
         <img
           className='filter'
           src={filterIcons}

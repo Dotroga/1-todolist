@@ -1,43 +1,35 @@
-import React, {ChangeEvent, KeyboardEvent, memo, useState} from 'react';
+import React, {ChangeEvent, memo} from 'react';
 import {WrapperInput} from "./SuperInputStyled";
 
 
-type PropsType={
-  callBack:(title: string)=>void
-  title: string
-  color?: string
+type PropsType = {
+    callBack: (text: string) => void
+    text: string
+    title: string
+    color?: string
+    error: string
 }
 export const SuperInput: React.FC<PropsType>  = memo(  (props) => {
-  const {callBack, title, color} = props
-  const [value, setTitle] = useState("")
-  const [error, setError] = useState<string | null>(null)
+  const {callBack,text, title, color, error} = props
 
-  const addTask = () => {
-    let newTitle = value.trim();
-    if (newTitle !== "") {
-     callBack(newTitle)
-     setTitle("")
-   } else {
-      setError("Title is required");
-    }
-  }
+
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.currentTarget.value)
+    callBack(e.currentTarget.value)
   }
 
-  const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    error && setError(null); e.key==='Enter' && addTask()
-  }
+  // const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+  //   error && setError(null); e.key==='Enter' && addTask()
+  // }
   return (
     <WrapperInput color={color!} error={error}>
       <input
-        value={value}
+        value={title}
         onChange={onChangeHandler}
-        onKeyPress={onKeyPressHandler}
+        // onKeyPress={onKeyPressHandler}
         type='text'
         required={true}
       />
-      <span>{error ? error : title}</span>
+      <span>{error ? error : text}</span>
     </WrapperInput>
   );
 });
