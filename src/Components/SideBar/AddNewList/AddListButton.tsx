@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import plus from '../../../Icons/plus.svg'
 import square from '../../../Icons/square.svg'
 import styled, {css} from "styled-components";
@@ -9,7 +9,7 @@ type AddListButtonPropsType = {
   isOpen: boolean
 }
 
-export const AddListButton: React.FC<AddListButtonPropsType> = (props) => {
+export const AddListButton: React.FC<AddListButtonPropsType> = memo((props) => {
   const {condition,callback, isOpen} = props
   return <Wrapper condition={condition} isOpen={isOpen}>
    <span>Lists</span>
@@ -18,8 +18,7 @@ export const AddListButton: React.FC<AddListButtonPropsType> = (props) => {
       <SvgSquare src={square} alt="square" condition={condition}/>
     </div>
   </Wrapper>
-
-};
+});
 
 const Wrapper = styled.div<{isOpen: boolean, condition:boolean}>`
   display: flex;

@@ -11,7 +11,7 @@ export const Section: React.FC<SectionType> = ({listId}) => {
     state.sections[listId])
   return (
     <div>
-      {section.map(s=><div>{s.title}</div>)}
+      {section.map(s=><div key={s.id}>{s.title}</div>)}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {memo, useCallback, useState} from 'react';
 import styled from "styled-components";
 import {SuperInput} from "../../../SuperInput/SuperInput";
 import {SuperButton} from "../../../SuperButton/SuperButton";
@@ -37,7 +37,7 @@ export const arr: ArrColorType[] = [
     {color: '#caab92', title: 'Taupe'}
 ]
 
-export const AddListForm: React.FC<AddNewListType> = (props) => {
+export const AddListForm: React.FC<AddNewListType> = memo((props) => {
     const {condition, callback, isOpen} = props
 
     const navigate = useNavigate()
@@ -47,12 +47,16 @@ export const AddListForm: React.FC<AddNewListType> = (props) => {
     const [error, setError] = useState<string | null>(null)
     const [color, setColor] = useState<ArrColorType>(arr[0])
 
-    const changeTitle = (text: string) => {
+    const changeTitle = useCallback((text: string) => {
         error && setError(null)
         setTitle(text)
-    }
+    },[title])
 
-    const addList = () => {
+    const changeColor = useCallback((color:ArrColorType)=>{
+        setColor(color)
+    },[color])
+
+    const addList = useCallback(() => {
         let newTitle = title.trim();
         if (newTitle !== "") {
             dispatch(addNewListAC(newTitle, color.color))
@@ -61,15 +65,14 @@ export const AddListForm: React.FC<AddNewListType> = (props) => {
         } else {
             setError("Title is required");
         }
-    }
+    },[title,color])
 
-    const closeAddForm = () => {
+    const closeAddForm = useCallback(() => {
         setTitle('')
         setError(null)
         callback()
         setColor(arr[0])
-    }
-
+    },[])
   return (
     <Wrapper condition={condition} isOpen={isOpen}>
       <SuperInput
@@ -79,7 +82,7 @@ export const AddListForm: React.FC<AddNewListType> = (props) => {
           error={error!}/>
       <Color>Color</Color>
         <SelectWrapper>
-            <Select arr={arr} color={color} callBack={setColor}/>
+            <Select arr={arr} color={color} callBack={changeColor }/>
         </SelectWrapper>
         <ButtonWrapper>
             <SuperButton title='Cancel' callBack={closeAddForm}/>
@@ -87,7 +90,7 @@ export const AddListForm: React.FC<AddNewListType> = (props) => {
         </ButtonWrapper>
     </Wrapper>
   );
-};
+});
 
 type WrapperPropsType = { condition: boolean, isOpen: boolean }
 

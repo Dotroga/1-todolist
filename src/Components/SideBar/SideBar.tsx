@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {memo, useCallback, useState} from 'react';
 import {useAppSelector} from "../../bll/store";
 import {ListsType} from "../../bll/state";
 import {MenuBurger} from "./MenuBurger";
@@ -6,19 +6,20 @@ import {AddNewList} from "./AddNewList/AddNewList";
 import styled, {css} from "styled-components";
 import {SideBarIcon} from "./SideBarIcon/SideBarIcon";
 
-export const SideBar = () => {
+export const SideBar = memo(() => {
 
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [visibleAddListForm, setVisibleAddListForm] = useState(true)
 
     const lists = useAppSelector<ListsType[]>(state => state.lists)
 
-    const toggle = () => {
+    const toggle = useCallback(() => {
         setIsOpen(!isOpen)
         setVisibleAddListForm(false)
-    }
+    },[isOpen])
 
-    const changeAddListForm = () => setVisibleAddListForm(!visibleAddListForm)
+    const changeAddListForm = useCallback(() =>
+        setVisibleAddListForm(!visibleAddListForm),[visibleAddListForm])
 
     return <SideBarContainer isOpen={isOpen}>
         <MenuBurger isOpen={isOpen} toggle={toggle}/>
@@ -27,7 +28,7 @@ export const SideBar = () => {
         {lists.map((l, i) =>
             <SideBarIcon key={i} isOpen={isOpen} title={l.title} color={l.color} to={`/${l.title}`}/>)}
     </SideBarContainer>
-};
+});
 
 type SideBarContainerPropsType = {
     isOpen: boolean

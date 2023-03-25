@@ -1,7 +1,7 @@
 import styled, {css} from "styled-components";
 import {NavLink} from "react-router-dom";
 
-export const StyledNavLink = styled(NavLink)<{isOpen:boolean, color: string}>`
+export const StyledNavLink = styled(NavLink)<{visible:string | null, color: string}>`
   display: flex;
   align-items: center;
   gap: 15px;
@@ -26,7 +26,7 @@ export const StyledNavLink = styled(NavLink)<{isOpen:boolean, color: string}>`
   }
   div {
     transition: 0.3s;
-    ${({isOpen}) => !isOpen && css`
+    ${({visible}) => visible != '' && css`
       display: none;
       transition: 0.3s;
       opacity: 0;

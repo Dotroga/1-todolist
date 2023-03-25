@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {memo, useState} from 'react';
 import styled, {css} from "styled-components";
 import arrow from './../../Icons/arrow.svg'
 import {ArrColorType} from "../SideBar/AddNewList/AddListForm/AddListForm";
@@ -11,7 +11,7 @@ type PropsType = {
     width?: string
 }
 
-export const Select: React.FC<PropsType> = (props) => {
+export const Select: React.FC<PropsType> = memo((props) => {
     const {arr, color, callBack, width = '240px'} = props
 
     const [visiblePopUp, setVisiblePopUp] = useState(false)
@@ -39,7 +39,7 @@ export const Select: React.FC<PropsType> = (props) => {
                 </Icon >)}
             </PopUp>}
     </Wrapper>
-}
+})
 type SelectStyledType = {
     visible?: boolean
     color?: string

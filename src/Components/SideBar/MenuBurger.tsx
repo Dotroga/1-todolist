@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import menuBurger from "../../Icons/menuBurger.svg";
 import arrow from "../../Icons/arrow.svg";
 import styled from "styled-components";
@@ -8,7 +8,7 @@ type MenuBurgerType = {
   toggle: (isOpen: boolean)=>void
 }
 
-export const MenuBurger: React.FC<MenuBurgerType> = ({isOpen, toggle}) => {
+export const MenuBurger: React.FC<MenuBurgerType> = memo(({isOpen, toggle}) => {
   const toggleHandler = () => toggle(!isOpen)
   return<Wrapper>
     <MenuBurgerImg
@@ -16,7 +16,7 @@ export const MenuBurger: React.FC<MenuBurgerType> = ({isOpen, toggle}) => {
     onClick={toggleHandler}
     alt='menu'/>
     </Wrapper>
-};
+});
 
 const MenuBurgerImg = styled.img` 
   width: 40px;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import styled, {css} from "styled-components";
 
 type SuperButtonPropsType = {
@@ -8,18 +8,17 @@ type SuperButtonPropsType = {
   callBack: ()=>void
 }
 
-export const SuperButton: React.FC<SuperButtonPropsType> = (props) => {
+export const SuperButton: React.FC<SuperButtonPropsType> = memo((props) => {
   const {title, color, disabled, callBack} = props
   return <Button color={color!} onClick={callBack} disabled={disabled!}>
     {title}
   </Button>
-};
+});
 
 type ButtonProps = {
   color: string
   disabled: boolean
 }
-
 const Button = styled.button<ButtonProps>`
   ${({disabled})=>!disabled && css`
     cursor: pointer;
