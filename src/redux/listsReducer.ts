@@ -1,5 +1,6 @@
-import {FilterType, listsToDo, ListsType} from "./state";
+import {listsToDo, ListsType} from "./state";
 import {v1} from "uuid";
+
 
 
 export const listsReducer = (lists = listsToDo, action:ListActionsType) => {
@@ -39,6 +40,9 @@ export const renameListAC = (listId: string, title: string) => ({
   type: 'RENAME-TASK-LIST', listId, title} as const)
 export const removeListAC = (listId: string) => ({
   type: 'REMOVE-TASK-LIST', listId} as const)
+
+
+
 
 
 

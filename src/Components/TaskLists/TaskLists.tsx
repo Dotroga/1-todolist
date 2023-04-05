@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useState} from 'react';
 import NameAndRename from "../NameAndRename/NameAndRename";
-import {TaskType} from "../../bll/state";
+import {TaskType} from "../../redux/state";
 import './TaskList.css'
 import DeleteButton from "../DeleteButton/DeleteButton";
 

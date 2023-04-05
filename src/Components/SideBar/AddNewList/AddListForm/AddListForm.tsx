@@ -1,105 +1,81 @@
-import React, {memo, useCallback, useState} from 'react';
+import React, {memo, useCallback} from 'react';
 import styled from "styled-components";
-import {SuperInput} from "../../../SuperInput/SuperInput";
-import {SuperButton} from "../../../SuperButton/SuperButton";
+import {SuperInput} from "../../../Super/SuperInput/SuperInput";
+import {SuperButton} from "../../../Super/SuperButton/SuperButton";
 import {Select} from "../../../Select/Select";
-import {addNewListAC} from "../../../../bll/listsReducer";
+import {addNewListAC} from "../../../../redux/listsReducer";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
+import {useAppSelector} from "../../../../redux/store";
+import {
+    addListFormType,
+    changeColorAC,
+    changeTitleNewListAC, ColorType, setErrorAC,
+    toggleAddListFormAC
+} from "../../../../redux/statusOffWindowsReducer";
 
-type AddNewListType  = {
-  condition: boolean
-  callback: () => void
-  isOpen: boolean
+type AddNewListType = {
+    isOpen: boolean,
+    isVisibleALF: boolean
 }
 
-export type ArrColorType = { color: any, title: string }
-export const arr: ArrColorType[] = [
-    {color: '#b7256e', title: 'Berry Red'},
-    {color: '#d93f35', title: 'Red'},
-    {color: '#fd9833', title: 'Orange'},
-    {color: '#f8ce00', title: 'Yellow'},
-    {color: '#aeb73b', title: 'Olive Green'},
-    {color: '#7dca48', title: 'Lime Green'},
-    {color: '#299338', title: 'Green'},
-    {color: '#69cabb', title: 'Mint Green'},
-    {color: '#158eac', title: 'Teal'},
-    {color: '#14a9f3', title: 'Sky Blue'},
-    {color: '#95c1e9', title: 'Light Blue'},
-    {color: '#3f72fd', title: 'Blue'},
-    {color: '#874cfd', title: 'Grape'},
-    {color: '#ae38e9', title: 'Violet'},
-    {color: '#e995e9', title: 'Lavender'},
-    {color: '#de5093', title: 'Magenta'},
-    {color: '#fd8c84', title: 'Salmon'},
-    {color: '#7f7f7f', title: 'Charcoal'},
-    {color: '#b7b7b7', title: 'Grey'},
-    {color: '#caab92', title: 'Taupe'}
-]
-
-export const AddListForm: React.FC<AddNewListType> = memo((props) => {
-    const {condition, callback, isOpen} = props
-
+export const AddListForm: React.FC<AddNewListType> = memo(({isOpen,isVisibleALF}) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    const [title, setTitle] = useState('')
-    const [error, setError] = useState<string | null>(null)
-    const [color, setColor] = useState<ArrColorType>(arr[0])
+    const addListForm = useAppSelector<addListFormType>(state => state.StatusOffWindows.addListForm)
+    const arrColor = useAppSelector<ColorType[]>(state => state.StatusOffWindows.arrColor)
 
     const changeTitle = useCallback((text: string) => {
-        error && setError(null)
-        setTitle(text)
-    },[title])
+        dispatch(changeTitleNewListAC(text))
+    },[addListForm.title])
 
-    const changeColor = useCallback((color:ArrColorType)=>{
-        setColor(color)
-    },[color])
+    const changeColor = useCallback((color: ColorType)=>{
+        dispatch(changeColorAC(color))
+    },[addListForm.color])
 
     const addList = useCallback(() => {
-        let newTitle = title.trim();
+        const  newTitle = addListForm.title.trim();
         if (newTitle !== "") {
-            dispatch(addNewListAC(newTitle, color.color))
+            dispatch(addNewListAC(newTitle, addListForm.color.color))
             navigate(`/${newTitle}`)
-            setTitle('')
+            dispatch(toggleAddListFormAC())
         } else {
-            setError("Title is required");
+            dispatch(setErrorAC())
         }
-    },[title,color])
+    },[addListForm])
 
-    const closeAddForm = useCallback(() => {
-        setTitle('')
-        setError(null)
-        callback()
-        setColor(arr[0])
-    },[])
+    const toggleAddListForm = useCallback(() => {
+        dispatch(toggleAddListFormAC())
+    },[isVisibleALF])
+
   return (
-    <Wrapper condition={condition} isOpen={isOpen}>
+    <Wrapper isVisibleAL={isVisibleALF} isOpen={isOpen}>
       <SuperInput
           callBack={changeTitle}
-          title={title}
+          title={addListForm.title}
           text={'Title'}
-          error={error!}/>
+          error={addListForm.error!}/>
       <Color>Color</Color>
         <SelectWrapper>
-            <Select arr={arr} color={color} callBack={changeColor }/>
+            <Select arr={arrColor} color={addListForm.color} callBack={changeColor }/>
         </SelectWrapper>
         <ButtonWrapper>
-            <SuperButton title='Cancel' callBack={closeAddForm}/>
+            <SuperButton title='Cancel' callBack={toggleAddListForm}/>
             <SuperButton title='Add' callBack={addList}/>
         </ButtonWrapper>
     </Wrapper>
   );
 });
 
-type WrapperPropsType = { condition: boolean, isOpen: boolean }
+type WrapperPropsType = { isVisibleAL: boolean, isOpen: boolean }
 
 const Wrapper = styled.div<WrapperPropsType>`
   padding: 10px;
   background-color: #424d6b;
   box-shadow: 0 0 15px 1px #1a2434;
   border-radius: 10px;
-  display: ${({condition, isOpen}) => condition && isOpen ? 'block' : 'none'};
+  display: ${({isVisibleAL, isOpen}) => isVisibleAL && isOpen ? 'block' : 'none'};
 `
 const SelectWrapper = styled.div`
   height: 55px;

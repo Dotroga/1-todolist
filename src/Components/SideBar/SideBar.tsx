@@ -1,32 +1,28 @@
-import React, {memo, useCallback, useState} from 'react';
-import {useAppSelector} from "../../bll/store";
-import {ListsType} from "../../bll/state";
+import React, {memo} from 'react';
+import {useAppSelector} from "../../redux/store";
+import {ListsType} from "../../redux/state";
 import {MenuBurger} from "./MenuBurger";
-import {AddNewList} from "./AddNewList/AddNewList";
 import styled, {css} from "styled-components";
 import {SideBarIcon} from "./SideBarIcon/SideBarIcon";
+import {AddListButton} from "./AddNewList/AddListButton";
+import {AddListForm} from "./AddNewList/AddListForm/AddListForm";
+
 
 export const SideBar = memo(() => {
 
-    const [isOpen, setIsOpen] = useState<boolean>(false)
-    const [visibleAddListForm, setVisibleAddListForm] = useState(true)
-
+    const isCollapsedSB = useAppSelector<boolean>(state => state.StatusOffWindows.isCollapsedSB)
+    const isVisibleALF = useAppSelector<boolean>(state => state.StatusOffWindows.isVisibleALF)
     const lists = useAppSelector<ListsType[]>(state => state.lists)
 
-    const toggle = useCallback(() => {
-        setIsOpen(!isOpen)
-        setVisibleAddListForm(false)
-    },[isOpen])
-
-    const changeAddListForm = useCallback(() =>
-        setVisibleAddListForm(!visibleAddListForm),[visibleAddListForm])
-
-    return <SideBarContainer isOpen={isOpen}>
-        <MenuBurger isOpen={isOpen} toggle={toggle}/>
-        <SideBarIcon isOpen={isOpen} title='All lists' color='red' to={'/'}/>
-        <AddNewList condition={visibleAddListForm} callback={changeAddListForm} isOpen={isOpen}/>
+    return <SideBarContainer isOpen={isCollapsedSB}>
+        <MenuBurger/>
+        <SideBarIcon isOpen={isCollapsedSB} title='All lists' color='red' to={'/'}/>
+        <AddNewList>
+            <AddListButton isOpen={isCollapsedSB} isVisibleALF={isVisibleALF}/>
+            <AddListForm isOpen={isCollapsedSB} isVisibleALF={isVisibleALF}/>
+        </AddNewList>
         {lists.map((l, i) =>
-            <SideBarIcon key={i} isOpen={isOpen} title={l.title} color={l.color} to={`/${l.title}`}/>)}
+            <SideBarIcon key={i} isOpen={isCollapsedSB} title={l.title} color={l.color} to={`/${l.title}`}/>)}
     </SideBarContainer>
 });
 
@@ -49,6 +45,8 @@ const SideBarContainer = styled.div<SideBarContainerPropsType>`
   ${({isOpen}) => !isOpen && css`
     align-items: center;
   `}
+`
+const AddNewList = styled.div`
 `
 
 

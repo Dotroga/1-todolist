@@ -2,18 +2,19 @@ import React, {memo} from 'react';
 import menuBurger from "../../Icons/menuBurger.svg";
 import arrow from "../../Icons/arrow.svg";
 import styled from "styled-components";
+import {useAppSelector} from "../../redux/store";
+import {useDispatch} from "react-redux";
+import {toggleSideBarAC} from "../../redux/statusOffWindowsReducer";
 
-type MenuBurgerType = {
-  isOpen: boolean
-  toggle: (isOpen: boolean)=>void
-}
+export const MenuBurger = memo(() => {
+  const CollapsedSB = useAppSelector<boolean>(state => state.StatusOffWindows.isCollapsedSB)
+  const dispatch = useDispatch()
+  const toggleSideBar =  () => dispatch(toggleSideBarAC())
 
-export const MenuBurger: React.FC<MenuBurgerType> = memo(({isOpen, toggle}) => {
-  const toggleHandler = () => toggle(!isOpen)
   return<Wrapper>
     <MenuBurgerImg
-    src={isOpen ? arrow : menuBurger}
-    onClick={toggleHandler}
+    src={CollapsedSB ? arrow : menuBurger}
+    onClick={toggleSideBar}
     alt='menu'/>
     </Wrapper>
 });

@@ -1,15 +1,14 @@
 import React, {useCallback, useState} from 'react';
-import {FilterType, ListsType, TaskType,} from "../../bll/state";
-import {SuperInput} from "../SuperInput/SuperInput";
+import {ListsType, TaskType,} from "../../redux/state";
 import NameAndRename from "../NameAndRename/NameAndRename";
 import Task from "../TaskLists/TaskLists";
 import './TodoList.css'
 import DeleteButton from "../DeleteButton/DeleteButton";
 import filterIcons from './../../Icons/filter.svg'
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../../bll/store";
-import {addTaskAC, changeTaskStatusAC, removeTaskAC, renameTaskAC} from "../../bll/taskReducer";
-import {removeListAC, renameListAC} from "../../bll/listsReducer";
+import {AppRootStateType} from "../../redux/store";
+import {addTaskAC, changeTaskStatusAC, removeTaskAC, renameTaskAC} from "../../redux/taskReducer";
+import {removeListAC, renameListAC} from "../../redux/listsReducer";
 
 type TodoListPropsType = {
   list: ListsType

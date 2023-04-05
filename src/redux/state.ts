@@ -15,8 +15,8 @@ export let sectionId2 = v1()
 export let sectionId3 = v1()
 
 export const listsToDo: ListsType[] = [
-  {id: todolistId1, title: "What to learn", path: '/sgsag', color: '#ae38e9' },
-  {id: todolistId2, title: "What to buy", path: '/sgsag', color: '#7dca48'}
+  {id: todolistId1, title: "What to learn", path: '/whattolearn', color: '#ae38e9' },
+  {id: todolistId2, title: "What to buy", path: '/whattobuy', color: '#7dca48'}
 ]
 
 export const sections: sectionsType = {

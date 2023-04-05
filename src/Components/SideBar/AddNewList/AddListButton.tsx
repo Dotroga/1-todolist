@@ -2,25 +2,27 @@ import React, {memo} from 'react';
 import plus from '../../../Icons/plus.svg'
 import square from '../../../Icons/square.svg'
 import styled, {css} from "styled-components";
+import {toggleAddListFormAC} from "../../../redux/statusOffWindowsReducer";
+import {useDispatch} from "react-redux";
 
 type AddListButtonPropsType = {
-  condition: boolean
-  callback: () => void
   isOpen: boolean
+    isVisibleALF: boolean
 }
-
-export const AddListButton: React.FC<AddListButtonPropsType> = memo((props) => {
-  const {condition,callback, isOpen} = props
-  return <Wrapper condition={condition} isOpen={isOpen}>
+export const AddListButton: React.FC<AddListButtonPropsType> = memo(({isOpen,isVisibleALF}) => {
+    const dispatch = useDispatch()
+    const toggleAddListForm = () => dispatch(toggleAddListFormAC())
+  return <Wrapper isVisibleALF={isVisibleALF} isOpen={isOpen}>
    <span>Lists</span>
     <div>
-      <SvgPlus src={plus} alt="plus" onClick={callback} condition={condition}/>
-      <SvgSquare src={square} alt="square" condition={condition}/>
+      <SvgPlus src={plus} alt="plus" onClick={toggleAddListForm} isVisibleALF={isVisibleALF}/>
+      <SvgSquare src={square} alt="square" />
     </div>
   </Wrapper>
 });
 
-const Wrapper = styled.div<{isOpen: boolean, condition:boolean}>`
+
+const Wrapper = styled.div<{isOpen: boolean, isVisibleALF:boolean}>`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -38,15 +40,15 @@ const Wrapper = styled.div<{isOpen: boolean, condition:boolean}>`
   }
 `
 
-const SvgSquare = styled.img<{condition:boolean}>`
+const SvgSquare = styled.img`
   width: 32px;
   cursor: pointer;
 `
 
-const SvgPlus = styled(SvgSquare)<{condition:boolean}>`
+const SvgPlus = styled(SvgSquare)<{isVisibleALF:boolean}>`
   position: absolute;
   transition: all 0.2s ease-in;
-  ${({condition}) => condition && css`
+  ${({isVisibleALF}) => isVisibleALF && css`
     transform: rotate(45deg);
   `};
   

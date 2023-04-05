@@ -1,6 +1,6 @@
 import React from 'react';
-import {useAppSelector} from "../../bll/store";
-import {sectionType} from "../../bll/state";
+import {useAppSelector} from "../../redux/store";
+import {sectionType} from "../../redux/state";
 
 type SectionType = {
   listId: string

@@ -1,5 +1,5 @@
 import React from 'react';
-import {ListsType} from "../../bll/state";
+import {ListsType} from "../../redux/state";
 import {Section} from "../Section/Section";
 import styled from "styled-components";
 

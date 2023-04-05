@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
-import {ListsType} from "./bll/state";
-import {useAppSelector} from "./bll/store";
+import {ListsType} from "./redux/state";
+import {useAppSelector} from "./redux/store";
 import {SideBar} from "./Components/SideBar/SideBar";
 import {Route, Routes} from "react-router-dom";
 import {List} from "./Components/List/List";
@@ -11,18 +11,25 @@ export const App = memo(()  => {
   return (
     <WrapperApp>
       <SideBar/>
-        <div>
+        <Content>
             <Routes>
                 <Route path={'/'} element={lists.map(l=><List key={l.id} list={l}/>)}/>
                 {lists.map(l=>
                     <Route key={l.id} path={`/${l.title}`} element={<List list={l}/>}/>)}
             </Routes>
-        </div>
+        </Content>
     </WrapperApp>
   );
 })
 
 const WrapperApp = styled.div`
   display: flex;
+`
+
+const Content = styled.div`
+  display: flex;
+  padding: 20px;
+  flex-direction: column;
+  color: white;
 `
 

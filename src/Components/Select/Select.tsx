@@ -1,13 +1,14 @@
 import React, {memo, useState} from 'react';
 import styled, {css} from "styled-components";
 import arrow from './../../Icons/arrow.svg'
-import {ArrColorType} from "../SideBar/AddNewList/AddListForm/AddListForm";
+import {ColorType} from "../../redux/statusOffWindowsReducer";
+
 
 
 type PropsType = {
-    arr: ArrColorType[]
-    color: ArrColorType
-    callBack: (color:ArrColorType)=>void
+    arr: ColorType[]
+    color: ColorType
+    callBack: (color:ColorType)=>void
     width?: string
 }
 
@@ -16,7 +17,7 @@ export const Select: React.FC<PropsType> = memo((props) => {
 
     const [visiblePopUp, setVisiblePopUp] = useState(false)
     const changeVisibility = () => setVisiblePopUp(!visiblePopUp)
-    const selectingActive = (i: ArrColorType) => {
+    const selectingActive = (i: ColorType) => {
         callBack(i)
         setVisiblePopUp(false)
     }
