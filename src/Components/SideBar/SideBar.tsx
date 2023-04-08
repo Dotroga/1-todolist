@@ -36,7 +36,7 @@ const SideBarContainer = styled.div<SideBarContainerPropsType>`
   flex-direction: column;
   margin: 10px;
   padding: 10px;
-  gap: 5px;
+  gap: 3px;
   transition: 0.15s;
   border-radius: 15px;
   background-color: rgb(46, 56, 78);

@@ -10,8 +10,7 @@ type SideBarIconsPropsType = {
 }
 
 export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
-  const {isOpen, title, color, to} = props
-  console.log('icon')
+  const {isOpen, title, color,to} = props
   return<StyledNavLink to={to} visible={isOpen ? '' : null} color={color}>
     {title === 'All lists'
       ? <img src={fourSquare} alt="square"/>
@@ -19,6 +18,8 @@ export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
       <div>{title}</div>
     </StyledNavLink>
 });
+
+
 
 
 

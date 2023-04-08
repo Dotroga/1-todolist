@@ -6,20 +6,19 @@ import {Route, Routes} from "react-router-dom";
 import {List} from "./Components/List/List";
 import styled from "styled-components";
 import {fetchListTC} from "./redux/listsReducer";
-import {setTaskTC} from "./redux/taskReducer";
 
-export const App = memo(()  => {
+export const App = memo(() => {
 
     const dispatch = useAppDispatch()
-    useEffect(() => dispatch(fetchListTC()),[])
+    useEffect(() => dispatch(fetchListTC()), [])
     const lists = useAppSelector<ListType[]>(state => state.lists)
-    useEffect(() => dispatch(setTaskTC(lists[0].id)),[lists])
+
     return <WrapperApp>
-      <SideBar/>
+        <SideBar/>
         <Content>
             <Routes>
-                <Route path={'/'} element={lists.map(l=><List key={l.id} list={l}/>)}/>
-                {lists.map(l=>
+                <Route path={'/'} element={lists.map(l => <List key={l.id} list={l}/>)}/>
+                {lists.map(l =>
                     <Route key={l.id} path={`/${l.title}`} element={<List list={l}/>}/>)}
             </Routes>
         </Content>

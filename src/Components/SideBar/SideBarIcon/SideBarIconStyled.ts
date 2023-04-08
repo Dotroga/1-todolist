@@ -6,7 +6,7 @@ export const StyledNavLink = styled(NavLink)<{visible:string | null, color: stri
   align-items: center;
   gap: 15px;
   color: #c1c4cd;
-  padding: 10px;
+  padding: 8px;
   border-radius: 10px;
   text-decoration: none;
   &.active {

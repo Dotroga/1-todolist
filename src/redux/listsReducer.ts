@@ -1,4 +1,4 @@
-import {listsToDo, ListType, ServerSideListType} from "./state";
+import {ListType, ServerSideListType} from "./state";
 import {v1} from "uuid";
 import {todoApi} from "../api/todo-api";
 import {Dispatch} from "redux";
@@ -6,22 +6,15 @@ import {setErrorAC, toggleAddListFormAC} from "./statusOffWindowsReducer";
 
 
 
-export const listsReducer = (lists = listsToDo, action:Actions) => {
+export const listsReducer = (lists: ListType[] = [], action:Actions): ListType[] => {
   switch (action.type) {
     case "GET-LISTS": {
       return action.lists.map((l)=>
           ({...l, color: '', filter: 'All', path: l.title,}))
     }
     case 'ADD-LIST': {
-      const newList: ListType = {
-        id: action.id,
-        title: action.title,
-        path: '',
-        color: action.color,
-        addedDate:'',
-        order: 0,
-        filter: 'All'
-      }
+      const newList: ListType = {id: action.id, title: action.title, path: '',
+        color: action.color, addedDate:'', order: 0, filter: 'All'}
       return  [...lists, newList]
     }
     case "RENAME-TASK-LIST": {
@@ -67,6 +60,11 @@ export const addListTK = (title: string, navigate: any, color: string) => (dispa
   } else {
     dispatch(setErrorAC())
   }
+}
+export const removeListTK = (listId: string) => (dispatch: Dispatch) => {
+  todoApi.deleteList(listId).then((res) => {
+    dispatch(removeListAC(listId))
+  })
 }
 
 

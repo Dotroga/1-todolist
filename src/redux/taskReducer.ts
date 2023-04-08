@@ -1,9 +1,9 @@
 import {v1} from "uuid";
-import {tasksToDo, TasksType} from "./state";
+import {TasksType} from "./state";
 import {addListACType, getListsACType, removeListACType} from "./listsReducer";
 import {Dispatch} from "redux";
 import {TaskType, todoApi} from "../api/todo-api";
-export const tasksReducer = (tasks: TasksType = tasksToDo, action:TsarType): TasksType => {
+export const tasksReducer = (tasks: TasksType = {}, action:TsarType): TasksType => {
   switch (action.type) {
     case "GET-LISTS": {
       const copyState = {...tasks}
@@ -11,6 +11,9 @@ export const tasksReducer = (tasks: TasksType = tasksToDo, action:TsarType): Tas
         copyState[l.id] = []
       })
       return copyState
+    }
+    case "SET-TASKS": {
+      return {...tasks, [action.listId]: action.tasks}
     }
     case 'REMOVE-TASK': {
       return {...tasks, [action.listId] :tasks[action.listId]
@@ -71,7 +74,6 @@ export const renameTaskAC = (listId: string, id: string, title: string) =>
   ({type: 'RENAME-TASK', listId, id, title} as const)
 export const setTaskTC = (todoId: string) => (dispatch: Dispatch) => {
   todoApi.getTasks(todoId).then((res)=>{
-    console.log(res.data.items)
     dispatch(setTasksAC(todoId, res.data.items))
   })
 }
