@@ -12,7 +12,7 @@ export const App = memo(() => {
     const dispatch = useAppDispatch()
     useEffect(() => dispatch(fetchListTC()), [])
     const lists = useAppSelector<ListType[]>(state => state.lists)
-
+    console.log(lists)
     return <WrapperApp>
         <SideBar/>
         <Content>

@@ -6,6 +6,13 @@ export type ServerSideListType = {
   addedDate: string
   order: number
 }
+export type ListThunkType = {
+  id: string
+  title: string
+  addedDate: string
+  order: number
+  color: string
+}
 export type ListType = {
   id: string
   title: string
