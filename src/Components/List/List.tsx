@@ -1,20 +1,16 @@
 import React from 'react';
-import {ListsType} from "../../redux/state";
-import {Section} from "../Section/Section";
+
 import styled from "styled-components";
+import {ListType} from "../../redux/state";
 
-type ListType = {
-  list: ListsType
-}
 
-export const List: React.FC<ListType> = ({list}) => {
+
+export const List: React.FC<{ list: ListType }> = ({list}) => {
   return (
     <Wrapper>
         <ListTitle color={list.color!}>
             {list.title}
         </ListTitle>
-
-      <Section listId={list.id}/>
     </Wrapper>
   );
 };

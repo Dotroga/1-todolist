@@ -1,15 +1,20 @@
-import React, {memo} from 'react';
-import {ListsType} from "./redux/state";
-import {useAppSelector} from "./redux/store";
+import React, {memo, useEffect} from 'react';
+import {ListType} from "./redux/state";
+import {useAppDispatch, useAppSelector} from "./redux/store";
 import {SideBar} from "./Components/SideBar/SideBar";
 import {Route, Routes} from "react-router-dom";
 import {List} from "./Components/List/List";
 import styled from "styled-components";
+import {fetchListTC} from "./redux/listsReducer";
+import {setTaskTC} from "./redux/taskReducer";
 
 export const App = memo(()  => {
-    const lists = useAppSelector<ListsType[]>(state => state.lists)
-  return (
-    <WrapperApp>
+
+    const dispatch = useAppDispatch()
+    useEffect(() => dispatch(fetchListTC()),[])
+    const lists = useAppSelector<ListType[]>(state => state.lists)
+    useEffect(() => dispatch(setTaskTC(lists[0].id)),[lists])
+    return <WrapperApp>
       <SideBar/>
         <Content>
             <Routes>
@@ -19,7 +24,6 @@ export const App = memo(()  => {
             </Routes>
         </Content>
     </WrapperApp>
-  );
 })
 
 const WrapperApp = styled.div`

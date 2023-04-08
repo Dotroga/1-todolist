@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {useAppSelector} from "../../redux/store";
-import {ListsType} from "../../redux/state";
+import {ListType} from "../../redux/state";
 import {MenuBurger} from "./MenuBurger";
 import styled, {css} from "styled-components";
 import {SideBarIcon} from "./SideBarIcon/SideBarIcon";
@@ -12,7 +12,7 @@ export const SideBar = memo(() => {
 
     const isCollapsedSB = useAppSelector<boolean>(state => state.StatusOffWindows.isCollapsedSB)
     const isVisibleALF = useAppSelector<boolean>(state => state.StatusOffWindows.isVisibleALF)
-    const lists = useAppSelector<ListsType[]>(state => state.lists)
+    const lists = useAppSelector<ListType[]>(state => state.lists)
 
     return <SideBarContainer isOpen={isCollapsedSB}>
         <MenuBurger/>

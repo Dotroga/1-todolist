@@ -1,24 +1,20 @@
-import {combineReducers, legacy_createStore as createStore} from "redux";
+import {applyMiddleware, combineReducers, legacy_createStore as createStore,  AnyAction} from "redux";
 import {tasksReducer} from "./taskReducer";
 import {listsReducer} from "./listsReducer";
-import {
-  useSelector,
-  TypedUseSelectorHook,
-} from 'react-redux'
-import {sectionsReducer} from "./sectionsReducer";
+import {useSelector, TypedUseSelectorHook, useDispatch,} from 'react-redux'
 import {StatusOffWindowsReducer} from "./statusOffWindowsReducer";
+import ThunkMiddleware, {ThunkDispatch} from "redux-thunk";
 
 
 const rootReducer = combineReducers({
   lists: listsReducer,
-  sections : sectionsReducer,
   tasks: tasksReducer,
   StatusOffWindows: StatusOffWindowsReducer
 })
-
-export const store = createStore(rootReducer)
-
-export type DispatchType = typeof store.dispatch
 export type AppRootStateType = ReturnType<typeof rootReducer>
+export type ThunkDispatchType = ThunkDispatch<AppRootStateType, any, AnyAction>
 
+export const useAppDispatch = () => useDispatch<ThunkDispatchType>()
+export const store = createStore(rootReducer, applyMiddleware(ThunkMiddleware))
 export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector
+

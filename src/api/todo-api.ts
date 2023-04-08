@@ -3,7 +3,7 @@ const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     withCredentials: true,
 })
-export const listsAPI = {
+export const todoApi = {
     getLists()  {
        return instance.get<ListType[]>('todo-lists')
     },
@@ -15,6 +15,9 @@ export const listsAPI = {
     },
     deleteList(listId: string) {
         return instance.delete<ResponseType>(`todo-lists${listId}`)
+    },
+    getTasks(listId: string) {
+        return instance.get<GetTasksResponse>(`todo-lists/${listId}/tasks`)
     }
 }
 
@@ -29,4 +32,23 @@ type ResponseType<T = {}> = {
     fieldsErrors: string[]
     messages: string[]
     data: T
+}
+type GetTasksResponse = {
+    error: string | null
+    totalCount: number
+    items: TaskType[]
+}
+
+ export type TaskType = {
+    description: string
+    title: string
+    completed: boolean
+    status: string
+    priority: string
+    startDate: string
+    deadline: string
+    id: string
+    todoListId: string
+    order: number
+    addedDate:  string
 }

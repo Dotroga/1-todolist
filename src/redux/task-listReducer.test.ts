@@ -1,23 +1,14 @@
-import {ListsType, TasksType} from "./state";
+import {ListType, tasksToDo, TasksType} from "./state";
 import {tasksReducer} from "./taskReducer";
 import {addNewListAC, listsReducer, removeListAC} from "./listsReducer";
 
-const startState: TasksType  = {
-  "todolistId1": [
-    {id: "1", title: "CSS", isDone: false, date:'4 March 22:31'},
-    {id: "2", title: "JS", isDone: true, date:'4 March 22:31'},
-    {id: "3", title: "React", isDone: false, date:'4 March 22:31'}
-  ],
-  "todolistId2": [
-    {id: "1", title: "bread", isDone: false, date:'4 March 22:31'},
-    {id: "2", title: "milk", isDone: true, date:'4 March 22:31'},
-    {id: "3", title: "tea", isDone: false, date:'4 March 22:31'}
-  ]
-}
+const startState: TasksType  = tasksToDo
+
+
 
 test('ids should be equals', () => {
   const startTasksState: TasksType  = {}
-  const startListsState: ListsType[] = []
+  const startListsState: ListType[] = []
 
   const action = addNewListAC('new todolist', '')
 

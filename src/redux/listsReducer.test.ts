@@ -1,17 +1,25 @@
 import {v1} from 'uuid';
-import {addNewListAC, listsReducer, removeListAC, renameListAC} from "./listsReducer";
-import {ListsType} from "./state";
+import {addNewListAC, setListsAC, listsReducer, removeListAC, renameListAC} from "./listsReducer";
+import {ListType} from "./state";
 
 let todolistId1: string
 let todolistId2: string
-let startState: ListsType[]
+let startState: ListType[]
 beforeEach(()=> {
   todolistId1 = v1();
   todolistId2 = v1();
   startState = [
-    {id: todolistId1, title: "What to learn", path: '/sgsag', color: '#c70505'},
-    {id: todolistId2, title: "What to buy", path: '/sgsag', color: '#c70505'}
+    {id: todolistId1, title: "What to learn", path: '/sgsag', color: '#c70505', addedDate:'',
+      order: 0, filter: 'All'},
+    {id: todolistId2, title: "What to buy", path: '/sgsag', color: '#c70505', addedDate:'',
+      order: 0, filter: 'All'}
   ]
+})
+
+test('todoLists should be received',()=>{
+  const action = setListsAC(startState)
+  const endState = listsReducer([], action)
+  expect(endState.length).toBe(2)
 })
 
 

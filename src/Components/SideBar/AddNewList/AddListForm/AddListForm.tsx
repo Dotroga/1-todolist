@@ -3,15 +3,13 @@ import styled from "styled-components";
 import {SuperInput} from "../../../Super/SuperInput/SuperInput";
 import {SuperButton} from "../../../Super/SuperButton/SuperButton";
 import {Select} from "../../../Select/Select";
-import {addNewListAC} from "../../../../redux/listsReducer";
+import {addListTK} from "../../../../redux/listsReducer";
 import {useNavigate} from "react-router-dom";
-import {useDispatch} from "react-redux";
-import {useAppSelector} from "../../../../redux/store";
+import {useAppDispatch, useAppSelector} from "../../../../redux/store";
 import {
     addListFormType,
     changeColorAC,
-    changeTitleNewListAC, ColorType, setErrorAC,
-    toggleAddListFormAC
+    changeTitleNewListAC, ColorType, toggleAddListFormAC
 } from "../../../../redux/statusOffWindowsReducer";
 
 type AddNewListType = {
@@ -21,7 +19,7 @@ type AddNewListType = {
 
 export const AddListForm: React.FC<AddNewListType> = memo(({isOpen,isVisibleALF}) => {
     const navigate = useNavigate()
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const addListForm = useAppSelector<addListFormType>(state => state.StatusOffWindows.addListForm)
     const arrColor = useAppSelector<ColorType[]>(state => state.StatusOffWindows.arrColor)
@@ -35,14 +33,7 @@ export const AddListForm: React.FC<AddNewListType> = memo(({isOpen,isVisibleALF}
     },[addListForm.color])
 
     const addList = useCallback(() => {
-        const  newTitle = addListForm.title.trim();
-        if (newTitle !== "") {
-            dispatch(addNewListAC(newTitle, addListForm.color.color))
-            navigate(`/${newTitle}`)
-            dispatch(toggleAddListFormAC())
-        } else {
-            dispatch(setErrorAC())
-        }
+        dispatch(addListTK(addListForm.title, navigate, addListForm.color.color))
     },[addListForm])
 
     const toggleAddListForm = useCallback(() => {
