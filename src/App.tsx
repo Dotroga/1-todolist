@@ -12,7 +12,6 @@ export const App = memo(() => {
     const dispatch = useAppDispatch()
     useEffect(() => dispatch(fetchListTC()), [])
     const lists = useAppSelector<ListType[]>(state => state.lists)
-    console.log(lists)
     return <WrapperApp>
         <SideBar/>
         <Content>
@@ -27,12 +26,20 @@ export const App = memo(() => {
 
 const WrapperApp = styled.div`
   display: flex;
+  justify-content: center;
+  max-width: 1300px;
+  width: 100%;
 `
 
 const Content = styled.div`
   display: flex;
-  padding: 20px;
   flex-direction: column;
-  color: white;
+  border-radius: 15px;
+  background-color: rgb(46, 56, 78);
+  color: #989fa7;
+  box-shadow: 0 0 15px 1px #1a2434;
+  margin: 40px;
+  width: 100%;
+  
 `
 

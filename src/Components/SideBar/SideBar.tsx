@@ -33,8 +33,9 @@ type SideBarContainerPropsType = {
 const SideBarContainer = styled.div<SideBarContainerPropsType>`
   display: flex;
   width: ${({isOpen}) => isOpen ? '260px' : '43px'};
+  min-width:${({isOpen}) => isOpen ? '260px' : '43px'};
   flex-direction: column;
-  margin: 10px;
+  margin: 40px 0 40px 40px;
   padding: 10px;
   gap: 3px;
   transition: 0.15s;

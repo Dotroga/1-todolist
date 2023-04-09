@@ -16,12 +16,18 @@ const GlobalStyled = createGlobalStyle`
   }
   body > #root > div {
     height: 100vh;
+   
   }
+  
   body{
     background-color: #232d41;
     font-family: 'Montserrat', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    div#root{
+      display: flex;
+      justify-content: center;
+    }
   }
 `
 
