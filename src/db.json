@@ -1,7 +1,51 @@
 {
-  "listsColor": {
-    "16102c80-3342-41aa-875a-281169553692": "#95c1e9"
-  },
+  "listsColor": [
+    {
+      "color": "#b7256e",
+      "listId": "144f0b42-687e-480f-96d4-3d34d66f85f6",
+      "id": 1
+    },
+    {
+      "color": "#b7256e",
+      "listId": "756e1ffe-a6a9-4210-b034-65e93001329d",
+      "id": 2
+    },
+    {
+      "color": "#b7256e",
+      "listId": "11528017-531a-443b-bf09-65bb47567d2a",
+      "id": 3
+    },
+    {
+      "color": "#d93f35",
+      "listId": "4b89ae81-93e5-45ae-b103-3a9e5d7588f6",
+      "id": 4
+    },
+    {
+      "color": "#fd9833",
+      "listId": "d5868561-de2e-445d-bcdb-8175cb20ffce",
+      "id": 5
+    },
+    {
+      "color": "#3f72fd",
+      "listId": "fe228419-35d1-4db8-b86b-3d32947378d8",
+      "id": 6
+    },
+    {
+      "color": "#b7256e",
+      "listId": "dccbaf37-ed39-4292-8772-e9701868caff",
+      "id": 7
+    },
+    {
+      "color": "#d93f35",
+      "listId": "98d1092c-f609-4c88-84f0-03f9c069723b",
+      "id": 8
+    },
+    {
+      "color": "#fd9833",
+      "listId": "4daaefc2-26c5-48c3-9fdd-936f28f8d291",
+      "id": 9
+    }
+  ],
   "color": [
     {
       "color": "#b7256e",

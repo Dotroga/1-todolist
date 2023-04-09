@@ -1,10 +1,10 @@
 import {ListThunkType, ListType} from "./state";
-import {v1} from "uuid";
+
 import {todoApi} from "../api/todo-api";
 import {Dispatch} from "redux";
 import {setErrorAC, toggleAddListFormAC} from "./statusOffWindowsReducer";
 import {listsColorAPI} from "../api/listsColor-api";
-import {ListColorType} from "../Types";
+
 
 
 
@@ -18,7 +18,7 @@ export const listsReducer = (lists: ListType[] = [], action:Actions): ListType[]
     case 'ADD-LIST': {
       const newList: ListType = {id: action.id, title: action.title, path: '',
         color: action.color, addedDate:'', order: 0, filter: 'All'}
-      return  [...lists, newList]
+      return  [newList, ...lists]
     }
     case "RENAME-TASK-LIST": {
       return lists.map(l=>l.id === action.listId ? {...l, title: action.title}: l)
@@ -49,28 +49,32 @@ export const removeListAC = (listId: string) => ({
   type: 'REMOVE-TASK-LIST', listId} as const)
 export const fetchListTC = () => (dispatch: Dispatch) => {
   todoApi.getLists().then((res) =>
-      listsColorAPI.getListsColor().then((color) => {
-        const newData = res.data.map(l => ({...l, color: color.data[l.id]}))
+      listsColorAPI.getListsColor().then((data) => {
+        const newData = res.data.map(l => {
+            const color = (data.filter(c=>c.listId === l.id))[0].color
+            return {...l, color}
+        })
         dispatch(setListsAC(newData))
       }))
 }
 export const addListTK = (title: string, navigate: any, color: string) => (dispatch: Dispatch) => {
   const  newTitle = title.trim();
   if (newTitle !== "") {
-    todoApi.createList(newTitle).then((res)=>{
-      const listColor = {[res.data.data.item.id]: color}
-      listsColorAPI.createListColor(listColor).then(()=>{
-        dispatch(addNewListAC(res.data.data.item.id ,newTitle, color))
-        navigate(`/${newTitle}`)
-        dispatch(toggleAddListFormAC())
-      })
-    })
+    todoApi.createList(newTitle)
+        .then((res)=> res.data.data.item.id)
+        .then((listId)=>{
+          listsColorAPI.createListColor({color, listId}).then(()=>{
+            dispatch(addNewListAC(listId ,newTitle, color))
+            navigate(`/${newTitle}`)
+            dispatch(toggleAddListFormAC())
+          })
+        })
   } else {
     dispatch(setErrorAC())
   }
 }
 export const removeListTK = (listId: string) => (dispatch: Dispatch) => {
-  todoApi.deleteList(listId).then((res) => {
+  todoApi.deleteList(listId).then(() => {
     dispatch(removeListAC(listId))
   })
 }

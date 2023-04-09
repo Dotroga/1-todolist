@@ -1,3 +1,3 @@
-export type ListColorType = {
-    [key: string]: string
-}
+export type ListColorType = {color: string, listId: string}
+
+
