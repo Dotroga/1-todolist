@@ -6,14 +6,15 @@ import {ColorType} from "../../redux/statusOffWindowsReducer";
 
 
 type PropsType = {
+    title: string
     arr: ColorType[]
-    color: ColorType
+    item: ColorType | null
     callBack: (color:ColorType)=>void
     width?: string
 }
 
 export const Select: React.FC<PropsType> = memo((props) => {
-    const {arr, color, callBack, width = '240px'} = props
+    const {title, arr, item, callBack, width = '240px'} = props
 
     const [visiblePopUp, setVisiblePopUp] = useState(false)
     const changeVisibility = () => setVisiblePopUp(!visiblePopUp)
@@ -22,10 +23,14 @@ export const Select: React.FC<PropsType> = memo((props) => {
         setVisiblePopUp(false)
     }
     return <Wrapper width={width}>
-        <Visible onClick={changeVisibility} visible={visiblePopUp} color={color.color}
-                 onBlur={()=>setVisiblePopUp(false)}>
+        <Visible
+            onClick={changeVisibility}
+            visible={visiblePopUp}
+            color={item && item!.color}
+            onBlur={()=>setVisiblePopUp(false)}>
             <div>
-                <span></span> {color.title}
+                {item && <Item item={item}/>}
+                <Title item={!!item || visiblePopUp}>{title}</Title>
             </div>
             <img src={arrow} alt="arrow"/>
         </Visible>
@@ -41,6 +46,14 @@ export const Select: React.FC<PropsType> = memo((props) => {
             </PopUp>}
     </Wrapper>
 })
+
+const Item = (props: any) =>
+    <>
+        <span></span>
+        {props.item.title}
+    </>
+
+
 type SelectStyledType = {
     visible?: boolean
     color?: string
@@ -61,11 +74,11 @@ const Visible = styled.div<SelectStyledType>`
   color: white;
   ${({visible}) => visible
           ? css`
-            border-top-right-radius: 10px;
-            border-top-left-radius: 10px;
+            border-top-right-radius: 8px;
+            border-top-left-radius: 8px;
             border-bottom: none;
           `
-          : css`border-radius: 10px;`
+          : css`border-radius: 8px;`
   }
   div {
     display: flex;
@@ -85,12 +98,28 @@ const Visible = styled.div<SelectStyledType>`
     transform: rotate(${({visible}) => visible ? `90deg` : `-90deg`});
   }
 `
+const Title = styled.div<{item: boolean}>`
+  color: #697594;
+  position: absolute;
+  left: 5px;
+  padding: 10px;
+  pointer-events: none;
+  font-size: 1em;
+  transition: 0.5s;
+  ${({item}) => item && css`
+    color: #fbbd49;
+    background-color: #414c6b;
+    transform: translateX(10px) translateY(-20px);
+    font-size: 0.9em;
+    padding: 0 10px;
+  `}
+`
 const PopUp = styled.div<SelectStyledType>`
   background-color: #414c6a;
   padding: 4px 0;
   border: 1px solid #fbbd49;
-  border-bottom-right-radius: 10px;
-  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
   color: white;
   
 `

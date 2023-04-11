@@ -6,7 +6,8 @@ import {setTaskTC} from "../../redux/taskReducer";
 import {useAppDispatch} from "../../redux/store";
 import {removeListTK} from "../../redux/listsReducer";
 import {DeleteButton} from "../DeleteButton/DeleteButton";
-import {Tasks} from "../Tasks/Tasks";
+import {Tasks} from "./Tasks/Tasks";
+import {AddNewTask} from "./AddNewTask/AddNewTask";
 
 
 
@@ -21,6 +22,7 @@ export const List: React.FC<{ list: ListType }> = ({list}) => {
             <DeleteButton callBack={deleteList}/>
         </ListTitle>
         <Tasks/>
+        <AddNewTask/>
     </Wrapper>
   );
 };

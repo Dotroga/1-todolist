@@ -30,7 +30,7 @@ const Button = styled.button<ButtonProps>`
   padding: 5px;
   color: white;
   background-color: ${({color})=>color ? color : '#fdbe49'};
-  border-radius: 8px;
+  border-radius: 6px;
   border: none;
   transition: 0.2s;
 `

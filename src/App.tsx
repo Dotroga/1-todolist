@@ -34,11 +34,11 @@ const WrapperApp = styled.div`
 const Content = styled.div`
   display: flex;
   flex-direction: column;
-  border-radius: 15px;
+  border-radius: 8px;
   background-color: rgb(46, 56, 78);
   color: #989fa7;
   box-shadow: 0 0 15px 1px #1a2434;
-  margin: 40px;
+  margin: 40px 40px 40px 20px;
   width: 100%;
   
 `

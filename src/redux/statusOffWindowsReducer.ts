@@ -8,7 +8,7 @@ export type StatusWindowsType = {
 export type addListFormType =  {
     title: string
     error: string | null,
-    color: ColorType
+    color: ColorType | null
 }
 const initialState =  {
     isCollapsedSB: false,
@@ -16,7 +16,7 @@ const initialState =  {
     addListForm: {
         title: '',
         error: null,
-        color: {color: '#b7256e', title: 'Berry Red'}
+        color: null
     },
     arrColor: [
         {color: '#b7256e', title: 'Berry Red'},
@@ -48,7 +48,7 @@ export const StatusOffWindowsReducer = (
         case "TOGGLE-SIDE-BAR":
             return {...state, isCollapsedSB: !state.isCollapsedSB, isVisibleALF: false}
         case 'TOGGLE-ADD-LIST-FORM': {
-            const color = state.arrColor[0]
+            const color = null
             const addListForm = {...state.addListForm, title: '', error: null, color}
             return {...state, isVisibleALF: !state.isVisibleALF, addListForm}
         }

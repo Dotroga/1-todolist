@@ -7,7 +7,7 @@ export const StyledNavLink = styled(NavLink)<{visible:string | null, color: stri
   gap: 15px;
   color: #c1c4cd;
   padding: 8px;
-  border-radius: 10px;
+  border-radius: 8px;
   text-decoration: none;
   &.active {
     color: #8181d0;

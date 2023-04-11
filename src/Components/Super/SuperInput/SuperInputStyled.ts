@@ -8,7 +8,7 @@ export const WrapperInput = styled.div<{color: string, error: string | null}>`
     width: 100%;
     padding: 10px;
     border: 1px solid ${({error})=>error ? 'red' : '#fbbd49'};
-    border-radius: 10px;
+    border-radius: 8px;
     outline: none;
     background: none;
     transition: 0.5s;
@@ -37,6 +37,6 @@ export const WrapperInput = styled.div<{color: string, error: string | null}>`
 
   input:valid,
   input:focus {
-    width: 100%;
+    //width: 100%;
   }
 `
