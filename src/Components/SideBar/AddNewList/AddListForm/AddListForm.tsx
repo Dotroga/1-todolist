@@ -2,7 +2,7 @@ import React, {memo, useCallback} from 'react';
 import styled from "styled-components";
 import {SuperInput} from "../../../Super/SuperInput/SuperInput";
 import {SuperButton} from "../../../Super/SuperButton/SuperButton";
-import {Select} from "../../../Select/Select";
+import {Select} from "../../../Super/Select/Select";
 import {addListTK} from "../../../../redux/listsReducer";
 import {useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../../../redux/store";

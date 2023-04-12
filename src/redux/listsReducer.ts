@@ -4,6 +4,7 @@ import {todoApi} from "../api/todo-api";
 import {Dispatch} from "redux";
 import {setErrorAC, toggleAddListFormAC} from "./statusOffWindowsReducer";
 import {listsColorAPI} from "../api/listsColor-api";
+import {NavigateFunction} from "react-router/dist/lib/hooks";
 
 
 
@@ -57,7 +58,7 @@ export const fetchListTC = () => (dispatch: Dispatch) => {
         dispatch(setListsAC(newData))
       }))
 }
-export const addListTK = (title: string, navigate: any, color: string) => (dispatch: Dispatch) => {
+export const addListTK = (title: string, navigate: NavigateFunction, color: string) => (dispatch: Dispatch) => {
   const  newTitle = title.trim();
   if (newTitle !== "") {
     todoApi.createList(newTitle)
@@ -73,9 +74,10 @@ export const addListTK = (title: string, navigate: any, color: string) => (dispa
     dispatch(setErrorAC(true))
   }
 }
-export const removeListTK = (listId: string) => (dispatch: Dispatch) => {
+export const removeListTK = (listId: string, navigate: NavigateFunction) => (dispatch: Dispatch) => {
   todoApi.deleteList(listId).then(() => {
     dispatch(removeListAC(listId))
+      navigate('/')
   })
 }
 

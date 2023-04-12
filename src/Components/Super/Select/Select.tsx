@@ -1,7 +1,7 @@
 import React, {memo, useState} from 'react';
 import styled, {css} from "styled-components";
-import arrow from './../../Icons/arrow.svg'
-import {ColorType} from "../../redux/statusOffWindowsReducer";
+import arrow from '../../../Icons/arrow.svg'
+import {ColorType} from "../../../redux/statusOffWindowsReducer";
 
 
 

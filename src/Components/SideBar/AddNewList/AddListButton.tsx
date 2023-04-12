@@ -45,7 +45,7 @@ const Wrapper = styled.div<WrapperType>`
   justify-content: space-between;
   margin: 4px 0;
   height: 32px;
-${({hovered, isVisibleALF, listsLength})=> (hovered || isVisibleALF) && (listsLength !== 10)
+${({hovered, isVisibleALF, listsLength})=> (hovered || isVisibleALF) && (listsLength < 10)
         ? css`
           div {
             display: none;

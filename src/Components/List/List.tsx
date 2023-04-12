@@ -8,13 +8,15 @@ import {removeListTK} from "../../redux/listsReducer";
 import {DeleteButton} from "../DeleteButton/DeleteButton";
 import {Tasks} from "./Tasks/Tasks";
 import {AddNewTask} from "./AddNewTask/AddNewTask";
+import {useNavigate} from "react-router-dom";
 
 
 
 export const List: React.FC<{ list: ListType }> = ({list}) => {
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
     useEffect(() => dispatch(setTaskTC(list.id)),[list])
-    const deleteList = () => dispatch(removeListTK(list.id))
+    const deleteList = () => dispatch(removeListTK(list.id, navigate))
   return (
     <Wrapper>
         <ListTitle color={list.color!}>
