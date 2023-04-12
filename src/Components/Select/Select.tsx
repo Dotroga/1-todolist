@@ -14,7 +14,7 @@ type PropsType = {
 }
 
 export const Select: React.FC<PropsType> = memo((props) => {
-    const {title, arr, item, callBack, width = '240px'} = props
+    const {title, arr, item, callBack, width = '244px'} = props
 
     const [visiblePopUp, setVisiblePopUp] = useState(false)
     const changeVisibility = () => setVisiblePopUp(!visiblePopUp)

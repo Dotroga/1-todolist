@@ -13,13 +13,19 @@ export const SideBar = memo(() => {
     const isCollapsedSB = useAppSelector<boolean>(state => state.StatusOffWindows.isCollapsedSB)
     const isVisibleALF = useAppSelector<boolean>(state => state.StatusOffWindows.isVisibleALF)
     const lists = useAppSelector<ListType[]>(state => state.lists)
-
     return <SideBarContainer isOpen={isCollapsedSB}>
         <MenuBurger/>
         <SideBarIcon isOpen={isCollapsedSB} title='All lists' color='red' to={'/'}/>
         <AddNewList>
-            <AddListButton isOpen={isCollapsedSB} isVisibleALF={isVisibleALF}/>
-            <AddListForm isOpen={isCollapsedSB} isVisibleALF={isVisibleALF}/>
+            <AddListButton
+                isOpen={isCollapsedSB}
+                isVisibleALF={isVisibleALF}
+                listsLength={lists.length}/>
+            <AddListForm
+                isOpen={isCollapsedSB}
+                isVisibleALF={isVisibleALF}
+                listsLength={lists.length}
+            />
         </AddNewList>
         {lists.map((l, i) =>
             <SideBarIcon key={i} isOpen={isCollapsedSB} title={l.title} color={l.color} to={`/${l.title}`}/>)}

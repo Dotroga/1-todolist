@@ -11,13 +11,16 @@ import {
     changeColorAC,
     changeTitleNewListAC, ColorType, toggleAddListFormAC
 } from "../../../../redux/statusOffWindowsReducer";
+import {MaxQuantity} from "../../../Super/MaxQuantity/MaxQuantity";
 
 type AddNewListType = {
-    isOpen: boolean,
+    isOpen: boolean
     isVisibleALF: boolean
+    listsLength: number
 }
 
-export const AddListForm: React.FC<AddNewListType> = memo(({isOpen,isVisibleALF}) => {
+export const AddListForm: React.FC<AddNewListType> = memo((
+    {isOpen, isVisibleALF, listsLength}) => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
 
@@ -51,6 +54,7 @@ export const AddListForm: React.FC<AddNewListType> = memo(({isOpen,isVisibleALF}
             <Select title='Color' arr={arrColor} item={addListForm.color} callBack={changeColor}/>
         </SelectWrapper>
         <ButtonWrapper>
+            <MaxQuantity maxNum={10} currentNum={listsLength}/>
             <SuperButton title='Cancel' callBack={toggleAddListForm}/>
             <SuperButton title='Add' callBack={addList}/>
         </ButtonWrapper>
@@ -63,7 +67,7 @@ type WrapperPropsType = { isVisibleAL: boolean, isOpen: boolean }
 const Wrapper = styled.div<WrapperPropsType>`
   gap: 10px;
   flex-direction: column;
-  padding: 10px;
+  padding: 8px;
   background-color: #424d6b;
   box-shadow: 0 0 15px 1px #1a2434;
   border-radius: 10px;
@@ -73,7 +77,12 @@ const SelectWrapper = styled.div`
   height: 43px;
 `
 const ButtonWrapper = styled.div`
-  display: flex;
+  display: flex;\
+  align-items: center;
+  div {
+    margin: auto;
+    
+  }
   justify-content: end;
   gap: 10px;
 `
