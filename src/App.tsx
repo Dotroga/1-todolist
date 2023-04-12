@@ -40,6 +40,15 @@ const Content = styled.div`
   box-shadow: 0 0 15px 1px #1a2434;
   margin: 40px 40px 40px 20px;
   width: 100%;
-  
+  overflow: auto;
+  ::-webkit-scrollbar {
+    width: 22px; /* ширина scrollbar */
+    
+  }
+  ::-webkit-scrollbar-thumb {
+    border: 5px solid rgb(46, 56, 78);
+    background-color: #fbbd49; /* цвет плашки */
+    border-radius: 20px; /* закругления плашки */
+  }
 `
 

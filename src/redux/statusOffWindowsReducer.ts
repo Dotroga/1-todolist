@@ -9,6 +9,7 @@ export type addListFormType =  {
     title: string
     error: string | null,
     color: ColorType | null
+
 }
 const initialState =  {
     isCollapsedSB: false,
@@ -57,7 +58,8 @@ export const StatusOffWindowsReducer = (
         case "CHANGE-COLOR":
             return {...state, addListForm: {...state.addListForm, color: action.color}}
         case "SET-ERROR":
-            return {...state, addListForm: {...state.addListForm, error: 'Title is required'}}
+            return {...state, addListForm: {...state.addListForm,
+                    error: action.change ? 'Title is required' : null}}
         default: return state
     }
 };
@@ -74,4 +76,4 @@ export const toggleAddListFormAC = () => ({type: 'TOGGLE-ADD-LIST-FORM'} as cons
 export const changeTitleNewListAC = (text: string) =>
     ({type: 'CHANGE-TITLE-NEW-LIST', text} as const )
 export const changeColorAC = (color: ColorType) => ({type: 'CHANGE-COLOR', color} as const )
-export const setErrorAC = () => ({type: 'SET-ERROR'} as const )
+export const setErrorAC = (change: boolean) => ({type: 'SET-ERROR', change} as const )

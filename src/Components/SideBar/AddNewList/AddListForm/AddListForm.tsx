@@ -9,7 +9,7 @@ import {useAppDispatch, useAppSelector} from "../../../../redux/store";
 import {
     addListFormType,
     changeColorAC,
-    changeTitleNewListAC, ColorType, toggleAddListFormAC
+    changeTitleNewListAC, ColorType, setErrorAC, toggleAddListFormAC
 } from "../../../../redux/statusOffWindowsReducer";
 import {MaxQuantity} from "../../../Super/MaxQuantity/MaxQuantity";
 
@@ -29,16 +29,15 @@ export const AddListForm: React.FC<AddNewListType> = memo((
 
     const changeTitle = useCallback((text: string) => {
         dispatch(changeTitleNewListAC(text))
+        dispatch(setErrorAC(false))
     },[addListForm.title])
-
     const changeColor = useCallback((color: ColorType)=>{
         dispatch(changeColorAC(color))
     },[addListForm.color])
-
     const addList = useCallback(() => {
-        dispatch(addListTK(addListForm.title, navigate, addListForm.color!.color))
+        const color = addListForm.color ? addListForm.color.color : arrColor[3].color
+        dispatch(addListTK(addListForm.title, navigate, color))
     },[addListForm])
-
     const toggleAddListForm = useCallback(() => {
         dispatch(toggleAddListFormAC())
     },[isVisibleALF])
@@ -79,10 +78,7 @@ const SelectWrapper = styled.div`
 const ButtonWrapper = styled.div`
   display: flex;\
   align-items: center;
-  div {
-    margin: auto;
-    
-  }
+  div {margin: auto;}
   justify-content: end;
   gap: 10px;
 `

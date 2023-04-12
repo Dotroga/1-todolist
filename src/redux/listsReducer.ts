@@ -70,7 +70,7 @@ export const addListTK = (title: string, navigate: any, color: string) => (dispa
           })
         })
   } else {
-    dispatch(setErrorAC())
+    dispatch(setErrorAC(true))
   }
 }
 export const removeListTK = (listId: string) => (dispatch: Dispatch) => {

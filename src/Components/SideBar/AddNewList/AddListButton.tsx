@@ -11,49 +11,53 @@ type AddListButtonPropsType = {
     isVisibleALF: boolean
     listsLength: number
 }
-export const AddListButton: React.FC<AddListButtonPropsType> = memo((
-    {isOpen, isVisibleALF, listsLength}) => {
-
+export const AddListButton: React.FC<AddListButtonPropsType> = memo((props) => {
+    const {isVisibleALF, listsLength} = props
     const [hovered, setHovered] = useState<boolean>(false)
     const dispatch = useDispatch()
     const toggleAddListForm = () => dispatch(toggleAddListFormAC())
-    console.log(hovered)
     return <Wrapper
-        isVisibleALF={isVisibleALF}
-        isOpen={isOpen}
+        {...props}
+        hovered={hovered}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
+
     >
         <p>Lists</p>
-        {!hovered && !isVisibleALF
-            ? <MaxQuantity maxNum={10} currentNum={listsLength}/>
-            : <span>
+        <MaxQuantity maxNum={10} currentNum={listsLength}/>
+        <span>
             <SvgPlus src={plus} alt="plus" onClick={toggleAddListForm} isVisibleALF={isVisibleALF}/>
             <SvgSquare src={square} alt="square"/>
-            </span>
-        }
+        </span>
     </Wrapper>
 });
 
+type WrapperType = {
+    isOpen: boolean
+    isVisibleALF: boolean
+    hovered: boolean
+    listsLength: number
+}
 
-const Wrapper = styled.div<{ isOpen: boolean, isVisibleALF: boolean }>`
+const Wrapper = styled.div<WrapperType>`
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 4px 0;
   height: 32px;
-  }
-  span{
-    display: flex;
-    align-items: center;
-    transition: all 0.2s ease-in;
-    &:hover {
-      transform: scale(1.1);
-    }
-  }
-  div {
-    position: relative;
-  }
+${({hovered, isVisibleALF, listsLength})=> (hovered || isVisibleALF) && (listsLength !== 10)
+        ? css`
+          div {
+            display: none;
+            position: absolute;
+          }
+          span{
+            display: flex;
+            align-items: center;
+            transition: all 0.2s ease-in;
+            &:hover {
+              transform: scale(1.1);} } `
+        : css` span {display: none;}`}
   div, span, p {
     ${({isOpen}) => !isOpen && css`
       display: none;
