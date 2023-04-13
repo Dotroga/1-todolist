@@ -1,6 +1,6 @@
-import {v1} from "uuid";
+
 import {TasksType} from "./state";
-import {addListACType, getListsACType, removeListACType} from "./listsReducer";
+import {addListACType, getListsACType, removeListAC, removeListACType} from "./listsReducer";
 import {Dispatch} from "redux";
 import {TaskType, todoApi} from "../api/todo-api";
 export const tasksReducer = (tasks: TasksType = {}, action:TsarType): TasksType => {
@@ -20,13 +20,13 @@ export const tasksReducer = (tasks: TasksType = {}, action:TsarType): TasksType 
           .filter(t=>t.id!==action.id)  }
     }
     case 'ADD-TASK': {
-      const d = new Date()
-      const monthNames = ["January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"]
-      const startDate = `${d.getMonth() + 1} ${monthNames[d.getMonth()]} ${d.toTimeString().slice(0,5)}`
-      let task: TaskType = {description: '', id: v1(), title: action.title, completed: false, startDate,
-        status: '', priority: '', deadline: '', todoListId: '', order: 1, addedDate: ''};
-      return {...tasks, [action.listId]: [...tasks[action.listId], task]}
+      // const d = new Date()
+      // const monthNames = ["January", "February", "March", "April", "May", "June",
+      //   "July", "August", "September", "October", "November", "December"]
+      // const startDate = `${d.getMonth() + 1} ${monthNames[d.getMonth()]} ${d.toTimeString().slice(0,5)}`
+      // let task: TaskType = {description: '', id: v1(), title: action.title, completed: false, startDate,
+      //   status: '', priority: '', deadline: '', todoListId: '', order: 1, addedDate: ''};
+      return {...tasks, [action.listId]: [...tasks[action.listId], action.task]}
     }
     case 'CHANGE-TASK-STATUS': {
       return {...tasks, [action.listId]: tasks[action.listId]
@@ -66,8 +66,8 @@ export const setTasksAC = (listId: string, tasks: TaskType[]) =>
     ({type: 'SET-TASKS', listId, tasks} as const )
 export const removeTaskAC = (listId: string, id: string) =>
   ({type: 'REMOVE-TASK', listId, id} as const )
-export const addTaskAC = (listId: string, title: string) =>
-  ({type: 'ADD-TASK', listId, title} as const )
+export const addTaskAC = (listId: string, task: TaskType) =>
+  ({type: 'ADD-TASK', listId, task} as const )
 export const changeTaskStatusAC = (listId:string, id:string, isDone: boolean) =>
   ({type: 'CHANGE-TASK-STATUS', listId, id, isDone} as const);
 export const renameTaskAC = (listId: string, id: string, title: string) =>
@@ -77,6 +77,12 @@ export const setTaskTC = (todoId: string) => (dispatch: Dispatch) => {
     dispatch(setTasksAC(todoId, res.data.items))
   })
 }
+export const addTaskTK = (listId: string, title: string) => (dispatch: Dispatch) => {
+  todoApi.createTask(listId,title).then((res) => {
+    dispatch(addTaskAC(listId, res.data.data.item))
+  })
+}
+
 
 
 

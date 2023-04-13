@@ -25,10 +25,9 @@ export const AddListButton: React.FC<AddListButtonPropsType> = memo((props) => {
     >
         <p>Lists</p>
         <MaxQuantity maxNum={10} currentNum={listsLength}/>
-        <span>
+        <SvgSquare>
             <SvgPlus src={plus} alt="plus" onClick={toggleAddListForm} isVisibleALF={isVisibleALF}/>
-            <SvgSquare src={square} alt="square"/>
-        </span>
+        </SvgSquare>
     </Wrapper>
 });
 
@@ -46,38 +45,39 @@ const Wrapper = styled.div<WrapperType>`
   margin: 4px 0;
   height: 32px;
 ${({hovered, isVisibleALF, listsLength})=> (hovered || isVisibleALF) && (listsLength < 10)
-        ? css`
-          div {
-            display: none;
-            position: absolute;
-          }
-          span{
-            display: flex;
-            align-items: center;
-            transition: all 0.2s ease-in;
-            &:hover {
-              transform: scale(1.1);} } `
-        : css` span {display: none;}`}
+        ? css` div {display: none;position: absolute;}`
+        : css` style {display: none;}`
+}
   div, span, p {
-    ${({isOpen}) => !isOpen && css`
-      display: none;
-   `};
+    ${({isOpen}) => !isOpen && css`display: none;`};
     user-select: none;
   }
 `
 
-const SvgSquare = styled.img`
-  width: 32px;
+const SvgSquare = styled.style`
+  width: 28px;
+  height: 28px;
   cursor: pointer;
+  border-radius: 6px;
+  background: #fbbd49;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease-in;
+  &:hover {
+    transform: scale(1.1);
+  }
 `
 
-const SvgPlus = styled(SvgSquare)<{isVisibleALF:boolean}>`
-  position: absolute;
+const SvgPlus = styled.img<{isVisibleALF:boolean}>`
+  z-index: 2;
+  width: 32px;
+  cursor: pointer;
   transition: all 0.2s ease-in;
+ 
   ${({isVisibleALF}) => isVisibleALF && css`
     transform: rotate(45deg);
   `};
-  
 `
 
 

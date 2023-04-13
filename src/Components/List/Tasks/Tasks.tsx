@@ -1,19 +1,30 @@
 import React from 'react';
 import styled from "styled-components";
+import {useAppSelector} from "../../../redux/store";
+import {TaskType} from "../../../api/todo-api";
 
-export const Tasks = () => {
+type TaskPropsType = {
+    listId: string
+}
+
+export const Tasks = (props:TaskPropsType) => {
+
+    const tasks = useAppSelector<TaskType[]>(state => state.tasks[props.listId])
+
     return (
         <Wrapper>
-            Tasks list is empty
+            {tasks.length
+            ? tasks.map((t)=><div>{t.title}</div>)
+            : 'Tasks list is empty'
+            }
         </Wrapper>
     );
 };
 
 const Wrapper = styled.div`
   display: flex;
-  justify-content: center;
-  padding: 20px;
+  flex-direction: column;
   border-radius: 10px;
-  margin: 0 20px ;
+  margin: 20px 20px ;
 `
 

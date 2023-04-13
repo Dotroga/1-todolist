@@ -30,15 +30,15 @@ test('creating an empty array in tasks when adding a list', ()=>{
   expect(endState[listsToDo[0].id]).toStrictEqual([]);
   expect(endState[listsToDo[1].id]).toStrictEqual([]);
 })
-test('correct task should be added to correct array', () => {
-  const action = addTaskAC('todolistId2', "newTasks")
-  const endState = tasksReducer(startState, action)
-  expect(endState["todolistId1"].length).toBe(3); // сравнивает финальное значение с ожидаемым
-  expect(endState["todolistId2"].length).toBe(4);
-  expect(endState["todolistId2"][0].id).toBeDefined(); // значение !== undefined
-  expect(endState["todolistId2"][3].title).toBe('newTasks');
-  expect(endState["todolistId2"][0].completed).toBe(false);
-})
+// test('correct task should be added to correct array', () => {
+//   const action = addTaskAC('todolistId2', "newTasks")
+//   const endState = tasksReducer(startState, action)
+//   expect(endState["todolistId1"].length).toBe(3); // сравнивает финальное значение с ожидаемым
+//   expect(endState["todolistId2"].length).toBe(4);
+//   expect(endState["todolistId2"][0].id).toBeDefined(); // значение !== undefined
+//   expect(endState["todolistId2"][3].title).toBe('newTasks');
+//   expect(endState["todolistId2"][0].completed).toBe(false);
+// })
 test('status of specified task should be changed', () => {
   const action = changeTaskStatusAC("todolistId2", '2', false);
   const endState = tasksReducer(startState, action)

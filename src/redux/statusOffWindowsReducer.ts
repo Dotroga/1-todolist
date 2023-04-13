@@ -2,15 +2,22 @@ export type ColorType = { color: any, title: string }
 export type StatusWindowsType = {
     isCollapsedSB: boolean
     isVisibleALF: boolean
-    addListForm: addListFormType
+    addListForm: AddListFormType
+    addTaskForm: AddTaskFormType
     arrColor: ColorType[]
 }
-export type addListFormType =  {
+export type AddListFormType =  {
     title: string
     error: string | null,
     color: ColorType | null
-
 }
+export type AddTaskFormType = {
+    title: string
+    description: string | null
+    error: null | string
+}
+
+
 const initialState =  {
     isCollapsedSB: false,
     isVisibleALF: false,
@@ -18,6 +25,12 @@ const initialState =  {
         title: '',
         error: null,
         color: null
+    },
+    addTaskForm: {
+        visibleForm: false,
+        title: '',
+        description: null,
+        error: null,
     },
     arrColor: [
         {color: '#b7256e', title: 'Berry Red'},
@@ -71,9 +84,9 @@ type Actions =
     | ReturnType<typeof changeColorAC>
     | ReturnType<typeof setErrorAC>
 
+
 export const toggleSideBarAC = () => ({type: 'TOGGLE-SIDE-BAR'} as const)
 export const toggleAddListFormAC = () => ({type: 'TOGGLE-ADD-LIST-FORM'} as const)
-export const changeTitleNewListAC = (text: string) =>
-    ({type: 'CHANGE-TITLE-NEW-LIST', text} as const )
+export const changeTitleNewListAC = (text: string) => ({type: 'CHANGE-TITLE-NEW-LIST', text} as const )
 export const changeColorAC = (color: ColorType) => ({type: 'CHANGE-COLOR', color} as const )
 export const setErrorAC = (change: boolean) => ({type: 'SET-ERROR', change} as const )

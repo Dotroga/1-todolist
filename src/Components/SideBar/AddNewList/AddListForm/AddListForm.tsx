@@ -7,7 +7,7 @@ import {addListTK} from "../../../../redux/listsReducer";
 import {useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../../../redux/store";
 import {
-    addListFormType,
+    AddListFormType,
     changeColorAC,
     changeTitleNewListAC, ColorType, setErrorAC, toggleAddListFormAC
 } from "../../../../redux/statusOffWindowsReducer";
@@ -24,7 +24,7 @@ export const AddListForm: React.FC<AddNewListType> = memo((
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
 
-    const addListForm = useAppSelector<addListFormType>(state => state.StatusOffWindows.addListForm)
+    const addListForm = useAppSelector<AddListFormType>(state => state.StatusOffWindows.addListForm)
     const arrColor = useAppSelector<ColorType[]>(state => state.StatusOffWindows.arrColor)
 
     const changeTitle = useCallback((text: string) => {

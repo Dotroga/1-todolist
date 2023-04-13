@@ -17,4 +17,5 @@ export type ThunkDispatchType = ThunkDispatch<AppRootStateType, any, AnyAction>
 export const useAppDispatch = () => useDispatch<ThunkDispatchType>()
 export const store = createStore(rootReducer, applyMiddleware(ThunkMiddleware))
 export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector
-
+//@ts-ignore
+window.state = store.getState()

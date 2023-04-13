@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import styled from "styled-components";
 import {ListType} from "../../redux/state";
@@ -9,12 +9,14 @@ import {DeleteButton} from "../DeleteButton/DeleteButton";
 import {Tasks} from "./Tasks/Tasks";
 import {AddNewTask} from "./AddNewTask/AddNewTask";
 import {useNavigate} from "react-router-dom";
+import {AddTaskButton} from "./AddTaskButton/AddTaskButton";
 
 
 
 export const List: React.FC<{ list: ListType }> = ({list}) => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
+    const [isVisible, setVisible] = useState<boolean>(false)
     useEffect(() => dispatch(setTaskTC(list.id)),[list])
     const deleteList = () => dispatch(removeListTK(list.id, navigate))
   return (
@@ -23,8 +25,11 @@ export const List: React.FC<{ list: ListType }> = ({list}) => {
             {list.title}
             <DeleteButton callBack={deleteList}/>
         </ListTitle>
-        <Tasks/>
-        <AddNewTask/>
+        <Tasks listId={list.id}/>
+        {isVisible
+            ? <AddNewTask setVisible={setVisible} listId={list.id}/>
+            : <AddTaskButton setVisible={setVisible}/>
+        }
     </Wrapper>
   );
 };
@@ -32,7 +37,7 @@ export const List: React.FC<{ list: ListType }> = ({list}) => {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
- 
+  padding: 20px;
 `
 
 const ListTitle = styled.div<{color: string}>`
@@ -40,6 +45,6 @@ const ListTitle = styled.div<{color: string}>`
   align-items: center;
 color: ${({color})=>color};
   font-size: 40px;
-  margin: 10px 70px;
+  margin: 0 70px;
 `
 

@@ -18,6 +18,9 @@ export const todoApi = {
     },
     getTasks(listId: string) {
         return instance.get<GetTasksResponse>(`todo-lists/${listId}/tasks`)
+    },
+    createTask(listId: string, title: string) {
+        return instance.post(`todo-lists/${listId}/tasks`, {title})
     }
 }
 
@@ -38,6 +41,8 @@ type GetTasksResponse = {
     totalCount: number
     items: TaskType[]
 }
+
+
 
  export type TaskType = {
     description: string
