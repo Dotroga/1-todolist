@@ -1,36 +1,40 @@
 import React, {memo} from 'react';
 import styled, {css} from "styled-components";
+import {Loader} from "../Loader/Loader";
 
 type SuperButtonPropsType = {
   title: string
+  loading?: boolean
   color?: string
   disabled?: boolean
-  callBack: ()=>void
+  onClick: ()=>void
 }
 
 export const SuperButton: React.FC<SuperButtonPropsType> = memo((props) => {
-  const {title, color, disabled, callBack} = props
-  return <Button color={color!} onClick={callBack} disabled={disabled!}>
+  const {title, loading} = props
+  return <Button {...props}>
+    {loading && <Loader/>}
     {title}
   </Button>
 });
 
-type ButtonProps = {
-  color: string
-  disabled: boolean
-}
-const Button = styled.button<ButtonProps>`
+
+const Button = styled.button< SuperButtonPropsType>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   ${({disabled})=>!disabled && css`
     cursor: pointer;
-    &:hover {
-      transform: scale(1.1);
-    }
+    &:hover {filter: brightness(90%);}
+    &:active {filter: brightness(110%);}
   `};
   opacity: ${({disabled})=>disabled && '0.6'};
+  height: 37px;
+  min-width: 60px;
   padding: 5px;
-  color: white;
+  color: ${({loading})=> loading ? '#fdbe49' :'white'};
   background-color: ${({color})=>color ? color : '#fdbe49'};
-  border-radius: 6px;
+  border-radius: 8px;
   border: none;
   transition: 0.2s;
 `

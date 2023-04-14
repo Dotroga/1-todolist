@@ -14,7 +14,7 @@ export const Tasks = (props:TaskPropsType) => {
     return (
         <Wrapper>
             {tasks.length
-            ? tasks.map((t)=><div>{t.title}</div>)
+            ? tasks.map((t)=><div key={t.id}>{t.title}</div>)
             : 'Tasks list is empty'
             }
         </Wrapper>

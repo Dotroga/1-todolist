@@ -12,7 +12,6 @@ import {useNavigate} from "react-router-dom";
 import {AddTaskButton} from "./AddTaskButton/AddTaskButton";
 
 
-
 export const List: React.FC<{ list: ListType }> = ({list}) => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()

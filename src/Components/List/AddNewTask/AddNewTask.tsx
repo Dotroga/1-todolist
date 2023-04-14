@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import styled from "styled-components";
 import {SuperInput} from "../../Super/SuperInput/SuperInput";
 import {SuperButton} from "../../Super/SuperButton/SuperButton";
-import {removeListTK} from "../../../redux/listsReducer";
 import {addTaskTK} from "../../../redux/taskReducer";
 import {useAppDispatch} from "../../../redux/store";
 
@@ -22,9 +21,9 @@ export const AddNewTask = (props: AddNewTaskType) => {
         <Wrapper>
             <SuperInput callBack={setTitle} text={'Task name'} title={title} error={''}/>
             <SuperInput callBack={setDescription} text={'Description'} title={description} error={''}/>
-           <div>
-               <SuperButton title='Cancel' callBack={changeVisible}/>
-               <SuperButton title='Add Task' callBack={addTask}/>
+           <div className='button-container'>
+               <SuperButton title='Cancel' onClick={changeVisible}/>
+               <SuperButton title='Add Task' onClick={addTask}/>
            </div>
         </Wrapper>
     );
@@ -38,7 +37,7 @@ const Wrapper = styled.div`
   border-radius: 6px;
   background-color: #424d6b;
   box-shadow: 0 0 15px 1px #1a2434;
-  div {
+  .button-container {
     justify-content: end;
     display: flex;
     gap: 10px;

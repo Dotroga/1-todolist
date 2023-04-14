@@ -1,4 +1,4 @@
-import React, {memo, useCallback} from 'react';
+import React, {memo, useCallback, useState} from 'react';
 import styled from "styled-components";
 import {SuperInput} from "../../../Super/SuperInput/SuperInput";
 import {SuperButton} from "../../../Super/SuperButton/SuperButton";
@@ -26,7 +26,7 @@ export const AddListForm: React.FC<AddNewListType> = memo((
 
     const addListForm = useAppSelector<AddListFormType>(state => state.StatusOffWindows.addListForm)
     const arrColor = useAppSelector<ColorType[]>(state => state.StatusOffWindows.arrColor)
-
+    const [loading, setLoading] = useState(false)
     const changeTitle = useCallback((text: string) => {
         dispatch(changeTitleNewListAC(text))
         dispatch(setErrorAC(false))
@@ -36,7 +36,7 @@ export const AddListForm: React.FC<AddNewListType> = memo((
     },[addListForm.color])
     const addList = useCallback(() => {
         const color = addListForm.color ? addListForm.color.color : arrColor[3].color
-        dispatch(addListTK(addListForm.title, navigate, color))
+        dispatch(addListTK(addListForm.title, navigate, color, setLoading))
     },[addListForm])
     const toggleAddListForm = useCallback(() => {
         dispatch(toggleAddListFormAC())
@@ -54,8 +54,8 @@ export const AddListForm: React.FC<AddNewListType> = memo((
         </SelectWrapper>
         <ButtonWrapper>
             <MaxQuantity maxNum={10} currentNum={listsLength}/>
-            <SuperButton title='Cancel' callBack={toggleAddListForm}/>
-            <SuperButton title='Add' callBack={addList}/>
+            <SuperButton title='Cancel' onClick={toggleAddListForm}/>
+            <SuperButton title='Add' loading={loading} onClick={addList}/>
         </ButtonWrapper>
     </Wrapper>
   );

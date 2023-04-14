@@ -58,9 +58,15 @@ export const fetchListTC = () => (dispatch: Dispatch) => {
         dispatch(setListsAC(newData))
       }))
 }
-export const addListTK = (title: string, navigate: NavigateFunction, color: string) => (dispatch: Dispatch) => {
+export const addListTK = (
+    title: string,
+    navigate: NavigateFunction,
+    color: string,
+    setLoading: (loading: boolean) => void
+) => (dispatch: Dispatch) => {
   const  newTitle = title.trim();
   if (newTitle !== "") {
+      setLoading(true)
     todoApi.createList(newTitle)
         .then((res)=> res.data.data.item.id)
         .then((listId)=>{
@@ -68,7 +74,7 @@ export const addListTK = (title: string, navigate: NavigateFunction, color: stri
             dispatch(addNewListAC(listId ,newTitle, color))
             navigate(`/${newTitle}`)
             dispatch(toggleAddListFormAC())
-          })
+          }).finally(()=>setLoading(false))
         })
   } else {
     dispatch(setErrorAC(true))
