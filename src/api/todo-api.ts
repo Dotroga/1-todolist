@@ -17,10 +17,10 @@ export const todoApi = {
         return instance.delete<ResponseType>(`todo-lists/${listId}`)
     },
     getTasks(listId: string) {
-        return instance.get<GetTasksResponse>(`todo-lists/${listId}/tasks`)
+        return instance.get<GetTasksResponse<TaskType[]>>(`todo-lists/${listId}/tasks`)
     },
     createTask(listId: string, title: string) {
-        return instance.post(`todo-lists/${listId}/tasks`, {title})
+        return instance.post<ResponseType<{item: TaskType}>>(`todo-lists/${listId}/tasks`, {title})
     }
 }
 
@@ -36,14 +36,11 @@ type ResponseType<T = {}> = {
     messages: string[]
     data: T
 }
-type GetTasksResponse = {
+type GetTasksResponse<T = []> = {
     error: string | null
     totalCount: number
-    items: TaskType[]
+    items: T
 }
-
-
-
  export type TaskType = {
     description: string
     title: string

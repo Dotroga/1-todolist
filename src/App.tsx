@@ -16,9 +16,16 @@ export const App = memo(() => {
         <SideBar/>
         <Content>
             <Routes>
-                <Route path={'/'} element={lists.map(l => <List key={l.id} list={l}/>)}/>
-                {lists.map(l =>
-                    <Route key={l.id} path={`/${l.title}`} element={<List list={l}/>}/>)}
+                <Route path={'/'} element={lists.map((l,i) =>
+                    <div key={l.id}>
+                        <List list={l}/>
+                        {i !== lists.length - 1 && <hr/>}
+                    </div>
+                )}
+                />
+                {lists.map((l) =>
+                    <Route key={l.id} path={`/${l.title}`} element={<List list={l}/>}/>
+                )}
             </Routes>
         </Content>
     </WrapperApp>
@@ -29,6 +36,7 @@ const WrapperApp = styled.div`
   justify-content: center;
   max-width: 1300px;
   width: 100%;
+  
 `
 
 const Content = styled.div`
@@ -41,14 +49,22 @@ const Content = styled.div`
   margin: 40px 40px 40px 20px;
   width: 100%;
   overflow: auto;
+
   ::-webkit-scrollbar {
     width: 22px; /* ширина scrollbar */
-    
+
   }
+
   ::-webkit-scrollbar-thumb {
     border: 5px solid rgb(46, 56, 78);
     background-color: #fbbd49; /* цвет плашки */
     border-radius: 20px; /* закругления плашки */
+  }
+
+  hr {
+    margin: 0 30px;
+    border: none;
+    border-top: 1px solid #37445f;
   }
 `
 

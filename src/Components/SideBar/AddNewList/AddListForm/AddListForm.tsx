@@ -26,7 +26,7 @@ export const AddListForm: React.FC<AddNewListType> = memo((
 
     const addListForm = useAppSelector<AddListFormType>(state => state.StatusOffWindows.addListForm)
     const arrColor = useAppSelector<ColorType[]>(state => state.StatusOffWindows.arrColor)
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState<boolean>(false)
     const changeTitle = useCallback((text: string) => {
         dispatch(changeTitleNewListAC(text))
         dispatch(setErrorAC(false))
@@ -55,7 +55,7 @@ export const AddListForm: React.FC<AddNewListType> = memo((
         <ButtonWrapper>
             <MaxQuantity maxNum={10} currentNum={listsLength}/>
             <SuperButton title='Cancel' onClick={toggleAddListForm}/>
-            <SuperButton title='Add' loading={loading} onClick={addList}/>
+            <SuperButton title='Add' loading={loading ? loading : undefined} onClick={addList}/>
         </ButtonWrapper>
     </Wrapper>
   );
