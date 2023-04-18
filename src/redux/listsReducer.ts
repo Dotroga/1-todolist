@@ -61,8 +61,8 @@ export const fetchDataTC = () => (dispatch: Dispatch) => {
         .then((list)=>{
           list.map((l)=>{
               todoApi.getTasks(l.id).then((res)=>{
-                    dispatch(setTasksAC(l.id, res.data.items))
-                    dispatch(setListsAC({...l, numberOfTasks: res.data.totalCount}))
+                  dispatch(setListsAC({...l, numberOfTasks: res.data.totalCount}))
+                  dispatch(setTasksAC(l.id, res.data.items))
                 })
             })
         })

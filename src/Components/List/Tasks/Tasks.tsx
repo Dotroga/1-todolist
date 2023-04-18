@@ -10,7 +10,7 @@ type TaskPropsType = {
 export const Tasks = (props:TaskPropsType) => {
 
     const tasks = useAppSelector<TaskType[]>(state => state.tasks[props.listId])
-
+    console.log(tasks)
     return (
         <Wrapper>
             {tasks.length

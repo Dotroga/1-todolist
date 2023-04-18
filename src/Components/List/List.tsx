@@ -1,8 +1,6 @@
-import React, {useEffect, useState} from 'react';
-
+import React, {useState} from 'react';
 import styled from "styled-components";
 import {ListType} from "../../redux/state";
-import {setTaskTC} from "../../redux/taskReducer";
 import {useAppDispatch} from "../../redux/store";
 import {removeListTK} from "../../redux/listsReducer";
 import {DeleteButton} from "../DeleteButton/DeleteButton";
@@ -16,7 +14,6 @@ export const List: React.FC<{ list: ListType }> = ({list}) => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const [isVisible, setVisible] = useState<boolean>(false)
-    useEffect(() => dispatch(setTaskTC(list.id)),[list])
     const deleteList = () => dispatch(removeListTK(list.id, navigate))
   return (
     <Wrapper>
