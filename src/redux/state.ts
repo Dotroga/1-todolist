@@ -12,6 +12,7 @@ export type ListThunkType = {
   addedDate: string
   order: number
   color: string
+  numberOfTasks: number
 }
 export type ListType = {
   id: string
@@ -20,6 +21,8 @@ export type ListType = {
   order: number
   path: string
   color: string
+  numberOfTasks: number
+
   filter: FilterType
 }
 export type FilterType = 'All' | 'Active' | 'Completed'
@@ -31,9 +34,9 @@ export let todolistId2 = v1();
 
 export const listsToDo: ListType[] = [
   {id: todolistId1, title: "What to learn", path: '/whattolearn', color: '#ae38e9' , addedDate:'',
-    order: 0, filter: 'All'},
+    order: 0, numberOfTasks: 1, filter: 'All'},
   {id: todolistId2, title: "What to buy", path: '/whattobuy', color: '#7dca48', addedDate: '',
-    order: 1, filter: 'All'}
+    order: 1, numberOfTasks: 1, filter: 'All'}
 ]
 
 export const tasksToDo: TasksType = {

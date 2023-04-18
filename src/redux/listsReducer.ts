@@ -5,6 +5,7 @@ import {Dispatch} from "redux";
 import {setErrorAC, toggleAddListFormAC} from "./statusOffWindowsReducer";
 import {listsColorAPI} from "../api/listsColor-api";
 import {NavigateFunction} from "react-router/dist/lib/hooks";
+import {setTasksAC} from "./taskReducer";
 
 
 
@@ -13,12 +14,11 @@ import {NavigateFunction} from "react-router/dist/lib/hooks";
 export const listsReducer = (lists: ListType[] = [], action:Actions): ListType[] => {
   switch (action.type) {
     case "SET-LISTS": {
-      return action.lists.map((l)=>
-          ({...l, filter: 'All', path: l.title,}))
+      return [...lists, {...action.list, filter: 'All', path: action.list.title, numberOfTasks: 0}]
     }
     case 'ADD-LIST': {
       const newList: ListType = {id: action.id, title: action.title, path: '',
-        color: action.color, addedDate:'', order: 0, filter: 'All'}
+        color: action.color, addedDate:'', order: 0, filter: 'All', numberOfTasks: 0}
       return  [newList, ...lists]
     }
     case "RENAME-TASK-LIST": {
@@ -40,24 +40,43 @@ export type addListACType = ReturnType<typeof addNewListAC>
 export type renameListACType = ReturnType<typeof renameListAC>
 export type removeListACType = ReturnType<typeof removeListAC>
 
-export const setListsAC = (lists: ListThunkType[]) => ({
-  type: 'SET-LISTS', lists} as const)
+export const setListsAC = (list: ListThunkType) => ({
+  type: 'SET-LISTS', list} as const)
 export const addNewListAC = (id:string, title: string, color: string) => ({
   type: 'ADD-LIST', id, title, color} as const)
 export const renameListAC = (listId: string, title: string) => ({
   type: 'RENAME-TASK-LIST', listId, title} as const)
 export const removeListAC = (listId: string) => ({
   type: 'REMOVE-TASK-LIST', listId} as const)
-export const fetchListTC = () => (dispatch: Dispatch) => {
-  todoApi.getLists().then((res) =>
-      listsColorAPI.getListsColor().then((data) => {
-        const newData = res.data.map(l => {
-            const color = (data.filter(c=>c.listId === l.id))[0].color
-            return {...l, color}
+export const fetchDataTC = () => (dispatch: Dispatch) => {
+    const getList = todoApi.getLists()
+    const getColors = listsColorAPI.getListsColor()
+    Promise.all([getList, getColors])
+        .then((result) => {
+            return result[0].data.map(l => {
+                const color = (result[1].filter(c => c.listId === l.id))[0].color
+                return {...l, color}})
         })
-        dispatch(setListsAC(newData))
-      }))
+        .then((list)=>{
+          list.map((l)=>{
+              todoApi.getTasks(l.id).then((res)=>{
+                    dispatch(setTasksAC(l.id, res.data.items))
+                    dispatch(setListsAC({...l, numberOfTasks: res.data.totalCount}))
+                })
+            })
+        })
 }
+//
+//             const getTasks = todoApi.getTasks(todoId)
+//                 return
+//             res
+//         }
+//
+//       listsColorAPI.getListsColor().then((data) => {
+//
+//         dispatch(setListsAC(newData))
+//       }))
+// }
 export const addListTK = (
     title: string,
     navigate: NavigateFunction,

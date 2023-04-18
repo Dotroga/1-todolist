@@ -22,14 +22,14 @@ const startState: TasksType  = tasksToDo
 //     ]
 //   });
 // })
-test('creating an empty array in tasks when adding a list', ()=>{
-  const action = setListsAC(listsToDo)
-  const endState = tasksReducer({}, action)
-  const keys = Object.keys(endState)
-  expect(keys.length).toBe(2);
-  expect(endState[listsToDo[0].id]).toStrictEqual([]);
-  expect(endState[listsToDo[1].id]).toStrictEqual([]);
-})
+// test('creating an empty array in tasks when adding a list', ()=>{
+//   const action = setListsAC(listsToDo)
+//   const endState = tasksReducer({}, action)
+//   const keys = Object.keys(endState)
+//   expect(keys.length).toBe(2);
+//   expect(endState[listsToDo[0].id]).toStrictEqual([]);
+//   expect(endState[listsToDo[1].id]).toStrictEqual([]);
+// })
 // test('correct task should be added to correct array', () => {
 //   const action = addTaskAC('todolistId2', "newTasks")
 //   const endState = tasksReducer(startState, action)

@@ -13,6 +13,18 @@ export const SideBar = memo(() => {
     const isCollapsedSB = useAppSelector<boolean>(state => state.StatusOffWindows.isCollapsedSB)
     const isVisibleALF = useAppSelector<boolean>(state => state.StatusOffWindows.isVisibleALF)
     const lists = useAppSelector<ListType[]>(state => state.lists)
+
+    const allItem = lists.map((l, i) => {
+
+        return<SideBarIcon
+            key={i}
+            isOpen={isCollapsedSB}
+            numberOfTasks={1}
+            title={l.title}
+            color={l.color} to={`/${l.title}`}/>
+    })
+
+
     return <SideBarContainer isOpen={isCollapsedSB}>
         <MenuBurger/>
         <SideBarIcon isOpen={isCollapsedSB} title='All lists' color='red' to={'/'}/>
@@ -27,8 +39,7 @@ export const SideBar = memo(() => {
                 listsLength={lists.length}
             />
         </AddNewList>
-        {lists.map((l, i) =>
-            <SideBarIcon key={i} isOpen={isCollapsedSB} title={l.title} color={l.color} to={`/${l.title}`}/>)}
+        {allItem}
     </SideBarContainer>
 });
 

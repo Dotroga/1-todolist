@@ -5,12 +5,12 @@ import {SideBar} from "./Components/SideBar/SideBar";
 import {Route, Routes} from "react-router-dom";
 import {List} from "./Components/List/List";
 import styled from "styled-components";
-import {fetchListTC} from "./redux/listsReducer";
+import {fetchDataTC} from "./redux/listsReducer";
 
 export const App = memo(() => {
 
     const dispatch = useAppDispatch()
-    useEffect(() => dispatch(fetchListTC()), [])
+    useEffect(() => dispatch(fetchDataTC()), [])
     const lists = useAppSelector<ListType[]>(state => state.lists)
     return <WrapperApp>
         <SideBar/>

@@ -7,6 +7,7 @@ type SideBarIconsPropsType = {
   title: string
   color: string
   to: string
+  numberOfTasks?: number
 }
 
 export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
@@ -16,6 +17,7 @@ export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
       ? <img src={fourSquare} alt="square"/>
       : <span></span>}
       <div>{title}</div>
+
     </StyledNavLink>
 });
 
