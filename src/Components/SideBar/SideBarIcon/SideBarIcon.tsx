@@ -11,13 +11,14 @@ type SideBarIconsPropsType = {
 }
 
 export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
-  const {isOpen, title, color,to} = props
+  const {isOpen, title, color, to, numberOfTasks} = props
   return<StyledNavLink to={to} visible={isOpen ? '' : null} color={color}>
     {title === 'All lists'
       ? <img src={fourSquare} alt="square"/>
       : <span></span>}
       <div>{title}</div>
-
+    {!!numberOfTasks && numberOfTasks > 0 &&
+        <div className='number'>{numberOfTasks}</div>}
     </StyledNavLink>
 });
 

@@ -19,7 +19,7 @@ export const SideBar = memo(() => {
         return<SideBarIcon
             key={i}
             isOpen={isCollapsedSB}
-            numberOfTasks={1}
+            numberOfTasks={l.numberOfTasks}
             title={l.title}
             color={l.color} to={`/${l.title}`}/>
     })

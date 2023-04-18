@@ -14,7 +14,8 @@ import {setTasksAC} from "./taskReducer";
 export const listsReducer = (lists: ListType[] = [], action:Actions): ListType[] => {
   switch (action.type) {
     case "SET-LISTS": {
-      return [...lists, {...action.list, filter: 'All', path: action.list.title, numberOfTasks: 0}]
+
+      return [...lists, {...action.list, filter: 'All', path: action.list.title}]
     }
     case 'ADD-LIST': {
       const newList: ListType = {id: action.id, title: action.title, path: '',
