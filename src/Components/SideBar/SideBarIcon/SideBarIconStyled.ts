@@ -1,7 +1,14 @@
 import styled, {css} from "styled-components";
 import {NavLink} from "react-router-dom";
 
-export const StyledNavLink = styled(NavLink)<{visible:string | null, color: string}>`
+type PropsType = {
+    visible: string | null,
+    color: string
+    hover: boolean
+    onMouseOver: any
+    onMouseOut: any
+}
+export const StyledNavLink = styled(NavLink)<PropsType>`
   display: flex;
   align-items: center;
   gap: 15px;
@@ -24,22 +31,30 @@ export const StyledNavLink = styled(NavLink)<{visible:string | null, color: stri
       transform: scale(1.1);
     }
 
-    span {
+    style {
       transform: scale(1.1);
     }
   }
 
-  .number {
+  .AdditionalOptions {
     margin-left: auto;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 30px;
     color: #979ea6;
+    ${({hover}) => hover
+        ? css`span {
+          display: none
+        }`
+        : css` div {
+          display: none
+        }`
+    }
   }
 
   ${({visible}) => visible != '' && css`
-    .number  {
+    .AdditionalOptions {
       display: none;
       transition: 0.3s;
       opacity: 0;
@@ -60,7 +75,7 @@ export const StyledNavLink = styled(NavLink)<{visible:string | null, color: stri
     transition: 0.3s;
   }
 
-  span {
+  style {
     display: inline-block;
     width: 28px;
     height: 28px;

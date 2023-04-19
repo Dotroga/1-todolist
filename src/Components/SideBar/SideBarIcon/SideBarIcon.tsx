@@ -1,6 +1,7 @@
-import React, {memo} from 'react';
+import React, {memo, useState} from 'react';
 import fourSquare from '../../../Icons/fourSquare.png'
 import {StyledNavLink} from './SideBarIconStyled'
+import {AdditionalOptions} from "../../Super/AdditionalOptions/AdditionalOptions";
 
 type SideBarIconsPropsType = {
   isOpen: boolean
@@ -12,13 +13,31 @@ type SideBarIconsPropsType = {
 
 export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
   const {isOpen, title, color, to, numberOfTasks} = props
-  return<StyledNavLink to={to} visible={isOpen ? '' : null} color={color}>
+
+  const [hover, setHover] = useState(false)
+
+  const changeHover = (change: boolean) => {
+    setHover(change)
+  }
+
+  return <StyledNavLink
+      to={to}
+      visible={isOpen ? '' : null}
+      color={color}
+      hover={hover}
+      onMouseOut={()=>changeHover(false)}
+      onMouseOver={()=>changeHover(true)}
+  >
     {title === 'All lists'
       ? <img src={fourSquare} alt="square"/>
-      : <span></span>}
+      : <style></style>
+    }
       <div>{title}</div>
-    {!!numberOfTasks && numberOfTasks > 0 &&
-        <div className='number'>{numberOfTasks}</div>}
+    {numberOfTasks !== undefined &&
+        <div className='AdditionalOptions' >
+          <AdditionalOptions/>
+          {numberOfTasks > 0 && <span>{numberOfTasks}</span>}
+        </div>}
     </StyledNavLink>
 });
 
