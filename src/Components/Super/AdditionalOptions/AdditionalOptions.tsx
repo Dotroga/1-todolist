@@ -2,9 +2,9 @@ import React from 'react';
 import threePoints from './../../../Icons/threePoints.svg'
 import styled from "styled-components";
 
-// type propsType = {
-//
-// }
+type propsType = {
+id: string
+}
 
 export const AdditionalOptions = () => {
 
