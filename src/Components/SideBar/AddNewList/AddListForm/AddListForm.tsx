@@ -1,6 +1,5 @@
 import React, {memo, useCallback, useState} from 'react';
 import styled from "styled-components";
-import {SuperInput} from "../../../Super/SuperInput/SuperInput";
 import {SuperButton} from "../../../Super/SuperButton/SuperButton";
 import {Select} from "../../../Super/Select/Select";
 import {addListTK} from "../../../../redux/listsReducer";
@@ -12,12 +11,15 @@ import {
     changeTitleNewListAC, ColorType, setErrorAC, toggleAddListFormAC
 } from "../../../../redux/statusOffWindowsReducer";
 import {MaxQuantity} from "../../../Super/MaxQuantity/MaxQuantity";
+import {SuperInput} from "../../../Super/SuperInput/SuperInput";
 
 type AddNewListType = {
     isOpen: boolean
     isVisibleALF: boolean
     listsLength: number
 }
+
+
 
 export const AddListForm: React.FC<AddNewListType> = memo((
     {isOpen, isVisibleALF, listsLength}) => {
@@ -45,9 +47,9 @@ export const AddListForm: React.FC<AddNewListType> = memo((
   return (
     <Wrapper isVisibleAL={isVisibleALF} isOpen={isOpen}>
       <SuperInput
-          callBack={changeTitle}
-          title={addListForm.title}
-          text={'Title'}
+          onChange={()=>{}}
+          name={'Title'}
+          value={addListForm.title}
           error={addListForm.error!}/>
         <SelectWrapper>
             <Select title='Color' arr={arrColor} item={addListForm.color} callBack={changeColor}/>

@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import styled from "styled-components";
-import {SuperInput} from "../../Super/SuperInput/SuperInput";
 import {SuperButton} from "../../Super/SuperButton/SuperButton";
 import {addTaskTK} from "../../../redux/taskReducer";
 import {useAppDispatch} from "../../../redux/store";
+import {SuperInput} from "../../Super/SuperInput/SuperInput";
 
 type AddNewTaskType = {
     listId: string
@@ -19,8 +19,8 @@ export const AddNewTask = (props: AddNewTaskType) => {
     const addTask = () => dispatch(addTaskTK(listId, title))
     return (
         <Wrapper>
-            <SuperInput callBack={setTitle} text={'Task name'} title={title} error={''}/>
-            <SuperInput callBack={setDescription} text={'Description'} title={description} error={''}/>
+            <SuperInput onChange={()=>{}} value={title} name={'Task name'} error={''}/>
+            <SuperInput onChange={()=>{}} value={description} name={'Description'} error={''}/>
            <div className='button-container'>
                <SuperButton title='Cancel' onClick={changeVisible}/>
                <SuperButton title='Add Task' onClick={addTask}/>

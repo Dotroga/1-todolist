@@ -5,7 +5,6 @@ import {useSelector, TypedUseSelectorHook, useDispatch,} from 'react-redux'
 import {StatusOffWindowsReducer} from "./statusOffWindowsReducer";
 import ThunkMiddleware, {ThunkDispatch} from "redux-thunk";
 
-
 const rootReducer = combineReducers({
   lists: listsReducer,
   tasks: tasksReducer,

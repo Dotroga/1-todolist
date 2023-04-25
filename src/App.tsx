@@ -6,6 +6,7 @@ import {Route, Routes} from "react-router-dom";
 import {List} from "./Components/List/List";
 import styled from "styled-components";
 import {fetchDataTC} from "./redux/listsReducer";
+import {Login} from "./Components/Login/Login";
 
 export const App = memo(() => {
 
@@ -26,6 +27,8 @@ export const App = memo(() => {
                 {lists.map((l) =>
                     <Route key={l.id} path={`/${l.title}`} element={<List list={l}/>}/>
                 )}
+                <Route path='/login' element={<Login/>}/>
+                <Route path='*' element={<h1>404</h1>}/>
             </Routes>
         </Content>
     </WrapperApp>
