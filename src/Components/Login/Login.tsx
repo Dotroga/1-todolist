@@ -2,6 +2,7 @@ import React from 'react';
 import {useFormik} from "formik";
 import {SuperInput} from "../Super/SuperInput/SuperInput";
 import styled from "styled-components";
+import {SuperButton} from "../Super/SuperButton/SuperButton";
 
 
 export const Login = () => {
@@ -51,9 +52,9 @@ export const Login = () => {
                     type='checkbox'
                 /> Remember me
             </div>
-            <button type='submit'>
-                Submit
-            </button>
+            <SuperButton title='Submit' type='submit'/>
+            <SuperButton title='Cancel' type='button'/>
+
         </Form>
     );
 };

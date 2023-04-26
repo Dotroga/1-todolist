@@ -2,24 +2,23 @@ import React, {memo} from 'react';
 import styled, {css} from "styled-components";
 import {Loader} from "../Loader/Loader";
 
-type SuperButtonPropsType = {
+interface ButtonProps
+    extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'color'> {
   title: string
-  loading?: boolean
-  color?: string
-  disabled?: boolean
-  onClick: ()=>void
+  loading?: boolean;
+  color?: string;
+  type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'];
 }
 
-export const SuperButton: React.FC<SuperButtonPropsType> = memo((props) => {
-  const {title, loading} = props
-  return <Button {...props}>
+export const SuperButton: React.FC<ButtonProps> = memo((
+    {title, loading, color, ...restProps}) => {
+  return <Button title={title} loading={loading} color={color} {...restProps}>
     {loading && <Loader/>}
     {title}
   </Button>
 });
 
-
-const Button = styled.button< SuperButtonPropsType>`
+const Button = styled.button<ButtonProps>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -38,5 +37,7 @@ const Button = styled.button< SuperButtonPropsType>`
   border: none;
   transition: 0.2s;
 `
+
+
 
 
