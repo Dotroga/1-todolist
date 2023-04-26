@@ -3,6 +3,7 @@ import {useFormik} from "formik";
 import {SuperInput} from "../Super/SuperInput/SuperInput";
 import styled from "styled-components";
 import {SuperButton} from "../Super/SuperButton/SuperButton";
+import {SuperCheckbox} from "../Super/SuperCheckbox/SuperCheckbox";
 
 
 export const Login = () => {
@@ -46,11 +47,12 @@ export const Login = () => {
                 error={formik.touched.password && formik.errors.password && formik.errors.password}
             />
             <div>
-                <input
+                <SuperCheckbox
                     checked={formik.values.rememberMe}
                     {...formik.getFieldProps('rememberMe')}
-                    type='checkbox'
-                /> Remember me
+                >Remember me</SuperCheckbox>
+
+                
             </div>
             <SuperButton title='Submit' type='submit'/>
             <SuperButton title='Cancel' type='button'/>
