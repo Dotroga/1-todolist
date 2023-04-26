@@ -1,57 +1,69 @@
 import React from 'react';
 import {useFormik} from "formik";
 import {SuperInput} from "../Super/SuperInput/SuperInput";
+import styled from "styled-components";
 
 
 export const Login = () => {
     const formik = useFormik({
         initialValues: {
-            Email: '',
-            Password: '',
+            email: '',
+            password: '',
             rememberMe: false
         },
         validate: (values) => {
             let errors: any = {}
-            if (!values.Email) {
-                errors.email = 'Required'
-            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)) {
+            if (!values.email) {
+                errors.email = 'Email required'
+            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
                 errors.email = 'Invalid email address'
+            }
+            if (!values.password) {
+                errors.password = 'Password required'
+            } else if (values.password.length < 3) {
+                errors.password = 'Length should be more 3 symbols'
             }
             return errors
         },
+        validateOnChange: false,
         onSubmit: values => {
             console.log(values)
+            formik.resetForm()
         }
     })
-    console.log(formik.errors)
     return (
-        <form onSubmit={formik.handleSubmit}>
+        <Form onSubmit={formik.handleSubmit}>
             <h1>Login</h1>
             <SuperInput
-                onChange={formik.handleChange}
-                value={formik.values.Email}
-                name='Email'
-                error={''}
+                {...formik.getFieldProps('email')}
+                // type='email'
+                error={formik.touched.email && formik.errors.email && formik.errors.email}
             />
             <SuperInput
-                onChange={formik.handleChange}
-                value={formik.values.Password}
-                name='Password'
+                {...formik.getFieldProps('password')}
                 type='password'
-                error={''}
+                error={formik.touched.password && formik.errors.password && formik.errors.password}
             />
-            <input
-                onChange={formik.handleChange}
-                checked={formik.values.rememberMe}
-                name='rememberMe'
-                type='checkbox'
-            />
+            <div>
+                <input
+                    checked={formik.values.rememberMe}
+                    {...formik.getFieldProps('rememberMe')}
+                    type='checkbox'
+                /> Remember me
+            </div>
             <button type='submit'>
                 Submit
             </button>
-        </form>
+        </Form>
     );
 };
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  padding: 30px 150px;
+  gap: 10px;
+`
 
 
 
