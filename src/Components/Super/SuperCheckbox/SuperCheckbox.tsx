@@ -18,8 +18,7 @@ export const SuperCheckbox: React.FC<Omit<DefaultInputPropsType, 'type'>> = (
    display: flex;
    gap: 5px;
  }
-   input[type="checkbox"],
-   input[type="radio"] {
+   input {
      --active: #fbbc48;
      --active-inner: #fff;
      --border: #e1dbbb;
@@ -27,14 +26,11 @@ export const SuperCheckbox: React.FC<Omit<DefaultInputPropsType, 'type'>> = (
      --disabled: #f6f8ff;
      --disabled-inner: #e1e6f9;
      -webkit-appearance: none;
-     -moz-appearance: none;
      height: 22px;
-     width: 22px;
+     min-width: 22px;
      outline: none;
      display: flex;
-     vertical-align: top;
      position: relative;
-     margin: 0;
      cursor: pointer;
      border: 1px solid var(--bc, var(--border));
      background: var(--b, var(--background));

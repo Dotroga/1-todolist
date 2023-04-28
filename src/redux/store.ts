@@ -4,8 +4,10 @@ import {listsReducer} from "./listsReducer";
 import {useSelector, TypedUseSelectorHook, useDispatch,} from 'react-redux'
 import {StatusOffWindowsReducer} from "./statusOffWindowsReducer";
 import ThunkMiddleware, {ThunkDispatch} from "redux-thunk";
+import {authReducer} from "./authReducer";
 
 const rootReducer = combineReducers({
+  auth: authReducer,
   lists: listsReducer,
   tasks: tasksReducer,
   StatusOffWindows: StatusOffWindowsReducer
@@ -17,4 +19,4 @@ export const useAppDispatch = () => useDispatch<ThunkDispatchType>()
 export const store = createStore(rootReducer, applyMiddleware(ThunkMiddleware))
 export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector
 //@ts-ignore
-window.state = store.getState()
+window.store = store

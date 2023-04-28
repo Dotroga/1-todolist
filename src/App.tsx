@@ -2,19 +2,24 @@ import React, {memo, useEffect} from 'react';
 import {ListType} from "./redux/state";
 import {useAppDispatch, useAppSelector} from "./redux/store";
 import {SideBar} from "./Components/SideBar/SideBar";
-import {Route, Routes} from "react-router-dom";
+import {Navigate, Route, Routes, useNavigate} from "react-router-dom";
 import {List} from "./Components/List/List";
 import styled from "styled-components";
 import {fetchDataTC} from "./redux/listsReducer";
 import {Login} from "./Components/Login/Login";
+import {initializeAppTC} from "./redux/authReducer";
 
 export const App = memo(() => {
-
     const dispatch = useAppDispatch()
-    useEffect(() => dispatch(fetchDataTC()), [])
+    const navigate = useNavigate()
+    const isLoggedIn = useAppSelector((state)=>state.auth.isLoggedIn)
+    useEffect( () => {
+         dispatch(initializeAppTC())
+        !isLoggedIn && navigate('/login')
+    }, [])
     const lists = useAppSelector<ListType[]>(state => state.lists)
     return <WrapperApp>
-        <SideBar/>
+        {isLoggedIn && <SideBar/>}
         <Content>
             <Routes>
                 <Route path={'/'} element={lists.map((l,i) =>

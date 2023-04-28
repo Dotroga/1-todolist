@@ -1,9 +1,9 @@
 import {ListThunkType, ListType} from "./state";
 
-import {todoApi} from "../api/todo-api";
+import {todoApi} from "../api/todoAPI";
 import {Dispatch} from "redux";
 import {setErrorAC, toggleAddListFormAC} from "./statusOffWindowsReducer";
-import {listsColorAPI} from "../api/listsColor-api";
+import {listsColorAPI} from "../api/listsColorAPI";
 import {NavigateFunction} from "react-router/dist/lib/hooks";
 import {setTasksAC} from "./taskReducer";
 

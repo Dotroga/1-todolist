@@ -1,16 +1,14 @@
 import React from 'react';
 import styled from "styled-components";
 import {useAppSelector} from "../../../redux/store";
-import {TaskType} from "../../../api/todo-api";
+import {TaskType} from "../../../api/todoAPI";
 
 type TaskPropsType = {
     listId: string
 }
 
 export const Tasks = (props:TaskPropsType) => {
-
     const tasks = useAppSelector<TaskType[]>(state => state.tasks[props.listId])
-    console.log(tasks)
     return (
         <Wrapper>
             {tasks.length

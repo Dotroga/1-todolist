@@ -2,7 +2,7 @@
 import {TasksType} from "./state";
 import {addListACType, getListsACType, removeListAC, removeListACType} from "./listsReducer";
 import {Dispatch} from "redux";
-import {TaskType, todoApi} from "../api/todo-api";
+import {TaskType, todoApi} from "../api/todoAPI";
 export const tasksReducer = (tasks: TasksType = {}, action:TsarType): TasksType => {
   switch (action.type) {
     case "SET-LISTS": {

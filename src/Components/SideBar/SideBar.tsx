@@ -1,15 +1,17 @@
-import React, {memo} from 'react';
-import {useAppSelector} from "../../redux/store";
+import React, {memo, useEffect} from 'react';
+import {useAppDispatch, useAppSelector} from "../../redux/store";
 import {ListType} from "../../redux/state";
 import {MenuBurger} from "./MenuBurger";
 import styled, {css} from "styled-components";
 import {SideBarIcon} from "./SideBarIcon/SideBarIcon";
 import {AddListButton} from "./AddNewList/AddListButton";
 import {AddListForm} from "./AddNewList/AddListForm/AddListForm";
+import {fetchDataTC} from "../../redux/listsReducer";
 
 
 export const SideBar = memo(() => {
-
+    const dispatch = useAppDispatch()
+    useEffect(() => dispatch(fetchDataTC()), [])
     const isCollapsedSB = useAppSelector<boolean>(state => state.StatusOffWindows.isCollapsedSB)
     const isVisibleALF = useAppSelector<boolean>(state => state.StatusOffWindows.isVisibleALF)
     const lists = useAppSelector<ListType[]>(state => state.lists)

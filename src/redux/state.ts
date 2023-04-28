@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import {TaskType} from "../api/todo-api";
+import {TaskType} from "../api/todoAPI";
 export type ServerSideListType = {
   id: string
   title: string

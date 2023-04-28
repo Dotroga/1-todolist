@@ -4,9 +4,25 @@ import {SuperInput} from "../Super/SuperInput/SuperInput";
 import styled from "styled-components";
 import {SuperButton} from "../Super/SuperButton/SuperButton";
 import {SuperCheckbox} from "../Super/SuperCheckbox/SuperCheckbox";
+import {loginTC} from "../../redux/authReducer";
+import {useAppDispatch, useAppSelector} from "../../redux/store";
+import {Navigate} from "react-router-dom";
 
+type LoginErrorType = {
+    email?: string
+    password?: string
+    rememberMe?: boolean
+}
+
+export type LoginType = {
+    email: string
+    password: string
+    rememberMe: boolean
+}
 
 export const Login = () => {
+    const dispatch = useAppDispatch()
+    const isLoggedIn = useAppSelector((state)=>state.auth.isLoggedIn)
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -14,7 +30,7 @@ export const Login = () => {
             rememberMe: false
         },
         validate: (values) => {
-            let errors: any = {}
+            let errors: LoginErrorType = {}
             if (!values.email) {
                 errors.email = 'Email required'
             } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
@@ -29,10 +45,13 @@ export const Login = () => {
         },
         validateOnChange: false,
         onSubmit: values => {
-            console.log(values)
-            formik.resetForm()
+            dispatch(loginTC(values))
+            isLoggedIn && formik.resetForm()
         }
     })
+
+    if (isLoggedIn) return  <Navigate to={'/'}/>
+
     return (
         <Form onSubmit={formik.handleSubmit}>
             <h1>Login</h1>
@@ -46,25 +65,23 @@ export const Login = () => {
                 type='password'
                 error={formik.touched.password && formik.errors.password && formik.errors.password}
             />
-            <div>
-                <SuperCheckbox
-                    checked={formik.values.rememberMe}
-                    {...formik.getFieldProps('rememberMe')}
-                >Remember me</SuperCheckbox>
-
-                
-            </div>
-            <SuperButton title='Submit' type='submit'/>
-            <SuperButton title='Cancel' type='button'/>
-
+            <SuperCheckbox
+                checked={formik.values.rememberMe}
+                {...formik.getFieldProps('rememberMe')}
+            >Remember me
+            </SuperCheckbox>
+            <SuperButton title='Login' type='submit'/>
         </Form>
     );
 };
 
 const Form = styled.form`
+  height: 100%;
+  min-width: 300px;
   display: flex;
+  justify-content: center;
   flex-direction: column;
-  padding: 30px 150px;
+  padding: 0 150px 100px 150px ;
   gap: 10px;
 `
 
