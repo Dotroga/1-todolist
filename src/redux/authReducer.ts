@@ -1,7 +1,6 @@
 import { Dispatch } from 'redux'
 import {LoginType} from "../Components/Login/Login";
 import {authAPI} from "../api/todoAPI";
-import {log} from "util";
 
 
 const initialState = {
@@ -12,9 +11,9 @@ type InitialStateType = typeof initialState
 
 export const authReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        case 'login/SET-IS-LOGGED-IN':
+        case 'SET-IS-LOGGED-IN':
             return {...state, isLoggedIn: action.value}
-        case 'login/SET-IS-INITIALIZED':
+        case 'SET-IS-INITIALIZED':
             return {...state, isInitialized: action.value}
         default:
             return state
@@ -22,9 +21,9 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
 }
 
 export const setIsLoggedInAC = (value: boolean) =>
-    ({type: 'login/SET-IS-LOGGED-IN', value} as const)
+    ({type: 'SET-IS-LOGGED-IN', value} as const)
 export const setIsInitializedAC = (value: boolean) =>
-    ({type: 'login/SET-IS-INITIALIZED', value} as const)
+    ({type: 'SET-IS-INITIALIZED', value} as const)
 
 export const initializeAppTC = () => (dispatch: Dispatch<ActionsType>) => {
     authAPI.me()
@@ -39,7 +38,6 @@ export const initializeAppTC = () => (dispatch: Dispatch<ActionsType>) => {
             dispatch(setIsInitializedAC(true))
         })
 
-
 }
 export const loginTC = (data: LoginType) => (dispatch: Dispatch<ActionsType>) => {
     authAPI.login(data)
@@ -50,7 +48,16 @@ export const loginTC = (data: LoginType) => (dispatch: Dispatch<ActionsType>) =>
         })
 
 }
+export const logOutTC = () => (dispatch: Dispatch<ActionsType>) => {
+    authAPI.logout()
+        .then(res => {
+            res.data.resultCode === 0
+                ? dispatch(setIsLoggedInAC(false))
+                : console.log('error')
+        })
 
-// types
+}
+
 type ActionsType = ReturnType<typeof setIsLoggedInAC>
     | ReturnType<typeof setIsInitializedAC>
+

@@ -2,10 +2,9 @@ import React, {memo, useEffect} from 'react';
 import {ListType} from "./redux/state";
 import {useAppDispatch, useAppSelector} from "./redux/store";
 import {SideBar} from "./Components/SideBar/SideBar";
-import {Navigate, Route, Routes, useNavigate} from "react-router-dom";
+import {Route, Routes, useNavigate} from "react-router-dom";
 import {List} from "./Components/List/List";
 import styled from "styled-components";
-import {fetchDataTC} from "./redux/listsReducer";
 import {Login} from "./Components/Login/Login";
 import {initializeAppTC} from "./redux/authReducer";
 import {SpinnerLoader} from "./Components/Super/Loader/SpinerLoader";
@@ -17,8 +16,10 @@ export const App = memo(() => {
     const isInitialized = useAppSelector((state)=>state.auth.isInitialized)
     useEffect( () => {
          dispatch(initializeAppTC())
-        !isLoggedIn && navigate('/login')
     }, [])
+    useEffect(()=> {
+        !isLoggedIn && navigate('/login')
+    }, [isLoggedIn])
     const lists = useAppSelector<ListType[]>(state => state.lists)
     if (!isInitialized) return <SpinnerLoader/>
     return <WrapperApp>

@@ -7,6 +7,7 @@ import {SideBarIcon} from "./SideBarIcon/SideBarIcon";
 import {AddListButton} from "./AddNewList/AddListButton";
 import {AddListForm} from "./AddNewList/AddListForm/AddListForm";
 import {fetchDataTC} from "../../redux/listsReducer";
+import {LogOut} from "./LogOut";
 
 
 export const SideBar = memo(() => {
@@ -42,6 +43,7 @@ export const SideBar = memo(() => {
             />
         </AddNewList>
         {allItem}
+        <LogOut isCollapsedSB={isCollapsedSB}/>
     </SideBarContainer>
 });
 
@@ -65,6 +67,7 @@ const SideBarContainer = styled.div<SideBarContainerPropsType>`
   ${({isOpen}) => !isOpen && css`
     align-items: center;
   `}
+  
 `
 const AddNewList = styled.div`
 `

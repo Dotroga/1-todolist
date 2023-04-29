@@ -8,7 +8,8 @@ const instance = axios.create({
 export const authAPI = {
     login: (data: LoginType) =>
         instance.post<ResponseType<{userId: number}>>('auth/login', data),
-    logout: () => {},
+    logout: () =>
+    instance.delete<ResponseType>('auth/login'),
     me: () => instance.get<ResponseType<MeType>>('auth/me')
 }
 
