@@ -8,16 +8,19 @@ import styled from "styled-components";
 import {fetchDataTC} from "./redux/listsReducer";
 import {Login} from "./Components/Login/Login";
 import {initializeAppTC} from "./redux/authReducer";
+import {SpinnerLoader} from "./Components/Super/Loader/SpinerLoader";
 
 export const App = memo(() => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const isLoggedIn = useAppSelector((state)=>state.auth.isLoggedIn)
+    const isInitialized = useAppSelector((state)=>state.auth.isInitialized)
     useEffect( () => {
          dispatch(initializeAppTC())
         !isLoggedIn && navigate('/login')
     }, [])
     const lists = useAppSelector<ListType[]>(state => state.lists)
+    if (!isInitialized) return <SpinnerLoader/>
     return <WrapperApp>
         {isLoggedIn && <SideBar/>}
         <Content>
