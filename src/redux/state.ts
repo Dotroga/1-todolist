@@ -12,7 +12,7 @@ export type ListThunkType = {
   addedDate: string
   order: number
   color: string
-  numberOfTasks: number
+  numberOfTasks?: number
 }
 export type ListType = {
   id: string
@@ -21,8 +21,7 @@ export type ListType = {
   order: number
   path: string
   color: string
-  numberOfTasks: number
-
+  numberOfTasks?: number
   filter: FilterType
 }
 export type FilterType = 'All' | 'Active' | 'Completed'

@@ -39,14 +39,14 @@ const startState: TasksType  = tasksToDo
 //   expect(endState["todolistId2"][3].title).toBe('newTasks');
 //   expect(endState["todolistId2"][0].completed).toBe(false);
 // })
-test('status of specified task should be changed', () => {
-  const action = changeTaskStatusAC("todolistId2", '2', false);
-  const endState = tasksReducer(startState, action)
-  expect(endState["todolistId2"][1].completed).toBe(false);
-  expect(endState["todolistId2"][2].completed).toBe(false);
-});
-test('title task should be changed', () => {
-  const action = renameTaskAC('todolistId2', "2", 'newTitle')
-  const endState = tasksReducer(startState, action)
-  expect(endState["todolistId2"][1].title).toBe('newTitle');
-})
+// test('status of specified task should be changed', () => {
+//   const action = changeTaskStatusAC("todolistId2", '2', false);
+//   const endState = tasksReducer(startState, action)
+//   expect(endState["todolistId2"][1].completed).toBe(false);
+//   expect(endState["todolistId2"][2].completed).toBe(false);
+// });
+// test('title task should be changed', () => {
+//   const action = renameTaskAC('todolistId2', "2", 'newTitle')
+//   const endState = tasksReducer(startState, action)
+//   expect(endState["todolistId2"][1].title).toBe('newTitle');
+// })

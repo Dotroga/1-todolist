@@ -6,7 +6,10 @@ import {TaskType, todoApi} from "../api/todoAPI";
 export const tasksReducer = (tasks: TasksType = {}, action:TsarType): TasksType => {
   switch (action.type) {
     case "SET-LISTS": {
-      return {...tasks, [action.list.id]: []}
+      let tasksObj = {...tasks}
+     action.list.map((l)=>
+         tasksObj = ({...tasksObj, [l.id]: []}))
+     return tasksObj
     }
     case "SET-TASKS": {
       return {...tasks, [action.listId]: action.tasks}
