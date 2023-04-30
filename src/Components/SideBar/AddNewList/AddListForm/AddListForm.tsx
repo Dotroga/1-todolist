@@ -1,4 +1,4 @@
-import React, {memo, useCallback, useState} from 'react';
+import React, {ChangeEvent, memo, useCallback, useState} from 'react';
 import styled from "styled-components";
 import {SuperButton} from "../../../Super/SuperButton/SuperButton";
 import {Select} from "../../../Super/Select/Select";
@@ -29,7 +29,8 @@ export const AddListForm: React.FC<AddNewListType> = memo((
     const addListForm = useAppSelector<AddListFormType>(state => state.StatusOffWindows.addListForm)
     const arrColor = useAppSelector<ColorType[]>(state => state.StatusOffWindows.arrColor)
     const [loading, setLoading] = useState<boolean>(false)
-    const changeTitle = useCallback((text: string) => {
+    const changeTitle = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+        const text = e.currentTarget.value
         dispatch(changeTitleNewListAC(text))
         dispatch(setErrorAC(false))
     },[addListForm.title])
@@ -47,7 +48,7 @@ export const AddListForm: React.FC<AddNewListType> = memo((
   return (
     <Wrapper isVisibleAL={isVisibleALF} isOpen={isOpen}>
       <SuperInput
-          onChange={()=>{}}
+          onChange={changeTitle}
           name={'Title'}
           value={addListForm.title}
           error={addListForm.error!}/>

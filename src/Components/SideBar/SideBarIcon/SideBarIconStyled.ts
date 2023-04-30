@@ -4,7 +4,7 @@ import {NavLink} from "react-router-dom";
 type PropsType = {
     visible: string | null,
     color: string
-    hover: boolean
+    hover?: string
     onMouseOver: any
     onMouseOut: any
 }
@@ -43,7 +43,7 @@ export const StyledNavLink = styled(NavLink)<PropsType>`
     justify-content: center;
     width: 30px;
     color: #979ea6;
-    ${({hover}) => hover
+    ${({hover}) => hover === 'true'
         ? css`span {
           display: none
         }`

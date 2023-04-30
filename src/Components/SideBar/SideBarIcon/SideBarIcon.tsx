@@ -15,7 +15,7 @@ export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
   const {isOpen, title, color, to, numberOfTasks} = props
 
   const [hover, setHover] = useState(false)
-
+  const [isOpenOptions, setIsOpenOptions] = useState(false)
   const changeHover = (change: boolean) => {
     setHover(change)
   }
@@ -24,7 +24,7 @@ export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
       to={to}
       visible={isOpen ? '' : null}
       color={color}
-      hover={hover}
+      hover={hover.toString()}
       onMouseOut={()=>changeHover(false)}
       onMouseOver={()=>changeHover(true)}
   >
@@ -35,7 +35,7 @@ export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
       <div>{title}</div>
     {numberOfTasks !== undefined &&
         <div className='AdditionalOptions' >
-          <AdditionalOptions/>
+          <AdditionalOptions isOpen={isOpenOptions} onClick={()=>setIsOpenOptions(!isOpenOptions)}/>
           {numberOfTasks > 0 && <span>{numberOfTasks}</span>}
         </div>}
     </StyledNavLink>

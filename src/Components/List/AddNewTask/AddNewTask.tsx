@@ -4,28 +4,57 @@ import {SuperButton} from "../../Super/SuperButton/SuperButton";
 import {addTaskTK} from "../../../redux/taskReducer";
 import {useAppDispatch} from "../../../redux/store";
 import {SuperInput} from "../../Super/SuperInput/SuperInput";
+import {useFormik} from "formik";
+import {AddTaskButton} from "../AddTaskButton/AddTaskButton";
 
 type AddNewTaskType = {
     listId: string
-    setVisible: (change:boolean) => void
 }
 
-export const AddNewTask = (props: AddNewTaskType) => {
+export const AddNewTask = (props: AddNewTaskType ) => {
+    const [isOpen, setIsOpen] = useState(false)
+    const toggleForm = () => {
+        setIsOpen(!isOpen)
+    }
+    const formik = useFormik({
+        initialValues: {
+            taskName: '',
+            description: '',
+            visibleForm: false
+        },
+        validate: (values) => {
+        },
+        onSubmit: values => {
+            dispatch(addTaskTK(props.listId, values.taskName))
+            formik.resetForm()
+        }
+    })
     const dispatch = useAppDispatch()
-    const {listId, setVisible} = props
-    const [title, setTitle] = useState<string>('')
-    const [description, setDescription] = useState<string>('')
-    const changeVisible = ()=> setVisible(false)
-    const addTask = () => dispatch(addTaskTK(listId, title))
+    // const [description, setDescription] = useState<string>('')
+    // const changeVisible = ()=> setVisible(false)
+    // const addTask = () => dispatch(addTaskTK(listId, title))
     return (
-        <Wrapper>
-            <SuperInput onChange={()=>{}} value={title} name={'Task name'} error={''}/>
-            <SuperInput onChange={()=>{}} value={description} name={'Description'} error={''}/>
-           <div className='button-container'>
-               <SuperButton title='Cancel' onClick={changeVisible}/>
-               <SuperButton title='Add Task' onClick={addTask}/>
-           </div>
-        </Wrapper>
+        <form onSubmit={formik.handleSubmit}>
+            {!isOpen
+                ? <AddTaskButton onClick={toggleForm}/>
+                : <Wrapper>
+                    <SuperInput
+                        {...formik.getFieldProps('taskName')}
+                        error={''}
+                    />
+                    <SuperInput
+                        {...formik.getFieldProps('description')}
+                        error={''}
+                    />
+                    <div className='button-container'>
+                        <SuperButton
+                            title='Cancel'
+                            onClick={toggleForm}/>
+                        <SuperButton title='Add Task'  type='submit'/>
+                    </div>
+                </Wrapper>
+            }
+        </form>
     );
 };
 

@@ -59,11 +59,13 @@ export const Login = () => {
                 {...formik.getFieldProps('email')}
                 // type='email'
                 error={formik.touched.email && formik.errors.email && formik.errors.email}
+                color='#2e384c'
             />
             <SuperInput
                 {...formik.getFieldProps('password')}
                 type='password'
                 error={formik.touched.password && formik.errors.password && formik.errors.password}
+                color='#2e384c'
             />
             <SuperCheckbox
                 checked={formik.values.rememberMe}
@@ -76,6 +78,10 @@ export const Login = () => {
 };
 
 const Form = styled.form`
+  h1 {
+    font-size: 40px;
+    padding: 20px;
+  }
   height: 100%;
   min-width: 300px;
   display: flex;

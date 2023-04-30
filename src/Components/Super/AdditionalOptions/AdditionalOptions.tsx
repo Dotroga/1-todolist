@@ -2,15 +2,17 @@ import React from 'react';
 import threePoints from './../../../Icons/threePoints.svg'
 import styled from "styled-components";
 
-type propsType = {
-id: string
+type PropsType = {
+    isOpen: boolean
+    onClick: ()=>void
 }
 
-export const AdditionalOptions = () => {
+export const AdditionalOptions: React.FC<PropsType> = (
+    {isOpen, onClick}) => {
 
     return (<Wrapper>
-            <img src={threePoints} alt=""/>
-            <div>Доп опции</div>
+            <img src={threePoints} alt="" onClick={onClick}/>
+        {!isOpen && <div>Доп опции</div>}
     </Wrapper>)
 };
  const Wrapper = styled.div`

@@ -55,7 +55,7 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 8px;
-  background-color: rgb(46, 56, 78);
+  background-color: #2e384c;
   color: #989fa7;
   box-shadow: 0 0 15px 1px #1a2434;
   margin: 40px 40px 40px 20px;

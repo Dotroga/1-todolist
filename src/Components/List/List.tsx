@@ -7,8 +7,6 @@ import {DeleteButton} from "../DeleteButton/DeleteButton";
 import {Tasks} from "./Tasks/Tasks";
 import {AddNewTask} from "./AddNewTask/AddNewTask";
 import {useNavigate} from "react-router-dom";
-import {AddTaskButton} from "./AddTaskButton/AddTaskButton";
-
 
 export const List: React.FC<{ list: ListType }> = ({list}) => {
     const dispatch = useAppDispatch()
@@ -22,10 +20,7 @@ export const List: React.FC<{ list: ListType }> = ({list}) => {
             <DeleteButton callBack={deleteList}/>
         </ListTitle>
         <Tasks listId={list.id}/>
-        {isVisible
-            ? <AddNewTask setVisible={setVisible} listId={list.id}/>
-            : <AddTaskButton setVisible={setVisible}/>
-        }
+            <AddNewTask listId={list.id}/>
     </Wrapper>
   );
 };

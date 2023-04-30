@@ -54,20 +54,20 @@ type SideBarContainerPropsType = {
 const SideBarContainer = styled.div<SideBarContainerPropsType>`
   display: flex;
   width: ${({isOpen}) => isOpen ? '260px' : '43px'};
-  min-width:${({isOpen}) => isOpen ? '260px' : '43px'};
+  min-width: ${({isOpen}) => isOpen ? '260px' : '43px'};
   flex-direction: column;
   margin: 40px 0 40px 40px;
   padding: 10px;
   gap: 3px;
   transition: 0.15s;
   border-radius: 8px;
-  background-color: rgb(46, 56, 78);
+  background-color: rgb(46, 56, 77);
   color: #989fa7;
   box-shadow: 0 0 15px 1px #1a2434;
   ${({isOpen}) => !isOpen && css`
     align-items: center;
   `}
-  
+
 `
 const AddNewList = styled.div`
 `

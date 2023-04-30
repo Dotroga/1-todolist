@@ -3,12 +3,12 @@ import plus from "../../../Icons/plus.svg";
 import styled, {css} from "styled-components";
 
 type AddTaskButtonType = {
-    setVisible: (change:boolean) => void
+    onClick: (change:boolean) => void
 }
 
 export const AddTaskButton = (props: AddTaskButtonType) => {
     return (
-        <Wrapper onClick={()=>props.setVisible(true)}>
+        <Wrapper onClick={()=>props.onClick(true)}>
             Add new task
             <Plus>
                 <img src={plus} alt="plus"/>
