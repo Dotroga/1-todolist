@@ -23,19 +23,7 @@ export const StyledNavLink = styled(NavLink)<PropsType>`
     background-color: #434e6b;
     box-shadow: 0 0 15px 1px #1a2434;
   }
-
-  &:hover {
-    background-color: #434e6b;
-
-    img {
-      transform: scale(1.1);
-    }
-
-    style {
-      transform: scale(1.1);
-    }
-  }
-
+  &:hover {background-color: #434e6b;}
   .AdditionalOptions {
     margin-left: auto;
     display: flex;
@@ -45,6 +33,14 @@ export const StyledNavLink = styled(NavLink)<PropsType>`
     color: #979ea6;
     .number {
       display: ${({hover}) => hover === 'true' && 'none'};
+      }
+    .threePoints {
+      opacity: 0.5;
+      transition: 0.3s;
+      &:hover {
+        opacity: 1;
+        transform: scale(1.2);
+      }
     }
     ${({hover}) => hover === 'true'
         ? css`.number {

@@ -61,7 +61,7 @@ const SideBarContainer = styled.div<SideBarContainerPropsType>`
   gap: 3px;
   transition: 0.15s;
   border-radius: 8px;
-  background-color: rgb(46, 56, 77);
+  background-color: #2e384b;
   color: #989fa7;
   box-shadow: 0 0 15px 1px #1a2434;
   ${({isOpen}) => !isOpen && css`
