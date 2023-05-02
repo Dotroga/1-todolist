@@ -15,7 +15,7 @@ export const AddListButton: React.FC<AddListButtonPropsType> = memo((props) => {
     const {isVisibleALF, listsLength} = props
     const [hovered, setHovered] = useState<boolean>(false)
     const dispatch = useDispatch()
-    const toggleAddListForm = () => dispatch(toggleAddListFormAC())
+    const toggleAddListForm = () => dispatch(toggleAddListFormAC(!isVisibleALF))
     return <Wrapper
         {...props}
         hovered={hovered}

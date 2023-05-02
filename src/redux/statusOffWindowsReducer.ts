@@ -6,7 +6,10 @@ export type StatusWindowsType = {
     addTaskForm: AddTaskFormType
     arrColor: ColorType[]
 }
+
 export type AddListFormType =  {
+    listId: string | null
+    mode: boolean
     title: string
     error: string | null,
     color: ColorType | null
@@ -22,6 +25,8 @@ const initialState =  {
     isCollapsedSB: false,
     isVisibleALF: false,
     addListForm: {
+        listId: null,
+        mode: true,
         title: '',
         error: null,
         color: null
@@ -63,30 +68,46 @@ export const StatusOffWindowsReducer = (
             return {...state, isCollapsedSB: !state.isCollapsedSB, isVisibleALF: false}
         case 'TOGGLE-ADD-LIST-FORM': {
             const color = null
-            const addListForm = {...state.addListForm, title: '', error: null, color}
-            return {...state, isVisibleALF: !state.isVisibleALF, addListForm}
+            const addListForm = {...state.addListForm, title: '', mode: true, error: null, color, listId: null}
+            return {...state, isVisibleALF: action.change, addListForm,}
         }
         case 'CHANGE-TITLE-NEW-LIST' :
             return {...state, addListForm: {...state.addListForm, title: action.text}}
         case "CHANGE-COLOR":
-            return {...state, addListForm: {...state.addListForm, color: action.color}}
+            const newColor = state.arrColor.filter(i=> i.color === action.color )
+            return {...state, addListForm: {...state.addListForm, color: newColor[0]}}
         case "SET-ERROR":
             return {...state, addListForm: {...state.addListForm,
                     error: action.change ? 'Title is required' : null}}
+        case "CHANGE-MODE-ADD-LIST": {
+            return {...state, addListForm:{...state.addListForm, mode: action.mode, listId: action.listId}}
+        }
         default: return state
     }
 };
 
 type Actions =
-    ReturnType<typeof toggleSideBarAC>
-    | ReturnType<typeof toggleAddListFormAC>
-    | ReturnType<typeof changeTitleNewListAC>
-    | ReturnType<typeof changeColorAC>
-    | ReturnType<typeof setErrorAC>
+    | toggleSideBarACType
+    | toggleAddListFormACType
+    | changeTitleNewListACType
+    | changeColorACType
+    | setErrorACType
+    | changeModeAddListACType
+
+export type toggleSideBarACType = ReturnType<typeof toggleSideBarAC>
+export type toggleAddListFormACType = ReturnType<typeof toggleAddListFormAC>
+export type changeTitleNewListACType = ReturnType<typeof changeTitleNewListAC>
+export type changeColorACType = ReturnType<typeof changeColorAC>
+export type setErrorACType = ReturnType<typeof setErrorAC>
+export type changeModeAddListACType = ReturnType<typeof changeModeAddListAC>
+
+
 
 
 export const toggleSideBarAC = () => ({type: 'TOGGLE-SIDE-BAR'} as const)
-export const toggleAddListFormAC = () => ({type: 'TOGGLE-ADD-LIST-FORM'} as const)
+export const toggleAddListFormAC = (change: boolean) => ({type: 'TOGGLE-ADD-LIST-FORM', change} as const)
 export const changeTitleNewListAC = (text: string) => ({type: 'CHANGE-TITLE-NEW-LIST', text} as const )
-export const changeColorAC = (color: ColorType) => ({type: 'CHANGE-COLOR', color} as const )
+export const changeColorAC = (color: string) => ({type: 'CHANGE-COLOR', color} as const )
 export const setErrorAC = (change: boolean) => ({type: 'SET-ERROR', change} as const )
+export const changeModeAddListAC = (listId: string ,mode: boolean) =>
+    ({type: 'CHANGE-MODE-ADD-LIST', listId, mode} as const )

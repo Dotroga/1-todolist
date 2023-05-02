@@ -2,7 +2,13 @@ import {ListThunkType, ListType} from "./state";
 
 import {todoApi} from "../api/todoAPI";
 import {Dispatch} from "redux";
-import {setErrorAC, toggleAddListFormAC} from "./statusOffWindowsReducer";
+import {
+    changeColorAC, changeModeAddListAC,
+    changeTitleNewListAC,
+    ColorType,
+    setErrorAC,
+    toggleAddListFormAC
+} from "./statusOffWindowsReducer";
 import {listsColorAPI} from "../api/listsColorAPI";
 import {NavigateFunction} from "react-router/dist/lib/hooks";
 import {setTasksAC} from "./taskReducer";
@@ -98,13 +104,23 @@ export const addListTK = (
           listsColorAPI.createListColor({color, listId}).then(()=>{
             dispatch(addNewListAC(listId ,newTitle, color))
             navigate(`/${newTitle}`)
-            dispatch(toggleAddListFormAC())
+            dispatch(toggleAddListFormAC(false))
           }).finally(()=>setLoading(false))
         })
   } else {
     dispatch(setErrorAC(true))
   }
 }
+
+export const editingListTK = (listId: string, title: string, color: string) =>
+    (dispatch: Dispatch) => {
+        console.log(listId)
+        console.log(title)
+        todoApi.updateList(listId, title).then((res) => {
+            console.log(res)
+        })
+    }
+
 export const removeListTK = (listId: string, navigate: NavigateFunction) => (dispatch: Dispatch) => {
   todoApi.deleteList(listId).then(() => {
     dispatch(removeListAC(listId))

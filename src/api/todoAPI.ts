@@ -19,7 +19,7 @@ export const todoApi = {
     createList: (title: string) =>
         instance.post<ResponseType<{ item: ListType }>>('todo-lists', {title}),
     updateList: (listId: string, title: string) =>
-        instance.put<ResponseType>(`todo-lists${listId}`, {title}),
+        instance.put<ResponseType>(`todo-lists/${listId}`, {title}),
     deleteList: (listId: string) =>
         instance.delete<ResponseType>(`todo-lists/${listId}`),
     getTasks: (listId: string) =>
