@@ -10,7 +10,9 @@ export const listsColorAPI = {
     },
     createListColor(obj: ListColorType) {
         return instance.post('listsColor', obj)
-
+    },
+    removeListColor(id: number) {
+        return instance.delete('listsColor' + id)
     }
 }
 

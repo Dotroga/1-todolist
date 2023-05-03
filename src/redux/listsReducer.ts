@@ -30,19 +30,25 @@ export const listsReducer = (lists: ListType[] = [], action:Actions): ListType[]
           )
       }
       case 'ADD-LIST': {
-      const newList: ListType = {id: action.id, title: action.title, path: '',
-        color: action.color, addedDate:'', order: 0, filter: 'All', numberOfTasks: 0}
+      const newList: ListType = {
+          id: action.id,
+          colorId: action.colorId,
+          title: action.title,
+          path: action.title,
+          color: action.color,
+          addedDate:'', order: 0,
+          filter: 'All',
+          numberOfTasks: 0}
       return  [newList, ...lists]
     }
     case "RENAME-TASK-LIST": {
-      return lists.map(l=>l.id === action.listId ? {...l, title: action.title}: l)
+      return lists.map(l=>l.id === action.listId ? {...l, title: action.title, path: action.title}: l)
     }
     case 'REMOVE-TASK-LIST': return lists.filter(l=>l.id!==action.listId)
     default: return lists
   }
 
 }
-
 
 export type Actions =
     getListsACType
@@ -53,7 +59,7 @@ export type Actions =
 
 export type getListsACType = ReturnType<typeof setListsAC>
 export type addListACType = ReturnType<typeof addNewListAC>
-export type renameListACType = ReturnType<typeof renameListAC>
+export type renameListACType = ReturnType<typeof editingListAC>
 export type removeListACType = ReturnType<typeof removeListAC>
 export type setNumberOfTasks = ReturnType<typeof setNumberOfTasks>
 
@@ -61,9 +67,9 @@ export const setListsAC = (list: ListThunkType[]) => ({
   type: 'SET-LISTS', list} as const)
 export const setNumberOfTasks = (listId: string, number: number) => ({
     type: 'SET-NUMBER', listId, number} as const)
-export const addNewListAC = (id:string, title: string, color: string) => ({
-  type: 'ADD-LIST', id, title, color} as const)
-export const renameListAC = (listId: string, title: string) => ({
+export const addNewListAC = (id:string, title: string, color: string, colorId: number) => ({
+  type: 'ADD-LIST', id, title, color, colorId} as const)
+export const editingListAC = (listId: string, title: string) => ({
   type: 'RENAME-TASK-LIST', listId, title} as const)
 export const removeListAC = (listId: string) => ({
   type: 'REMOVE-TASK-LIST', listId} as const)
@@ -74,10 +80,11 @@ export const fetchDataTC = () => (dispatch: Dispatch) => {
     Promise.all([getList, getColors])
         .then((result) => {
             return result[0].data.map(l => {
-                const color = (result[1].filter(c => c.listId === l.id))[0].color
-                return {...l, color}})
+                const data = (result[1].filter(c => c.listId === l.id))
+                return {...l, color: data[0].color, colorId:data[0].id}})
         })
         .then((lists)=>{
+
             dispatch(setListsAC(lists))
           lists.map((l)=>{
               todoApi.getTasks(l.id).then((res)=>{
@@ -101,8 +108,9 @@ export const addListTK = (
     todoApi.createList(newTitle)
         .then((res)=> res.data.data.item.id)
         .then((listId)=>{
-          listsColorAPI.createListColor({color, listId}).then(()=>{
-            dispatch(addNewListAC(listId ,newTitle, color))
+          listsColorAPI.createListColor({color, listId}).then((res)=>{
+              console.log(res)
+            dispatch(addNewListAC(listId ,newTitle, color, res.data.id))
             navigate(`/${newTitle}`)
             dispatch(toggleAddListFormAC(false))
           }).finally(()=>setLoading(false))
@@ -112,17 +120,26 @@ export const addListTK = (
   }
 }
 
-export const editingListTK = (listId: string, title: string, color: string) =>
+export const editingListTK = (
+    listId: string,
+    title: string,
+    color: string,
+    navigate: NavigateFunction,
+    setLoading: (loading: boolean) => void) =>
     (dispatch: Dispatch) => {
-        console.log(listId)
-        console.log(title)
+        setLoading(true)
         todoApi.updateList(listId, title).then((res) => {
-            console.log(res)
+            dispatch(editingListAC(listId, title))
+            navigate(title)
+            setLoading(false)
+            dispatch(toggleAddListFormAC(false))
         })
     }
 
-export const removeListTK = (listId: string, navigate: NavigateFunction) => (dispatch: Dispatch) => {
-  todoApi.deleteList(listId).then(() => {
+export const removeListTK = (listId: string,colorId: number, navigate: NavigateFunction) => (dispatch: Dispatch) => {
+    debugger
+    todoApi.deleteList(listId).then(() => {
+      listsColorAPI.removeListColor(colorId).then(r => r)
     dispatch(removeListAC(listId))
       navigate('/')
   })

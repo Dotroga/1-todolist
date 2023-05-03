@@ -7,6 +7,7 @@ import threePoints from "../../../Icons/threePoints.svg";
 
 type SideBarIconsPropsType = {
   listId?: string
+  colorId?: number
   isOpen: boolean
   title: string
   color: string

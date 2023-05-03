@@ -12,7 +12,7 @@ export const List: React.FC<{ list: ListType }> = ({list}) => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const [isVisible, setVisible] = useState<boolean>(false)
-    const deleteList = () => dispatch(removeListTK(list.id, navigate))
+    const deleteList = () => dispatch(removeListTK(list.id,list.colorId, navigate))
   return (
     <Wrapper>
         <ListTitle color={list.color!}>

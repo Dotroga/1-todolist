@@ -1,5 +1,5 @@
 import {v1} from 'uuid';
-import {addNewListAC, setListsAC, listsReducer, removeListAC, renameListAC} from "./listsReducer";
+import {addNewListAC, setListsAC, listsReducer, removeListAC, editingListAC} from "./listsReducer";
 import {listsToDo, ListType} from "./state";
 
 let todolistId1: string

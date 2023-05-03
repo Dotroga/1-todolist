@@ -4,7 +4,7 @@ import edit from "../../../Icons/edit.svg";
 import arrowUp from "../../../Icons/arrowUp.svg";
 import arrowDown from "../../../Icons/arrowDown.svg";
 import deleteUrn from "../../../Icons/deleteUrn.svg";
-import {editingListTK} from "../../../redux/listsReducer";
+import {editingListTK, removeListTK} from "../../../redux/listsReducer";
 import {useDispatch} from "react-redux";
 import {useAppDispatch} from "../../../redux/store";
 import {
@@ -13,10 +13,12 @@ import {
     changeTitleNewListAC,
     toggleAddListFormAC
 } from "../../../redux/statusOffWindowsReducer";
+import {useNavigate} from "react-router-dom";
 
 
 type PropsType = {
     listId?: string | undefined
+    colorId?: number | undefined
     title: string
     color: string
     isOpen: boolean
@@ -24,10 +26,11 @@ type PropsType = {
 }
 
 export const ModalWindow: React.FC<PropsType> = (props) => {
-    const {listId, title, color, isOpen, onCloses} = props
+    const {listId, colorId, title, color, isOpen, onCloses} = props
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
     const ref = useRef<HTMLDivElement>(null)
-    const useOutsideClick = (ref: React.RefObject<any>, handler: (v: boolean) => void, attached = true) => {
+    const useOutsideClick = (ref: React.RefObject<HTMLDivElement>, handler: (v: boolean) => void, attached = true) => {
         useEffect(()=> {
             if (!attached) return;
             const handleClick = (e: MouseEvent) => {
@@ -52,6 +55,11 @@ export const ModalWindow: React.FC<PropsType> = (props) => {
         dispatch(changeTitleNewListAC(title))
         dispatch(changeColorAC(color))
         dispatch(changeModeAddListAC(listId!, false))
+        onCloses(false)
+    }
+    const removeList = () => {
+        dispatch(removeListTK(listId!, colorId!, navigate))
+        onCloses(false)
     }
 
     return (<Wrapper ref={ref}>
@@ -68,7 +76,7 @@ export const ModalWindow: React.FC<PropsType> = (props) => {
                 <img src={arrowDown} alt=""/>
                 <p>Move down</p>
             </div>
-            <div>
+            <div onClick={removeList}>
                 <img src={deleteUrn} alt=""/>
                 <p>Delete</p>
             </div>

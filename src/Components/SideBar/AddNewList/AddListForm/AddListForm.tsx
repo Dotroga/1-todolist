@@ -12,15 +12,12 @@ import {
 } from "../../../../redux/statusOffWindowsReducer";
 import {MaxQuantity} from "../../../Super/MaxQuantity/MaxQuantity";
 import {SuperInput} from "../../../Super/SuperInput/SuperInput";
-import {log} from "util";
 
 type AddNewListType = {
     isOpen: boolean
     isVisibleALF: boolean
     listsLength: number
 }
-
-
 
 export const AddListForm: React.FC<AddNewListType> = memo((
     {isOpen, isVisibleALF, listsLength}) => {
@@ -30,6 +27,7 @@ export const AddListForm: React.FC<AddNewListType> = memo((
     const addListForm = useAppSelector<AddListFormType>(state => state.StatusOffWindows.addListForm)
     const arrColor = useAppSelector<ColorType[]>(state => state.StatusOffWindows.arrColor)
     const [loading, setLoading] = useState<boolean>(false)
+
     const changeTitle = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         const text = e.currentTarget.value
         dispatch(changeTitleNewListAC(text))
@@ -42,7 +40,7 @@ export const AddListForm: React.FC<AddNewListType> = memo((
         const color = addListForm.color ? addListForm.color.color : arrColor[3].color
         addListForm.mode
             ? dispatch(addListTK(addListForm.title, navigate, color, setLoading))
-            : dispatch(editingListTK(addListForm.listId!, addListForm.title, color))
+            : dispatch(editingListTK(addListForm.listId!, addListForm.title, color, navigate, setLoading))
     },[addListForm])
     const toggleAddListForm = useCallback(() => {
         dispatch(toggleAddListFormAC(false))
