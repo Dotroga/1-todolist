@@ -20,7 +20,11 @@ import {setTasksAC} from "./taskReducer";
 export const listsReducer = (lists: ListType[] = [], action:Actions): ListType[] => {
   switch (action.type) {
     case "SET-LISTS": {
-      return action.list.map((l) => ({...l, filter: 'All', path: l.title}))
+      return action.list.map((l) =>{
+          const color = l.title.substring(0, 7);
+          const title = l.title.slice(7);
+         return  {...l, title, color, filter: 'All', path: l.title}
+      })
     }
       case "SET-NUMBER": {
          return lists.map((l) =>
@@ -30,19 +34,23 @@ export const listsReducer = (lists: ListType[] = [], action:Actions): ListType[]
           )
       }
       case 'ADD-LIST': {
+          const color = action.title.substring(0, 7);
+          const title = action.title.slice(7);
       const newList: ListType = {
           id: action.id,
           colorId: action.colorId,
-          title: action.title,
+          title: title,
           path: action.title,
-          color: action.color,
+          color: color,
           addedDate:'', order: 0,
           filter: 'All',
           numberOfTasks: 0}
       return  [newList, ...lists]
     }
     case "RENAME-TASK-LIST": {
-      return lists.map(l=>l.id === action.listId ? {...l, title: action.title, path: action.title}: l)
+        const color = action.title.substring(0, 7);
+        const title = action.title.slice(7);
+      return lists.map(l=>l.id === action.listId ? {...l, title, color, path: action.title}: l)
     }
     case 'REMOVE-TASK-LIST': return lists.filter(l=>l.id!==action.listId)
     default: return lists
@@ -105,13 +113,14 @@ export const addListTK = (
   const  newTitle = title.trim();
   if (newTitle !== "") {
       setLoading(true)
-    todoApi.createList(newTitle)
+      const colorAndTitle = color + newTitle
+    todoApi.createList(colorAndTitle)
         .then((res)=> res.data.data.item.id)
         .then((listId)=>{
           listsColorAPI.createListColor({color, listId}).then((res)=>{
               console.log(res)
-            dispatch(addNewListAC(listId ,newTitle, color, res.data.id))
-            navigate(`/${newTitle}`)
+            dispatch(addNewListAC(listId ,colorAndTitle, color, res.data.id))
+            navigate(`/${colorAndTitle}`)
             dispatch(toggleAddListFormAC(false))
           }).finally(()=>setLoading(false))
         })
@@ -128,8 +137,9 @@ export const editingListTK = (
     setLoading: (loading: boolean) => void) =>
     (dispatch: Dispatch) => {
         setLoading(true)
-        todoApi.updateList(listId, title).then((res) => {
-            dispatch(editingListAC(listId, title))
+        const colorAndTitle = color + title
+        todoApi.updateList(listId, colorAndTitle).then((res) => {
+            dispatch(editingListAC(listId, colorAndTitle))
             navigate(title)
             setLoading(false)
             dispatch(toggleAddListFormAC(false))
@@ -137,7 +147,6 @@ export const editingListTK = (
     }
 
 export const removeListTK = (listId: string,colorId: number, navigate: NavigateFunction) => (dispatch: Dispatch) => {
-    debugger
     todoApi.deleteList(listId).then(() => {
       listsColorAPI.removeListColor(colorId).then(r => r)
     dispatch(removeListAC(listId))

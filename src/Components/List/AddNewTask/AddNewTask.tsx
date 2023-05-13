@@ -30,9 +30,6 @@ export const AddNewTask = (props: AddNewTaskType ) => {
         }
     })
     const dispatch = useAppDispatch()
-    // const [description, setDescription] = useState<string>('')
-    // const changeVisible = ()=> setVisible(false)
-    // const addTask = () => dispatch(addTaskTK(listId, title))
     return (
         <form onSubmit={formik.handleSubmit}>
             {!isOpen
