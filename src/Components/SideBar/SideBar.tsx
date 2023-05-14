@@ -22,7 +22,6 @@ export const SideBar = memo(() => {
         return<SideBarIcon
             key={i}
             listId={l.id}
-            colorId={l.colorId}
             isOpen={isCollapsedSB}
             numberOfTasks={l.numberOfTasks}
             title={l.title}

@@ -8,16 +8,13 @@ export type ServerSideListType = {
 }
 export type ListThunkType = {
   id: string
-  colorId: number
   title: string
   addedDate: string
   order: number
-  color: string
   numberOfTasks?: number
 }
 export type ListType = {
   id: string
-  colorId: number
   title: string
   addedDate: string
   order: number
@@ -34,9 +31,9 @@ export let todolistId1 = v1();
 export let todolistId2 = v1();
 
 export const listsToDo: ListType[] = [
-  {id: todolistId1, colorId: 1, title: "What to learn", path: '/whattolearn', color: '#ae38e9' , addedDate:'',
+  {id: todolistId1,  title: "What to learn", path: '/whattolearn', color: '#ae38e9' , addedDate:'',
     order: 0, numberOfTasks: 1, filter: 'All'},
-  {id: todolistId2, colorId: 2, title: "What to buy", path: '/whattobuy', color: '#7dca48', addedDate: '',
+  {id: todolistId2, title: "What to buy", path: '/whattobuy', color: '#7dca48', addedDate: '',
     order: 1, numberOfTasks: 1, filter: 'All'}
 ]
 

@@ -11,8 +11,8 @@ import {useNavigate} from "react-router-dom";
 export const List: React.FC<{ list: ListType }> = ({list}) => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
-    const [isVisible, setVisible] = useState<boolean>(false)
-    const deleteList = () => dispatch(removeListTK(list.id,list.colorId, navigate))
+    // const [isVisible, setVisible] = useState<boolean>(false)
+    const deleteList = () => dispatch(removeListTK(list.id, navigate))
   return (
     <Wrapper>
         <ListTitle color={list.color!}>

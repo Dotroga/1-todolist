@@ -4,8 +4,7 @@ import edit from "../../../Icons/edit.svg";
 import arrowUp from "../../../Icons/arrowUp.svg";
 import arrowDown from "../../../Icons/arrowDown.svg";
 import deleteUrn from "../../../Icons/deleteUrn.svg";
-import {editingListTK, removeListTK} from "../../../redux/listsReducer";
-import {useDispatch} from "react-redux";
+import {removeListTK} from "../../../redux/listsReducer";
 import {useAppDispatch} from "../../../redux/store";
 import {
     changeColorAC,
@@ -18,7 +17,6 @@ import {useNavigate} from "react-router-dom";
 
 type PropsType = {
     listId?: string | undefined
-    colorId?: number | undefined
     title: string
     color: string
     isOpen: boolean
@@ -26,7 +24,7 @@ type PropsType = {
 }
 
 export const ModalWindow: React.FC<PropsType> = (props) => {
-    const {listId, colorId, title, color, isOpen, onCloses} = props
+    const {listId, title, color, isOpen, onCloses} = props
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const ref = useRef<HTMLDivElement>(null)
@@ -58,7 +56,7 @@ export const ModalWindow: React.FC<PropsType> = (props) => {
         onCloses(false)
     }
     const removeList = () => {
-        dispatch(removeListTK(listId!, colorId!, navigate))
+        dispatch(removeListTK(listId!, navigate))
         onCloses(false)
     }
 
