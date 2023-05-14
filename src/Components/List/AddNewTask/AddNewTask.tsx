@@ -9,6 +9,7 @@ import {AddTaskButton} from "../AddTaskButton/AddTaskButton";
 
 type AddNewTaskType = {
     listId: string
+    numberOfTasks: number | undefined
 }
 
 export const AddNewTask = (props: AddNewTaskType ) => {
@@ -25,7 +26,7 @@ export const AddNewTask = (props: AddNewTaskType ) => {
         validate: (values) => {
         },
         onSubmit: values => {
-            dispatch(addTaskTK(props.listId, values.taskName))
+            dispatch(addTaskTK(props.listId, values.taskName, props.numberOfTasks))
             formik.resetForm()
         }
     })

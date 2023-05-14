@@ -1,3 +1,5 @@
+import {ErrorSnackbar} from "../Components/ErrorSnackbar/ErrorSnackbar";
+
 export type ColorType = { color: any, title: string }
 export type StatusWindowsType = {
     isCollapsedSB: boolean
@@ -5,6 +7,7 @@ export type StatusWindowsType = {
     addListForm: AddListFormType
     addTaskForm: AddTaskFormType
     arrColor: ColorType[]
+    errorSnackbar: null | string
 }
 
 export type AddListFormType =  {
@@ -59,6 +62,8 @@ const initialState =  {
         {color: '#b7b7b7', title: 'Grey'},
         {color: '#caab92', title: 'Taupe'}
     ]
+    ,
+    errorSnackbar: 'Some error'
 }
 
 export const StatusOffWindowsReducer = (
@@ -82,27 +87,10 @@ export const StatusOffWindowsReducer = (
         case "CHANGE-MODE-ADD-LIST": {
             return {...state, addListForm:{...state.addListForm, mode: action.mode, listId: action.listId}}
         }
+        case "SET-ERROR-SNACKBAR": return {...state, errorSnackbar: action.error}
         default: return state
     }
 };
-
-type Actions =
-    | toggleSideBarACType
-    | toggleAddListFormACType
-    | changeTitleNewListACType
-    | changeColorACType
-    | setErrorACType
-    | changeModeAddListACType
-
-export type toggleSideBarACType = ReturnType<typeof toggleSideBarAC>
-export type toggleAddListFormACType = ReturnType<typeof toggleAddListFormAC>
-export type changeTitleNewListACType = ReturnType<typeof changeTitleNewListAC>
-export type changeColorACType = ReturnType<typeof changeColorAC>
-export type setErrorACType = ReturnType<typeof setErrorAC>
-export type changeModeAddListACType = ReturnType<typeof changeModeAddListAC>
-
-
-
 
 export const toggleSideBarAC = () => ({type: 'TOGGLE-SIDE-BAR'} as const)
 export const toggleAddListFormAC = (change: boolean) => ({type: 'TOGGLE-ADD-LIST-FORM', change} as const)
@@ -111,3 +99,25 @@ export const changeColorAC = (color: string) => ({type: 'CHANGE-COLOR', color} a
 export const setErrorAC = (change: boolean) => ({type: 'SET-ERROR', change} as const )
 export const changeModeAddListAC = (listId: string ,mode: boolean) =>
     ({type: 'CHANGE-MODE-ADD-LIST', listId, mode} as const )
+export const setErrorSnackbar = (error: null | string) => ({type: 'SET-ERROR-SNACKBAR', error} as const)
+
+
+type Actions =
+    | toggleSideBarACType
+    | toggleAddListFormACType
+    | changeTitleNewListACType
+    | changeColorACType
+    | setErrorACType
+    | changeModeAddListACType
+    | setErrorSnackbarType
+
+export type toggleSideBarACType = ReturnType<typeof toggleSideBarAC>
+export type toggleAddListFormACType = ReturnType<typeof toggleAddListFormAC>
+export type changeTitleNewListACType = ReturnType<typeof changeTitleNewListAC>
+export type changeColorACType = ReturnType<typeof changeColorAC>
+export type setErrorACType = ReturnType<typeof setErrorAC>
+export type changeModeAddListACType = ReturnType<typeof changeModeAddListAC>
+export type setErrorSnackbarType = ReturnType<typeof setErrorSnackbar>
+
+
+

@@ -1,4 +1,4 @@
-import {ListThunkType, ListType} from "./state";
+import {FilterType} from "./state";
 import {todoApi} from "../api/todoAPI";
 import {Dispatch} from "redux";
 import {setErrorAC, toggleAddListFormAC} from "./statusOffWindowsReducer";
@@ -6,6 +6,25 @@ import {NavigateFunction} from "react-router/dist/lib/hooks";
 import {setTasksAC} from "./taskReducer";
 import {ThunkDispatchType} from "./store";
 
+
+export type ListType = {
+    id: string
+    title: string
+    addedDate: string
+    order: number
+    path: string
+    color: string
+    numberOfTasks?: number
+    filter: FilterType
+}
+
+export type ListThunkType = {
+    id: string
+    title: string
+    addedDate: string
+    order: number
+    numberOfTasks?: number
+}
 
 const parse = (title: string) => ([title.slice(7),title.substring(0, 7)])
 
@@ -79,9 +98,7 @@ export const fetchDataTC = () => async (dispatch: ThunkDispatchType) => {
             dispatch(setNumberOfTasks(l.id, tasks.totalCount))
         })
     }
-    catch (error) {
-
-    }
+    catch (error) {}
 }
 
 export const addListTK = (
@@ -124,7 +141,6 @@ export const editingListTK = (
                 dispatch(toggleAddListFormAC(false))
             })
     }
-
 
 export const removeListTK = (listId: string, navigate: NavigateFunction) => (dispatch: Dispatch) => {
     todoApi.deleteList(listId).then(() => {

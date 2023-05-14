@@ -8,6 +8,7 @@ import styled from "styled-components";
 import {Login} from "./Components/Login/Login";
 import {initializeAppTC} from "./redux/authReducer";
 import {SpinnerLoader} from "./Components/Super/Loader/SpinerLoader";
+import {ErrorSnackbar} from "./Components/ErrorSnackbar/ErrorSnackbar";
 
 export const App = memo(() => {
     const dispatch = useAppDispatch()
@@ -40,6 +41,7 @@ export const App = memo(() => {
                 <Route path='*' element={<h1>404</h1>}/>
             </Routes>
         </Content>
+        <ErrorSnackbar/>
     </WrapperApp>
 })
 
