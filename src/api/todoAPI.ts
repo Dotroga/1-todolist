@@ -15,7 +15,7 @@ export const authAPI = {
 
 export const todoApi = {
     getLists: () =>
-        instance.get<ListType[]>('todo-lists'),
+        instance.get<ListType[]>('todo-lists').then((res)=>res.data),
     createList: (title: string) =>
         instance.post<ResponseType<{ item: ListType }>>('todo-lists', {title}),
     updateList: (listId: string, title: string) =>
@@ -23,7 +23,8 @@ export const todoApi = {
     deleteList: (listId: string) =>
         instance.delete<ResponseType>(`todo-lists/${listId}`),
     getTasks: (listId: string) =>
-        instance.get<GetTasksResponse<TaskType[]>>(`todo-lists/${listId}/tasks`),
+        instance.get<GetTasksResponse<TaskType[]>>(`todo-lists/${listId}/tasks`)
+            .then((res)=>res.data),
     createTask: (listId: string, title: string) =>
         instance.post<ResponseType<{ item: TaskType }>>(`todo-lists/${listId}/tasks`, {title})
 }

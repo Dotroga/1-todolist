@@ -4,6 +4,7 @@ import {Dispatch} from "redux";
 import {setErrorAC, toggleAddListFormAC} from "./statusOffWindowsReducer";
 import {NavigateFunction} from "react-router/dist/lib/hooks";
 import {setTasksAC} from "./taskReducer";
+import {ThunkDispatchType} from "./store";
 
 
 const parse = (title: string) => ([title.slice(7),title.substring(0, 7)])
@@ -68,20 +69,19 @@ export const editingListAC = (listId: string, title: string) => ({
 export const removeListAC = (listId: string) => ({
   type: 'REMOVE-TASK-LIST', listId} as const)
 
-export const fetchDataTC = () => (dispatch: Dispatch) => {
-    todoApi.getLists()
-        .then((res) => {
-            dispatch(setListsAC(res.data))
-            return res.data
+export const fetchDataTC = () => async (dispatch: ThunkDispatchType) => {
+    try {
+        const lists = await todoApi.getLists()
+        dispatch(setListsAC(lists))
+        lists.map(async (l) => {
+            const tasks = await todoApi.getTasks(l.id)
+            dispatch(setTasksAC(l.id, tasks.items))
+            dispatch(setNumberOfTasks(l.id, tasks.totalCount))
         })
-        .then((lists) => {
-            lists.map((l) => {
-                todoApi.getTasks(l.id).then((res) => {
-                    dispatch(setTasksAC(l.id, res.data.items))
-                    dispatch(setNumberOfTasks(l.id, res.data.totalCount))
-                })
-            })
-        })
+    }
+    catch (error) {
+
+    }
 }
 
 export const addListTK = (

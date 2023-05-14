@@ -73,7 +73,7 @@ export const renameTaskAC = (listId: string, id: string, title: string) =>
   ({type: 'RENAME-TASK', listId, id, title} as const)
 export const setTaskTC = (todoId: string) => (dispatch: Dispatch) => {
   todoApi.getTasks(todoId).then((res)=>{
-    dispatch(setTasksAC(todoId, res.data.items))
+    dispatch(setTasksAC(todoId, res.items))
   })
 }
 export const addTaskTK = (listId: string, title: string) => (dispatch: Dispatch) => {

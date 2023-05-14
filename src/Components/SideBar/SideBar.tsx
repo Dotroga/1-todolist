@@ -12,7 +12,9 @@ import {LogOut} from "./LogOut";
 
 export const SideBar = memo(() => {
     const dispatch = useAppDispatch()
-    useEffect(() => dispatch(fetchDataTC()), [])
+    useEffect(()  => {
+        dispatch(fetchDataTC()).then(r => r)
+    }, [])
     const isCollapsedSB = useAppSelector<boolean>(state => state.StatusOffWindows.isCollapsedSB)
     const isVisibleALF = useAppSelector<boolean>(state => state.StatusOffWindows.isVisibleALF)
     const lists = useAppSelector<ListType[]>(state => state.lists)
