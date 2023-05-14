@@ -20,7 +20,7 @@ export const List: React.FC<{ list: ListType }> = ({list}) => {
             <DeleteButton callBack={deleteList}/>
         </ListTitle>
         <Tasks listId={list.id}/>
-            <AddNewTask listId={list.id}/>
+            <AddNewTask listId={list.id} numberOfTasks={list.numberOfTasks}/>
     </Wrapper>
   );
 };

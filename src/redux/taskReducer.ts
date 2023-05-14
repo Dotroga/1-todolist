@@ -1,6 +1,6 @@
 
 import {TasksType} from "./state";
-import {addListACType, getListsACType, removeListACType} from "./listsReducer";
+import {addListACType, getListsACType, removeListACType, setNumberOfTasks} from "./listsReducer";
 import {Dispatch} from "redux";
 import {TaskType, todoApi} from "../api/todoAPI";
 export const tasksReducer = (tasks: TasksType = {}, action:TsarType): TasksType => {
@@ -76,9 +76,11 @@ export const setTaskTC = (todoId: string) => (dispatch: Dispatch) => {
     dispatch(setTasksAC(todoId, res.items))
   })
 }
-export const addTaskTK = (listId: string, title: string) => (dispatch: Dispatch) => {
+export const addTaskTK = (listId: string, title: string, numberOfTasks: number | undefined) => (dispatch: Dispatch) => {
   todoApi.createTask(listId,title).then((res) => {
+    const num = numberOfTasks ? numberOfTasks + 1 : 1
     dispatch(addTaskAC(listId, res.data.data.item))
+    dispatch(setNumberOfTasks(listId, num))
   })
 }
 
