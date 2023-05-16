@@ -10,12 +10,15 @@ export const ErrorSnackbar = () => {
     const error = useAppSelector((state) => state.StatusOffWindows.errorSnackbar)
 
     useEffect(()=> {
+        let id: NodeJS.Timeout | undefined
         if (error) {
             setShow(true)
-            setTimeout(()=>{
+            id = setTimeout(()=>{
                 closeSnackbar()
+                console.log('hello')
             }, 3000)
         }
+        return () => clearTimeout(id)
     },[error])
 
     const  closeSnackbar = () => {
