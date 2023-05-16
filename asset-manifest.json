@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.js": "/1-todolist/static/js/main.4ce41639.js",
+    "static/media/deleteUrn.svg": "/1-todolist/static/media/deleteUrn.334c1f9a940c709009ccb3581554d260.svg",
+    "static/media/arrowDown.svg": "/1-todolist/static/media/arrowDown.e8fe2cb356115f610277ecbfd9023b5d.svg",
+    "static/media/arrowUp.svg": "/1-todolist/static/media/arrowUp.ca9174e9edc5fd3ee3fede54747d8077.svg",
+    "static/media/edit.svg": "/1-todolist/static/media/edit.57d89ff2d1469b1c818d27e2b39605b5.svg",
+    "index.html": "/1-todolist/index.html",
+    "static/media/logOut.svg": "/1-todolist/static/media/logOut.c373ec9a76fd593cdbfce7e4707c0018.svg",
+    "static/media/arrow.svg": "/1-todolist/static/media/arrow.33563ac9eafc46b28dedb1d27a41d190.svg",
+    "static/media/threePoints.svg": "/1-todolist/static/media/threePoints.e428bad66d45f74c5439dbf8a26f467f.svg",
+    "static/media/plus.svg": "/1-todolist/static/media/plus.815654814a965005da2d20126d56f4be.svg",
+    "static/media/delete.svg": "/1-todolist/static/media/delete.d7d4c1128865c7fbeb3ada2cee70b371.svg",
+    "static/media/menuBurger.svg": "/1-todolist/static/media/menuBurger.283787769d530f9a689bfcc1d8c517e5.svg",
+    "main.4ce41639.js.map": "/1-todolist/static/js/main.4ce41639.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.4ce41639.js"
+  ]
+}
