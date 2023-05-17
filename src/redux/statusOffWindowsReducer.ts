@@ -1,5 +1,3 @@
-import {ErrorSnackbar} from "../Components/ErrorSnackbar/ErrorSnackbar";
-
 export type ColorType = { color: any, title: string }
 export type StatusWindowsType = {
     isCollapsedSB: boolean
@@ -16,6 +14,7 @@ export type AddListFormType =  {
     title: string
     error: string | null,
     color: ColorType | null
+    isLoading: boolean
 }
 export type AddTaskFormType = {
     title: string
@@ -32,7 +31,8 @@ const initialState =  {
         mode: true,
         title: '',
         error: null,
-        color: null
+        color: null,
+        isLoading: false
     },
     addTaskForm: {
         visibleForm: false,
@@ -88,6 +88,8 @@ export const StatusOffWindowsReducer = (
             return {...state, addListForm:{...state.addListForm, mode: action.mode, listId: action.listId}}
         }
         case "SET-ERROR-SNACKBAR": return {...state, errorSnackbar: action.error}
+        case "SET-IS-LOADING-ADD-LIST":
+            return {...state, addListForm: {...state.addListForm, isLoading: action.isLoading}}
         default: return state
     }
 };
@@ -100,7 +102,7 @@ export const setErrorAC = (change: boolean) => ({type: 'SET-ERROR', change} as c
 export const changeModeAddListAC = (listId: string ,mode: boolean) =>
     ({type: 'CHANGE-MODE-ADD-LIST', listId, mode} as const )
 export const setErrorSnackbar = (error: null | string) => ({type: 'SET-ERROR-SNACKBAR', error} as const)
-
+export const setIsLoadingAddListForm = (isLoading: boolean) => ({type: 'SET-IS-LOADING-ADD-LIST', isLoading} as const)
 
 type Actions =
     | toggleSideBarACType
@@ -110,6 +112,7 @@ type Actions =
     | setErrorACType
     | changeModeAddListACType
     | setErrorSnackbarType
+    | setIsLoadingAddListFormType
 
 export type toggleSideBarACType = ReturnType<typeof toggleSideBarAC>
 export type toggleAddListFormACType = ReturnType<typeof toggleAddListFormAC>
@@ -118,6 +121,6 @@ export type changeColorACType = ReturnType<typeof changeColorAC>
 export type setErrorACType = ReturnType<typeof setErrorAC>
 export type changeModeAddListACType = ReturnType<typeof changeModeAddListAC>
 export type setErrorSnackbarType = ReturnType<typeof setErrorSnackbar>
-
+export type setIsLoadingAddListFormType = ReturnType<typeof setIsLoadingAddListForm>
 
 

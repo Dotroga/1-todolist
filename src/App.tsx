@@ -1,5 +1,4 @@
 import React, {memo, useEffect} from 'react';
-import {ListType} from "./redux/state";
 import {useAppDispatch, useAppSelector} from "./redux/store";
 import {SideBar} from "./Components/SideBar/SideBar";
 import {Route, Routes, useNavigate} from "react-router-dom";
@@ -9,6 +8,7 @@ import {Login} from "./Components/Login/Login";
 import {initializeAppTC} from "./redux/authReducer";
 import {SpinnerLoader} from "./Components/Super/Loader/SpinerLoader";
 import {ErrorSnackbar} from "./Components/ErrorSnackbar/ErrorSnackbar";
+import {ListType} from "./redux/listsReducer";
 
 export const App = memo(() => {
     const dispatch = useAppDispatch()

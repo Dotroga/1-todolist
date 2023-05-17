@@ -1,5 +1,6 @@
 import {v1} from "uuid";
 import {TaskType} from "../api/todoAPI";
+import {ListType} from "./listsReducer";
 export type ServerSideListType = {
   id: string
   title: string
@@ -13,16 +14,7 @@ export type ListThunkType = {
   order: number
   numberOfTasks?: number
 }
-export type ListType = {
-  id: string
-  title: string
-  addedDate: string
-  order: number
-  path: string
-  color: string
-  numberOfTasks?: number
-  filter: FilterType
-}
+
 export type FilterType = 'All' | 'Active' | 'Completed'
 
 export type TasksType = { [key: string]: TaskType[] }
@@ -32,9 +24,9 @@ export let todolistId2 = v1();
 
 export const listsToDo: ListType[] = [
   {id: todolistId1,  title: "What to learn", path: '/whattolearn', color: '#ae38e9' , addedDate:'',
-    order: 0, numberOfTasks: 1, filter: 'All'},
+    order: 0, numberOfTasks: 1, filter: 'All', isLoading: false},
   {id: todolistId2, title: "What to buy", path: '/whattobuy', color: '#7dca48', addedDate: '',
-    order: 1, numberOfTasks: 1, filter: 'All'}
+    order: 1, numberOfTasks: 1, filter: 'All', isLoading: false}
 ]
 
 export const tasksToDo: TasksType = {

@@ -1,12 +1,11 @@
 import React, {memo, useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from "../../redux/store";
-import {ListType} from "../../redux/state";
 import {MenuBurger} from "./MenuBurger";
 import styled, {css} from "styled-components";
 import {SideBarIcon} from "./SideBarIcon/SideBarIcon";
 import {AddListButton} from "./AddNewList/AddListButton";
 import {AddListForm} from "./AddNewList/AddListForm/AddListForm";
-import {fetchDataTC} from "../../redux/listsReducer";
+import {fetchDataTC, ListType} from "../../redux/listsReducer";
 import {LogOut} from "./LogOut";
 
 
@@ -20,10 +19,10 @@ export const SideBar = memo(() => {
     const lists = useAppSelector<ListType[]>(state => state.lists)
 
     const allItem = lists.map((l, i) => {
-
         return<SideBarIcon
             key={i}
             listId={l.id}
+            isLoading={l.isLoading}
             isOpen={isCollapsedSB}
             numberOfTasks={l.numberOfTasks}
             title={l.title}

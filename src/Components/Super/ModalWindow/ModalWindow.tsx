@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {memo, useEffect, useRef} from 'react';
 import styled from "styled-components";
 import edit from "../../../Icons/edit.svg";
 import arrowUp from "../../../Icons/arrowUp.svg";
@@ -21,10 +21,11 @@ type PropsType = {
     color: string
     isOpen: boolean
     onCloses: (v: boolean)=>void
+    isLoading: boolean | undefined
 }
 
-export const ModalWindow: React.FC<PropsType> = (props) => {
-    const {listId, title, color, isOpen, onCloses} = props
+export const ModalWindow: React.FC<PropsType> = memo((props) => {
+    const {listId, title, color, isOpen, onCloses, isLoading} = props
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const ref = useRef<HTMLDivElement>(null)
@@ -40,7 +41,6 @@ export const ModalWindow: React.FC<PropsType> = (props) => {
                 }
             }
             document.addEventListener('mousedown', handleClick)
-
             return () => {
                 document.removeEventListener('mousedown', handleClick)
             }
@@ -62,25 +62,26 @@ export const ModalWindow: React.FC<PropsType> = (props) => {
 
     return (<Wrapper ref={ref}>
         <div className={`options ${isOpen ? 'active' : 'inActive'}`}>
-            <div onClick={editingModeList}>
+            <button onClick={editingModeList} disabled={isLoading}>
                 <img src={edit} alt=""/>
                 <p>Edit</p>
-            </div>
-            <div>
+            </button>
+            <button disabled={isLoading}>
                 <img src={arrowUp} alt=""/>
                 <p>Move up</p>
-            </div>
-            <div>
+            </button>
+            <button disabled={isLoading}>
                 <img src={arrowDown} alt=""/>
                 <p>Move down</p>
-            </div>
-            <div onClick={removeList}>
+            </button>
+            <button onClick={removeList} disabled={isLoading}>
                 <img src={deleteUrn} alt=""/>
                 <p>Delete</p>
-            </div>
+            </button>
         </div>
     </Wrapper>)
-};
+})
+
  const Wrapper = styled.div`
    position: absolute;
    z-index: 99;
@@ -94,12 +95,16 @@ export const ModalWindow: React.FC<PropsType> = (props) => {
      gap: 2px;
      padding: 6px;
      top: -5px;
-     div {
+     button{
+       border: none;
        display: flex;
+       background: none;
+       color: white;
        align-items: center;
        gap: 5px;
        padding: 4px;
        border-radius: 6px;
+       cursor: pointer;
        &:hover {
          background-color: #424d6b;
        }

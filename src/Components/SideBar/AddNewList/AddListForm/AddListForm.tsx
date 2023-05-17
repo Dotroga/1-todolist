@@ -1,4 +1,4 @@
-import React, {ChangeEvent, memo, useCallback, useState} from 'react';
+import React, {ChangeEvent, memo, useCallback} from 'react';
 import styled from "styled-components";
 import {SuperButton} from "../../../Super/SuperButton/SuperButton";
 import {Select} from "../../../Super/Select/Select";
@@ -26,26 +26,29 @@ export const AddListForm: React.FC<AddNewListType> = memo((
 
     const addListForm = useAppSelector<AddListFormType>(state => state.StatusOffWindows.addListForm)
     const arrColor = useAppSelector<ColorType[]>(state => state.StatusOffWindows.arrColor)
-    const [loading, setLoading] = useState<boolean>(false)
+    const isLoading = useAppSelector(state => state.StatusOffWindows.addListForm.isLoading)
 
     const changeTitle = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         const text = e.currentTarget.value
         dispatch(changeTitleNewListAC(text))
         dispatch(setErrorAC(false))
     },[addListForm.title])
+
     const changeColor = useCallback((color: ColorType)=>{
         dispatch(changeColorAC(color.color))
     },[addListForm.color])
+
     const addList = useCallback(() => {
         const color = addListForm.color ? addListForm.color.color : arrColor[3].color
         addListForm.mode
-            ? dispatch(addListTK(addListForm.title, navigate, color, setLoading))
-            : dispatch(editingListTK(addListForm.listId!, addListForm.title, color, navigate, setLoading))
+            ? dispatch(addListTK(addListForm.title, navigate, color))
+            : dispatch(editingListTK(addListForm.listId!, addListForm.title, color, navigate))
     },[addListForm])
+
     const toggleAddListForm = useCallback(() => {
         dispatch(toggleAddListFormAC(false))
     },[isVisibleALF])
-
+    console.log(isLoading)
   return (
     <Wrapper isVisibleAL={isVisibleALF} isOpen={isOpen}>
       <SuperInput
@@ -58,8 +61,13 @@ export const AddListForm: React.FC<AddNewListType> = memo((
         </SelectWrapper>
         <ButtonWrapper>
             <MaxQuantity maxNum={10} currentNum={listsLength}/>
-            <SuperButton title='Cancel' onClick={toggleAddListForm}/>
-            <SuperButton title={addListForm.mode ? 'Add' : 'Save'} loading={loading ? loading : undefined} onClick={addList}/>
+            <SuperButton title='Cancel' onClick={toggleAddListForm} />
+            <SuperButton
+                title={addListForm.mode ? 'Add' : 'Save'}
+                loading={isLoading ? isLoading : undefined}
+                onClick={addList}
+                disabled={isLoading}
+            />
         </ButtonWrapper>
     </Wrapper>
   );

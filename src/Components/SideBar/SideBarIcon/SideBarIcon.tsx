@@ -1,4 +1,4 @@
-import React, {memo, useState} from 'react';
+import React, {memo, useCallback, useState} from 'react';
 import fourSquare from '../../../Icons/fourSquare.png'
 import {StyledNavLink} from './SideBarIconStyled'
 import {ModalWindow} from "../../Super/ModalWindow/ModalWindow";
@@ -12,20 +12,21 @@ type SideBarIconsPropsType = {
   color: string
   to: string
   numberOfTasks?: number
+  isLoading?: boolean
 }
 
 export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
-  const {listId, isOpen, title, color, to, numberOfTasks} = props
+  const {listId, isOpen, title, color, to, numberOfTasks, isLoading} = props
 
   const [hover, setHover] = useState(false)
   const [isOpenOptions, setIsOpenOptions] = useState(false)
   const onHover = () => setHover(true)
   const outHover = () => !isOpenOptions && setHover(false)
-  const opened = () => setIsOpenOptions(!isOpenOptions)
-  const closed = (v: boolean) => {
+  const opened =  useCallback (() => setIsOpenOptions(!isOpenOptions),[isOpenOptions])
+  const closed = useCallback ((v: boolean) => {
     setIsOpenOptions(v)
     setHover(false)
-  }
+  },[hover, isOpenOptions])
 
   return <StyledNavLink
       to={to}
@@ -40,7 +41,7 @@ export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
       : <style></style>
     }
       <div>{title}</div>
-    {numberOfTasks !== undefined &&
+    {numberOfTasks  !== undefined &&
         <div className='AdditionalOptions' >
           {hover &&
           <img src={threePoints} className='threePoints' alt="" onClick={opened}/>}
@@ -50,6 +51,7 @@ export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
               listId={listId}
               isOpen={isOpenOptions}
               onCloses={closed}
+              isLoading={isLoading}
             />
           {numberOfTasks > 0 && <span className='number'>{numberOfTasks}</span>}
         </div>}
