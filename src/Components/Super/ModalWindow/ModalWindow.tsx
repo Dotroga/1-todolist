@@ -59,22 +59,22 @@ export const ModalWindow: React.FC<PropsType> = memo((props) => {
         dispatch(removeListTK(listId!, navigate))
         onCloses(false)
     }
-
+    console.log(isLoading)
     return (<Wrapper ref={ref}>
         <div className={`options ${isOpen ? 'active' : 'inActive'}`}>
-            <button onClick={editingModeList} disabled={isLoading}>
+            <button onClick={editingModeList} disabled={isLoading!}>
                 <img src={edit} alt=""/>
                 <p>Edit</p>
             </button>
-            <button disabled={isLoading}>
+            <button disabled={isLoading!}>
                 <img src={arrowUp} alt=""/>
                 <p>Move up</p>
             </button>
-            <button disabled={isLoading}>
+            <button disabled={isLoading!}>
                 <img src={arrowDown} alt=""/>
                 <p>Move down</p>
             </button>
-            <button onClick={removeList} disabled={isLoading}>
+            <button onClick={removeList} disabled={isLoading!}>
                 <img src={deleteUrn} alt=""/>
                 <p>Delete</p>
             </button>

@@ -41,7 +41,7 @@ export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
       : <style></style>
     }
       <div>{title}</div>
-    {numberOfTasks  !== undefined &&
+    {title !== 'All lists' &&
         <div className='AdditionalOptions' >
           {hover &&
           <img src={threePoints} className='threePoints' alt="" onClick={opened}/>}
@@ -53,7 +53,7 @@ export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
               onCloses={closed}
               isLoading={isLoading}
             />
-          {numberOfTasks > 0 && <span className='number'>{numberOfTasks}</span>}
+          {numberOfTasks! > 0 && <span className='number'>{numberOfTasks}</span>}
         </div>}
     </StyledNavLink>
 });

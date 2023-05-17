@@ -105,6 +105,7 @@ export const addListTK = (title: string, navigate: NavigateFunction, color: stri
 export const editingListTK = (listId: string, title: string, color: string, navigate: NavigateFunction) =>
     (dispatch: Dispatch) => {
         dispatch(setIsLoadingAddListForm(true))
+        dispatch(setIsLoading(listId, true))
         const colorAndTitle = color + title
         todoApi.updateList(listId, colorAndTitle)
             .then(() => {
@@ -113,17 +114,20 @@ export const editingListTK = (listId: string, title: string, color: string, navi
                 dispatch(setIsLoadingAddListForm(false))
 
             })
-            .finally(()=>dispatch(toggleAddListFormAC(false)))
+            .finally(()=>{
+                dispatch(toggleAddListFormAC(false))
+                dispatch(setIsLoading(listId, false))
+            })
     }
 
 export const removeListTK = (listId: string, navigate: NavigateFunction) => (dispatch: Dispatch) => {
-    dispatch(setIsLoadingAddListForm(true))
+    dispatch(toggleAddListFormAC(true))
     todoApi.deleteList(listId)
         .then(() => {
             dispatch(removeListAC(listId))
             navigate('/')
+            dispatch(toggleAddListFormAC(false))
         })
-        .finally(()=>dispatch(setIsLoadingAddListForm(false)))
 }
 
 export type ListType = {
