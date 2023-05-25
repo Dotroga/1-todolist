@@ -1,20 +1,18 @@
-import React, {DetailedHTMLProps, InputHTMLAttributes} from 'react';
+import React, { DetailedHTMLProps, InputHTMLAttributes } from "react";
 import styled from "styled-components";
 
-type DefaultInputPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>,
-    HTMLInputElement>
+type DefaultInputPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
 
-export const SuperCheckbox: React.FC<Omit<DefaultInputPropsType, 'type'>> = (
-    {children, ...restProps}) => {
-    return (
-        <Wrapper className="grid">
-            <input type="checkbox" {...restProps}/>
-            <span>{children}</span>
-        </Wrapper>
-    );
+export const SuperCheckbox: React.FC<Omit<DefaultInputPropsType, "type">> = ({ children, ...restProps }) => {
+  return (
+    <Wrapper className="grid">
+      <input type="checkbox" {...restProps} />
+      <span>{children}</span>
+    </Wrapper>
+  );
 };
 
- const Wrapper = styled.div`
+const Wrapper = styled.div`
    display: flex;
    gap: 5px;
  }
@@ -141,7 +139,4 @@ export const SuperCheckbox: React.FC<Omit<DefaultInputPropsType, 'type'>> = (
          }
        }
      }
- `
-
-
-
+ `;

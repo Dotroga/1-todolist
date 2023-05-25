@@ -1,9 +1,8 @@
-import {addTaskAC, changeTaskStatusAC, renameTaskAC, tasksReducer} from "./taskReducer";
-import {listsToDo, tasksToDo, TasksType} from "./state";
-import {setListsAC} from "./listsReducer";
+import { addTaskAC, changeTaskStatusAC, renameTaskAC, tasksReducer } from "./taskReducer";
+import { listsToDo, tasksToDo, TasksType } from "./state";
+import { setListsAC } from "./listsReducer";
 
-
-const startState: TasksType  = tasksToDo
+const startState: TasksType = tasksToDo;
 
 // test('correct task should be deleted from correct array', () => {
 //

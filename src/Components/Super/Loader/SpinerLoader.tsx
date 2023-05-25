@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 import styled from "styled-components";
 
 export const SpinnerLoader = () => {
-    return <Loader></Loader>
-}
+  return <Loader></Loader>;
+};
 const Loader = styled.span`
   margin: 0;
   position: absolute;
@@ -65,5 +65,4 @@ const Loader = styled.span`
     3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em,
     -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;
   }
-`
-
+`;

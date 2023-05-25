@@ -1,64 +1,60 @@
-import React, {memo, useCallback, useState} from 'react';
-import fourSquare from '../../../Icons/fourSquare.png'
-import {StyledNavLink} from './SideBarIconStyled'
-import {ModalWindow} from "../../Super/ModalWindow/ModalWindow";
-import threePoints from "../../../Icons/threePoints.svg";
-
+import React, { memo, useCallback, useState } from "react";
+import fourSquare from "../../../Icons/fourSquare.png";
+import { StyledNavLink } from "./SideBarIconStyled";
+import { ModalWindow } from "../../Super/ModalWindow/ModalWindow";
+import { ThreeDotsButton } from "../../Super/ThreeDotsButton/ThreeDotsButton";
 
 type SideBarIconsPropsType = {
-  listId?: string
-  isOpen: boolean
-  title: string
-  color: string
-  to: string
-  numberOfTasks?: number
-  isLoading?: boolean
-}
+  listId?: string;
+  isOpen: boolean;
+  title: string;
+  color: string;
+  to: string;
+  numberOfTasks?: number;
+  isLoading?: boolean;
+};
 
 export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
-  const {listId, isOpen, title, color, to, numberOfTasks, isLoading} = props
+  const { listId, isOpen, title, color, to, numberOfTasks, isLoading } = props;
 
-  const [hover, setHover] = useState(false)
-  const [isOpenOptions, setIsOpenOptions] = useState(false)
-  const onHover = () => setHover(true)
-  const outHover = () => !isOpenOptions && setHover(false)
-  const opened =  useCallback (() => setIsOpenOptions(!isOpenOptions),[isOpenOptions])
-  const closed = useCallback ((v: boolean) => {
-    setIsOpenOptions(v)
-    setHover(false)
-  },[hover, isOpenOptions])
+  const [hover, setHover] = useState(false);
+  const [isOpenOptions, setIsOpenOptions] = useState(false);
+  const onHover = () => setHover(true);
+  const outHover = () => !isOpenOptions && setHover(false);
+  const opened = useCallback(() => setIsOpenOptions(!isOpenOptions), [isOpenOptions]);
+  const closed = useCallback(
+    (v: boolean) => {
+      setIsOpenOptions(v);
+      setHover(false);
+    },
+    [hover, isOpenOptions]
+  );
 
-  return <StyledNavLink
+  return (
+    <StyledNavLink
       to={to}
-      visible={isOpen ? '' : null}
+      visible={isOpen ? "" : null}
       color={color}
       hover={hover.toString()}
       onMouseOut={outHover}
       onMouseOver={onHover}
-  >
-    {title === 'All lists'
-      ? <img src={fourSquare} alt="square"/>
-      : <style></style>
-    }
+    >
+      {title === "All lists" ? <img src={fourSquare} alt="square" /> : <style></style>}
       <div>{title}</div>
-    {title !== 'All lists' &&
-        <div className='AdditionalOptions' >
-          {hover &&
-          <img src={threePoints} className='threePoints' alt="" onClick={opened}/>}
+      {title !== "All lists" && (
+        <div className="AdditionalOptions">
+          {hover && <ThreeDotsButton onClick={opened} />}
           <ModalWindow
-              title={title}
-              color={color}
-              listId={listId}
-              isOpen={isOpenOptions}
-              onCloses={closed}
-              isLoading={isLoading}
-            />
-          {numberOfTasks! > 0 && <span className='number'>{numberOfTasks}</span>}
-        </div>}
+            title={title}
+            color={color}
+            listId={listId}
+            isOpen={isOpenOptions}
+            onCloses={closed}
+            isLoading={isLoading}
+          />
+          {numberOfTasks! > 0 && <span className="number">{numberOfTasks}</span>}
+        </div>
+      )}
     </StyledNavLink>
+  );
 });
-
-
-
-
-

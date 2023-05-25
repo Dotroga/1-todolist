@@ -1,24 +1,24 @@
-import React from 'react';
-import logOut from './../../Icons/logOut.svg'
+import React from "react";
+import logOut from "./../../Icons/logOut.svg";
 import styled from "styled-components";
-import {useAppDispatch} from "../../redux/store";
-import {logOutTC} from "../../redux/authReducer";
+import { useAppDispatch } from "redux/store";
+import { logOutTC } from "redux/authReducer";
 
 type PropType = {
-    isCollapsedSB: boolean
-}
+  isCollapsedSB: boolean;
+};
 
-export const LogOut: React.FC<PropType> = ({isCollapsedSB}) => {
-    const dispatch = useAppDispatch()
-    const logOutHandler = () => {
-        dispatch(logOutTC())
-    }
-    return (
-        <Wrapper onClick={logOutHandler}>
-            <img src={logOut} alt=""/>
-            {isCollapsedSB && <span>Log Out</span>}
-        </Wrapper>
-    );
+export const LogOut: React.FC<PropType> = ({ isCollapsedSB }) => {
+  const dispatch = useAppDispatch();
+  const logOutHandler = () => {
+    dispatch(logOutTC());
+  };
+  return (
+    <Wrapper onClick={logOutHandler}>
+      <img src={logOut} alt="" />
+      {isCollapsedSB && <span>Log Out</span>}
+    </Wrapper>
+  );
 };
 
 const Wrapper = styled.div`
@@ -37,9 +37,12 @@ const Wrapper = styled.div`
     width: 34px;
     transition: 0.3s;
   }
-  &:hover{
-    span {opacity: 1;}
-    img {transform: scale(1.1);}
+  &:hover {
+    span {
+      opacity: 1;
+    }
+    img {
+      transform: scale(1.1);
+    }
   }
-`
-
+`;

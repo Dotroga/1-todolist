@@ -1,49 +1,110 @@
-import {v1} from "uuid";
-import {TaskType} from "../api/todoAPI";
-import {ListType} from "./listsReducer";
+import { v1 } from "uuid";
+import { TaskType } from "api/todoAPI";
+import { ListType } from "./listsReducer";
 export type ServerSideListType = {
-  id: string
-  title: string
-  addedDate: string
-  order: number
-}
+  id: string;
+  title: string;
+  addedDate: string;
+  order: number;
+};
 export type ListThunkType = {
-  id: string
-  title: string
-  addedDate: string
-  order: number
-  numberOfTasks?: number
-}
+  id: string;
+  title: string;
+  addedDate: string;
+  order: number;
+  numberOfTasks?: number;
+};
 
-export type FilterType = 'All' | 'Active' | 'Completed'
+export type FilterType = "All" | "Active" | "Completed";
 
-export type TasksType = { [key: string]: TaskType[] }
+export type TasksType = { [key: string]: TaskType[] };
 
 export let todolistId1 = v1();
 export let todolistId2 = v1();
 
 export const listsToDo: ListType[] = [
-  {id: todolistId1,  title: "What to learn", path: '/whattolearn', color: '#ae38e9' , addedDate:'',
-    order: 0, numberOfTasks: 1, filter: 'All', isLoading: false},
-  {id: todolistId2, title: "What to buy", path: '/whattobuy', color: '#7dca48', addedDate: '',
-    order: 1, numberOfTasks: 1, filter: 'All', isLoading: false}
-]
+  {
+    id: todolistId1,
+    title: "What to learn",
+    path: "/whattolearn",
+    color: "#ae38e9",
+    addedDate: "",
+    order: 0,
+    numberOfTasks: 1,
+    filter: "All",
+    isLoading: false,
+  },
+  {
+    id: todolistId2,
+    title: "What to buy",
+    path: "/whattobuy",
+    color: "#7dca48",
+    addedDate: "",
+    order: 1,
+    numberOfTasks: 1,
+    filter: "All",
+    isLoading: false,
+  },
+];
 
 export const tasksToDo: TasksType = {
   [todolistId1]: [
-    {description: '', id: v1(), title: "HTML&CSS", completed: true, startDate: '10 July 22:03',
-      status: '', priority: '', deadline: '', todoListId: '', order: 1, addedDate: ''},
-    {description: '', id: v1(), title: "JS", completed: false, startDate: '20 July 9:13',
-      status: '', priority: '', deadline: '', todoListId: '', order: 2, addedDate: ''}
+    {
+      description: "",
+      id: v1(),
+      title: "HTML&CSS",
+      completed: true,
+      startDate: "10 July 22:03",
+      status: "",
+      priority: "",
+      deadline: "",
+      todoListId: "",
+      order: 1,
+      addedDate: "",
+    },
+    {
+      description: "",
+      id: v1(),
+      title: "JS",
+      completed: false,
+      startDate: "20 July 9:13",
+      status: "",
+      priority: "",
+      deadline: "",
+      todoListId: "",
+      order: 2,
+      addedDate: "",
+    },
   ],
   [todolistId2]: [
-    {description: '', id: v1(), title: "Books", completed: true, startDate: '1 February 17:56',
-      status: '', priority: '', deadline: '', todoListId: '', order: 1, addedDate: ''},
-    {description: '', id: v1(), title: "Food", completed: true, startDate: '4 March 22:31',
-      status: '', priority: '', deadline: '', todoListId: '', order: 2, addedDate: ''}
-  ]
-}
-
+    {
+      description: "",
+      id: v1(),
+      title: "Books",
+      completed: true,
+      startDate: "1 February 17:56",
+      status: "",
+      priority: "",
+      deadline: "",
+      todoListId: "",
+      order: 1,
+      addedDate: "",
+    },
+    {
+      description: "",
+      id: v1(),
+      title: "Food",
+      completed: true,
+      startDate: "4 March 22:31",
+      status: "",
+      priority: "",
+      deadline: "",
+      todoListId: "",
+      order: 2,
+      addedDate: "",
+    },
+  ],
+};
 
 // const idSubsection =  '1234'
 // export const newState = {
@@ -65,5 +126,3 @@ export const tasksToDo: TasksType = {
 //     ]
 //   }
 // }
-
-

@@ -1,11 +1,9 @@
-import {tasksToDo, TasksType} from "./state";
-import {tasksReducer} from "./taskReducer";
-import {addNewListAC, listsReducer, removeListAC} from "./listsReducer";
-import {v1} from "uuid";
+import { tasksToDo, TasksType } from "./state";
+import { tasksReducer } from "./taskReducer";
+import { addNewListAC, listsReducer, removeListAC } from "./listsReducer";
+import { v1 } from "uuid";
 
-const startState: TasksType  = tasksToDo
-
-
+const startState: TasksType = tasksToDo;
 
 // test('ids should be equals', () => {
 //   const startTasksState: TasksType  = {}

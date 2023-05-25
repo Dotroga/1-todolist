@@ -1,41 +1,43 @@
-import React from 'react';
+import React from "react";
 import styled from "styled-components";
 
- export const Loader = () => {
-    return <Wrapper>
-            <div className="container">
-                <span className="circle"></span>
-                <span className="circle"></span>
-                <span className="circle"></span>
-                <span className="circle"></span>
-            </div>
-        </Wrapper>
-}
+export const Loader = () => {
+  return (
+    <Wrapper>
+      <div className="container">
+        <span className="circle"></span>
+        <span className="circle"></span>
+        <span className="circle"></span>
+        <span className="circle"></span>
+      </div>
+    </Wrapper>
+  );
+};
 
 const Wrapper = styled.div`
   position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  .container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .container {
     height: 5px;
     width: 52.5px;
     display: flex;
     position: relative;
-     .circle {
+    .circle {
       width: 7.5px;
       height: 7.5px;
       border-radius: 50%;
       background-color: #fff;
       animation: move 500ms linear 0ms infinite;
       margin-right: 15px;
-      &:first-child{
+      &:first-child {
         position: absolute;
-        top:0;
-        left:0;
+        top: 0;
+        left: 0;
         animation: grow 500ms linear 0ms infinite;
       }
-      &:last-child{
+      &:last-child {
         position: absolute;
         top: 0;
         right: 0;
@@ -45,12 +47,21 @@ const Wrapper = styled.div`
     }
   }
   @keyframes grow {
-    from {transform: scale(0,0); opacity: 0;}
-    to {transform: scale(1,1); opacity: 1;}
+    from {
+      transform: scale(0, 0);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1, 1);
+      opacity: 1;
+    }
   }
   @keyframes move {
-    from {transform: translateX(0px)}
-    to {transform: translateX(22.5px)}
+    from {
+      transform: translateX(0px);
+    }
+    to {
+      transform: translateX(22.5px);
+    }
   }
-`
-
+`;

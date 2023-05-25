@@ -1,3 +1,1 @@
-export type ListColorType = {color: string, listId: string}
-
-
+export type ListColorType = { color: string; listId: string };
