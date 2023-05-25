@@ -1,12 +1,15 @@
 import React, { memo, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "redux/store";
 import { MenuBurger } from "./MenuBurger";
-import styled, { css } from "styled-components";
+import styled, {css} from "styled-components";
 import { SideBarIcon } from "./SideBarIcon/SideBarIcon";
 import { AddListButton } from "./AddNewList/AddListButton";
 import { AddListForm } from "./AddNewList/AddListForm/AddListForm";
 import { fetchDataTC, ListType } from "redux/listsReducer";
 import { LogOut } from "./LogOut";
+import {baseTheme, lightTheme} from "theme";
+import {changeTheme} from "redux/statusOffWindowsReducer";
+
 
 export const SideBar = memo(() => {
   const dispatch = useAppDispatch();
@@ -16,6 +19,13 @@ export const SideBar = memo(() => {
   const isCollapsedSB = useAppSelector<boolean>((state) => state.StatusOffWindows.isCollapsedSB);
   const isVisibleALF = useAppSelector<boolean>((state) => state.StatusOffWindows.isVisibleALF);
   const lists = useAppSelector<ListType[]>((state) => state.lists);
+  const theme = useAppSelector((state)=> state.StatusOffWindows.theme)
+
+  const themeHandler = () => {
+    theme.type === 'dark'
+      ? dispatch(changeTheme(lightTheme))
+      : dispatch(changeTheme(baseTheme))
+  }
 
   const allItem = lists.map((l, i) => {
     return (
@@ -41,7 +51,10 @@ export const SideBar = memo(() => {
         <AddListForm isOpen={isCollapsedSB} isVisibleALF={isVisibleALF} listsLength={lists.length} />
       </AddNewList>
       {allItem}
-      <LogOut isCollapsedSB={isCollapsedSB} />
+      <footer>
+        <button onClick={themeHandler}>Change theme</button>
+        <LogOut isCollapsedSB={isCollapsedSB} />
+      </footer>
     </SideBarContainer>
   );
 });
@@ -63,6 +76,12 @@ const SideBarContainer = styled.div<SideBarContainerPropsType>`
   background-color: #2e384b;
   color: #989fa7;
   box-shadow: 0 0 15px 1px #1a2434;
+  footer {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: auto;
+  }
   ${({ isOpen }) =>
     !isOpen &&
     css`

@@ -22,7 +22,6 @@ export const LogOut: React.FC<PropType> = ({ isCollapsedSB }) => {
 };
 
 const Wrapper = styled.div`
-  margin-top: auto;
   display: flex;
   align-items: center;
   justify-content: center;

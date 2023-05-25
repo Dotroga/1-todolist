@@ -4,7 +4,7 @@ import { App } from "App";
 import { Provider } from "react-redux";
 import { store } from "redux/store";
 import { BrowserRouter } from "react-router-dom";
-import { createGlobalStyle } from "styled-components";
+import {createGlobalStyle} from "styled-components";
 
 const GlobalStyled = createGlobalStyle`
   * {
@@ -17,7 +17,6 @@ const GlobalStyled = createGlobalStyle`
     height: 100vh;
   }
   body{
-    background-color: #232d41;
     font-family: 'Montserrat', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

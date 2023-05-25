@@ -1,5 +1,9 @@
+import {baseTheme} from "theme";
+import {DefaultTheme} from "styled-components";
+
 export type ColorType = { color: any; title: string };
 export type StatusWindowsType = {
+  theme: DefaultTheme,
   isCollapsedSB: boolean;
   isVisibleALF: boolean;
   addListForm: AddListFormType;
@@ -23,6 +27,7 @@ export type AddTaskFormType = {
 };
 
 const initialState = {
+  theme: baseTheme,
   isCollapsedSB: false,
   isVisibleALF: false,
   addListForm: {
@@ -69,6 +74,7 @@ export const StatusOffWindowsReducer = (
   action: Actions
 ): StatusWindowsType => {
   switch (action.type) {
+    case "CHANGE-THEME": return {...state, theme: action.theme}
     case "TOGGLE-SIDE-BAR":
       return {
         ...state,
@@ -127,7 +133,7 @@ export const StatusOffWindowsReducer = (
       return state;
   }
 };
-
+export const changeTheme = (theme: DefaultTheme) => ({ type: "CHANGE-THEME" , theme} as const);
 export const toggleSideBarAC = () => ({ type: "TOGGLE-SIDE-BAR" } as const);
 export const toggleAddListFormAC = (change: boolean) => ({ type: "TOGGLE-ADD-LIST-FORM", change } as const);
 export const changeTitleNewListAC = (text: string) => ({ type: "CHANGE-TITLE-NEW-LIST", text } as const);
@@ -147,8 +153,10 @@ type Actions =
   | setErrorACType
   | changeModeAddListACType
   | setErrorSnackbarType
-  | setIsLoadingAddListFormType;
+  | setIsLoadingAddListFormType
+  | changeThemeType
 
+export type changeThemeType  = ReturnType<typeof changeTheme >;
 export type toggleSideBarACType = ReturnType<typeof toggleSideBarAC>;
 export type toggleAddListFormACType = ReturnType<typeof toggleAddListFormAC>;
 export type changeTitleNewListACType = ReturnType<typeof changeTitleNewListAC>;
