@@ -9,6 +9,7 @@ import { fetchDataTC, ListType } from "redux/listsReducer";
 import { LogOut } from "./LogOut";
 import {baseTheme, lightTheme} from "theme";
 import {changeTheme} from "redux/statusOffWindowsReducer";
+import {SwitchThemeButton} from "Components/SideBar/SwitchThemeButton";
 
 
 export const SideBar = memo(() => {
@@ -52,7 +53,7 @@ export const SideBar = memo(() => {
       </AddNewList>
       {allItem}
       <footer>
-        <button onClick={themeHandler}>Change theme</button>
+        <SwitchThemeButton onClick={themeHandler}/>
         <LogOut isCollapsedSB={isCollapsedSB} />
       </footer>
     </SideBarContainer>
@@ -73,12 +74,14 @@ const SideBarContainer = styled.div<SideBarContainerPropsType>`
   gap: 3px;
   transition: 0.15s;
   border-radius: 8px;
-  background-color: #2e384b;
-  color: #989fa7;
-  box-shadow: 0 0 15px 1px #1a2434;
+  background-color: ${({theme})=>theme.colors.bg};
+  color: ${({theme})=>theme.colors.font};
+  box-shadow: 0 0 15px 1px ${({theme})=>theme.colors.shadow};
   footer {
     display: flex;
     justify-content: center;
+    align-items: center;
+    gap: 10px;
     flex-direction: column;
     margin-top: auto;
   }

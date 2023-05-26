@@ -18,13 +18,13 @@ export const StyledNavLink = styled(NavLink)<PropsType>`
   text-decoration: none;
 
   &.active {
-    color: #8181d0;
     font-weight: bold;
-    background-color: #434e6b;
-    box-shadow: 0 0 15px 1px #1a2434;
+    background-color: ${({theme})=>theme.colors.topColor};
+    color: ${({theme})=>theme.colors.font};;
+    box-shadow: 0 0 15px 1px ${({theme})=>theme.colors.shadow};
   }
   &:hover {
-    background-color: #434e6b;
+    background-color: ${({theme})=>theme.colors.topColor};
   }
   .AdditionalOptions {
     margin-left: auto;

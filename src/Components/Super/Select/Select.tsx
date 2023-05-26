@@ -69,10 +69,9 @@ const Wrapper = styled.div<{ width: string }>`
 const Visible = styled.div<SelectStyledType>`
   display: flex;
   justify-content: space-between;
-  background-color: #414c6a;
   padding: 10px;
-  border: 1px solid #fbbd49;
-  color: white;
+  color: ${({theme})=>theme.colors.font};
+  border: 1px solid ${({theme})=>theme.colors.color};
   ${({ visible }) =>
     visible
       ? css`
@@ -102,7 +101,7 @@ const Visible = styled.div<SelectStyledType>`
   }
 `;
 const Title = styled.div<{ item: boolean }>`
-  color: #697594;
+  color: ${({theme})=>theme.colors.font};
   position: absolute;
   left: 5px;
   padding: 10px;
@@ -112,27 +111,27 @@ const Title = styled.div<{ item: boolean }>`
   ${({ item }) =>
     item &&
     css`
-      color: #fbbd49;
-      background-color: #414c6b;
+      color: ${({theme})=>theme.colors.color};
+      background-color: ${({theme})=>theme.colors.topColor};
       transform: translateX(10px) translateY(-20px);
       font-size: 0.9em;
       padding: 0 10px;
     `}
 `;
 const PopUp = styled.div<SelectStyledType>`
-  background-color: #414c6a;
+  background-color: ${({theme})=>theme.colors.topColor};
   padding: 4px 0;
-  border: 1px solid #fbbd49;
+  border: 1px solid ${({theme})=>theme.colors.color};
   border-bottom-right-radius: 8px;
   border-bottom-left-radius: 8px;
-  color: white;
+  color: ${({theme})=>theme.colors.font};
 `;
 const Icon = styled.div<SelectStyledType>`
   display: flex;
   font-size: 16px;
   padding: 2px 10px;
   &:hover {
-    background-color: #5a6687;
+    background-color: ${({theme})=>theme.colors.bg};
   }
   span {
     display: inline-block;

@@ -82,9 +82,10 @@ const Wrapper = styled.div<WrapperPropsType>`
   gap: 10px;
   flex-direction: column;
   padding: 8px;
-  background-color: #424d6b;
-  box-shadow: 0 0 15px 1px #1a2434;
+  background-color: ${({theme})=>theme.colors.topColor};
+  box-shadow: 0 0 15px 1px ${({theme})=>theme.colors.shadow};
   border-radius: 10px;
+  transition: 0.3s;
   display: ${({ isVisibleAL, isOpen }) => (isVisibleAL && isOpen ? "flex" : "none")};
 `;
 const SelectWrapper = styled.div`

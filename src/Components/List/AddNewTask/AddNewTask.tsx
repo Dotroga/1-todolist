@@ -70,8 +70,9 @@ const Wrapper = styled.div`
   flex-direction: column;
   padding: 10px;
   border-radius: 6px;
-  background-color: #424d6b;
-  box-shadow: 0 0 15px 1px #1a2434;
+  transition: 0.3s;
+  background-color: ${({theme})=>theme.colors.topColor};
+  box-shadow: 0 0 15px 1px ${({theme})=>theme.colors.shadow};
   .button-container {
     justify-content: end;
     display: flex;

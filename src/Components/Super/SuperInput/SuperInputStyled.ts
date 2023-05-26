@@ -11,14 +11,13 @@ export const WrapperInput = styled.div<{
   input {
     width: 100%;
     padding: 10px;
-    border: 1px solid ${({ error }) => (error ? "red" : "#fbbc48")};
+    border: 1px solid ${({ error, theme }) => (error ? "red" : theme.colors.color)};
     border-radius: 8px;
     outline: none;
     background: none;
     transition: 0.5s;
     font-family: "Montserrat", sans-serif;
-    color: white;
-   
+    color: ${({theme})=>theme.colors.font};
   }
 
   span {
@@ -29,15 +28,17 @@ export const WrapperInput = styled.div<{
     font-size: 1em;
     color: ${({ error }) => (error ? "red" : "#697594")};
     transition: 0.5s;
-    ${({ filled }) => filled &&  css`
+    ${({ filled}) => filled && css<{error: string | false | undefined;}>`
+      background-color: ${({theme})=>theme.colors.topColor};
+      color: ${({ error, theme }) => (error ? "red" : theme.colors.color)};
       transform: translateX(10px) translateY(-7px);
       font-size: 0.9em;
       padding: 0 10px;
     `}
   }
   input:focus ~ span {
-    color: ${({ error }) => (error ? "red" : "#f9bb47")};
-    background-color: ${({ color }) => (color ? color : "#424d6b")};
+    color: ${({ error, theme }) => (error ? "red" : theme.colors.color)};
+    background-color: ${({theme})=>theme.colors.topColor};
     transform: translateX(10px) translateY(-7px);
     font-size: 0.9em;
     padding: 0 10px;

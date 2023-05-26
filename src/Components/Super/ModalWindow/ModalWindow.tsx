@@ -87,8 +87,8 @@ const Wrapper = styled.div`
   z-index: 99;
   margin-left: 13em;
   .options {
-    background-color: #2e384b;
-    box-shadow: 0 0 15px 1px #1a2434;
+    background-color: ${({theme})=>theme.colors.bg};
+    box-shadow: 0 0 15px 1px ${({theme})=>theme.colors.shadow};
     display: flex;
     flex-direction: column;
     border-radius: 6px;
@@ -99,14 +99,14 @@ const Wrapper = styled.div`
       border: none;
       display: flex;
       background: none;
-      color: white;
+      color: ${({theme})=>theme.colors.font};
       align-items: center;
       gap: 5px;
       padding: 4px;
       border-radius: 6px;
       cursor: pointer;
       &:hover {
-        background-color: #424d6b;
+        background-color: ${({theme})=>theme.colors.topColor};
       }
       img {
         width: 24px;

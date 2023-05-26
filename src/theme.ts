@@ -6,17 +6,21 @@ export interface ITheme {
     bg: string,
     mainBackground: string
     font: string,
-    color: string
+    color: string,
+    topColor: string,
+    shadow: string
   }
 }
 
 export const baseTheme: DefaultTheme = {
   type: 'dark',
   colors: {
-    bg: '#232d41',
+    bg: '#2e384c',
     font: '#cacdd2',
     mainBackground: '#232d41',
     color: "#fbbd49",
+    topColor: '#414c6a',
+    shadow: '#1a2434'
   },
 }
 
@@ -25,9 +29,12 @@ export const lightTheme: DefaultTheme  = {
   type: "light",
   colors: {
     ...baseTheme.colors,
-    mainBackground: '#ffffff',
-    bg: '#E5E4E8',
-    font: '#19191B',
+    mainBackground: '#bab2de',
+    bg: '#e8ecf5',
+    font: '#4e465a',
+    color: "#8a49fb",
+    topColor: '#ffffff',
+    shadow: '#bdc6d0',
   },
 }
 

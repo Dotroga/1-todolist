@@ -37,9 +37,9 @@ const Button = styled.button<ButtonProps>`
   height: 37px;
   min-width: 60px;
   padding: 5px;
-  color: ${({ loading }) => (loading ? "#fdbe49" : "white")};
-  background-color: ${({ color }) => (color ? color : "#fdbe49")};
+  color: ${({ loading, theme}) => (loading ? theme.colors.color : "white")};
+  background-color: ${({theme})=>theme.colors.color};
   border-radius: 8px;
   border: none;
-  transition: 0.2s;
+  transition: 0.3s;
 `;

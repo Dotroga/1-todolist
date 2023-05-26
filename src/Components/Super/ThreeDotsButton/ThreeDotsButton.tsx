@@ -25,7 +25,7 @@ const Button = styled.button`
   opacity: 0.4;
   transition: 0.3s;
   span {
-    background-color: #ffcc00;
+    background-color: ${({theme})=>theme.colors.color};;
     border-radius: 50%;
     height: 6px;
     width: 6px;

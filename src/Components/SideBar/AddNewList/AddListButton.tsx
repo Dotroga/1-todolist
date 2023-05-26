@@ -67,7 +67,7 @@ const SvgSquare = styled.style`
   height: 28px;
   cursor: pointer;
   border-radius: 6px;
-  background: #fbbd49;
+  background: ${({theme})=>theme.colors.color};
   display: flex;
   align-items: center;
   justify-content: center;
