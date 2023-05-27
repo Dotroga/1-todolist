@@ -4,8 +4,12 @@ import edit from "../../../Icons/edit.svg";
 import arrowUp from "../../../Icons/arrowUp.svg";
 import arrowDown from "../../../Icons/arrowDown.svg";
 import deleteUrn from "../../../Icons/deleteUrn.svg";
+import editViolet from "../../../Icons/editViolet.svg";
+import arrowUpViolet from "../../../Icons/arrowUpViolet.svg";
+import arrowDownViolet from "../../../Icons/arrowDownViolet.svg";
+import deleteUrnViolet from "../../../Icons/deleteUrnViolet.svg";
 import { removeListTK } from "redux/listsReducer";
-import { useAppDispatch } from "redux/store";
+import {useAppDispatch, useAppSelector} from "redux/store";
 import {
   changeColorAC,
   changeModeAddListAC,
@@ -13,6 +17,7 @@ import {
   toggleAddListFormAC,
 } from "redux/statusOffWindowsReducer";
 import { useNavigate } from "react-router-dom";
+import {useSelector} from "react-redux";
 
 type PropsType = {
   listId?: string | undefined;
@@ -27,6 +32,7 @@ export const ModalWindow: React.FC<PropsType> = memo((props) => {
   const { listId, title, color, isOpen, onCloses, isLoading } = props;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const theme = useAppSelector((state)=>state.StatusOffWindows.theme.type)
   const ref = useRef<HTMLDivElement>(null);
   const useOutsideClick = (ref: React.RefObject<HTMLDivElement>, handler: (v: boolean) => void, attached = true) => {
     useEffect(() => {
@@ -58,23 +64,24 @@ export const ModalWindow: React.FC<PropsType> = memo((props) => {
     dispatch(removeListTK(listId!, navigate));
     onCloses(false);
   };
+
   return (
     <Wrapper ref={ref}>
       <div className={`options ${isOpen ? "active" : "inActive"}`}>
         <button onClick={editingModeList} disabled={isLoading!}>
-          <img src={edit} alt="" />
+          <img src={theme === 'dark' ? edit : editViolet} alt="" />
           <p>Edit</p>
         </button>
         <button disabled={isLoading!}>
-          <img src={arrowUp} alt="" />
+          <img src={theme === 'dark' ? arrowUp : arrowUpViolet} alt="" />
           <p>Move up</p>
         </button>
         <button disabled={isLoading!}>
-          <img src={arrowDown} alt="" />
+          <img src={theme === 'dark' ? arrowDown : arrowDownViolet} alt="" />
           <p>Move down</p>
         </button>
         <button onClick={removeList} disabled={isLoading!}>
-          <img src={deleteUrn} alt="" />
+          <img src={theme === 'dark' ? deleteUrn : deleteUrnViolet} alt="" />
           <p>Delete</p>
         </button>
       </div>

@@ -22,13 +22,12 @@ export const MenuBurger = memo(() => {
 
 
 const Wrapper = styled.div<{ isOpen: boolean }>`
+  display: flex;
   width: 35px;
   min-height: 30px;
   position: relative;
-  margin: 10px;
+  margin: 10px 4px 10px auto;
   cursor: pointer;
-  display: flex;
- 
   span {
     background-color: ${({theme}) => theme.colors.color};
     position: absolute;
@@ -68,7 +67,7 @@ const Wrapper = styled.div<{ isOpen: boolean }>`
               left: 3px;
               top: 12px;
               width: 30px;
-              transition: .3s cubic-bezier(.8, .5, .2, 1.4);
+              transition: 0.4s cubic-bezier(.8, .5, .2, 1.4);
               transform: rotate(90deg);
               transition-delay: 150ms;
             }
@@ -77,7 +76,7 @@ const Wrapper = styled.div<{ isOpen: boolean }>`
               left: 2px;
               top: 20px;
               width: 20px;
-              transition: .3s cubic-bezier(.8, .5, .2, 1.4);
+              transition: .4s cubic-bezier(.8, .5, .2, 1.4);
               transform: rotate(45deg);
               transition-delay: 50ms;
             }
@@ -86,7 +85,7 @@ const Wrapper = styled.div<{ isOpen: boolean }>`
               left: 14px;
               top: 20px;
               width: 20px;
-              transition: .3s cubic-bezier(.8, .5, .2, 1.4);
+              transition: .4s cubic-bezier(.8, .5, .2, 1.4);
               transform: rotate(-45deg);
               transition-delay: 100ms;
             }
@@ -98,7 +97,7 @@ const Wrapper = styled.div<{ isOpen: boolean }>`
               display: block;
               top: -2px;
               left: 0px;
-              transition: .3s cubic-bezier(.8, .5, .2, 1.4);
+              transition: .4s cubic-bezier(.8, .5, .2, 1.4);
             }
 
             :hover span:nth-child(2) {
@@ -116,7 +115,7 @@ const Wrapper = styled.div<{ isOpen: boolean }>`
               display: block;
               bottom: -2px;
               left: 0px;
-              transition: .3s cubic-bezier(.8, .5, .2, 1.4);
+              transition: .4s cubic-bezier(.8, .5, .2, 1.4);
             }
           `}
   :hover {

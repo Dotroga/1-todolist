@@ -1,7 +1,8 @@
 import React from "react";
 import logOut from "./../../Icons/logOut.svg";
+import logOutViolet from "./../../Icons/logOutViolet.svg";
 import styled from "styled-components";
-import { useAppDispatch } from "redux/store";
+import {useAppDispatch, useAppSelector} from "redux/store";
 import { logOutTC } from "redux/authReducer";
 
 type PropType = {
@@ -10,12 +11,13 @@ type PropType = {
 
 export const LogOut: React.FC<PropType> = ({ isCollapsedSB }) => {
   const dispatch = useAppDispatch();
+  const theme = useAppSelector((state)=>state.StatusOffWindows.theme.type)
   const logOutHandler = () => {
     dispatch(logOutTC());
   };
   return (
     <Wrapper onClick={logOutHandler}>
-      <img src={logOut} alt="" />
+      <img src={theme === 'dark' ? logOut : logOutViolet} alt="" />
       {isCollapsedSB && <span>Log Out</span>}
     </Wrapper>
   );
