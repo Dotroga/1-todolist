@@ -32,7 +32,11 @@ export const Select: React.FC<PropsType> = memo((props) => {
           {item && <Item item={item} />}
           <Title item={!!item || visiblePopUp}>{title}</Title>
         </div>
-        <img src={arrow} alt="arrow" />
+        {/*<img src={arrow} alt="arrow" />*/}
+        <div className='arrow-icon'>
+          <span className="left-bar"></span>
+          <span className="right-bar"></span>
+        </div>
       </Visible>
       {visiblePopUp && (
         <PopUp visible={visiblePopUp}>
@@ -72,12 +76,58 @@ const Visible = styled.div<SelectStyledType>`
   padding: 10px;
   color: ${({theme})=>theme.colors.font};
   border: 1px solid ${({theme})=>theme.colors.color};
+  .arrow-icon {
+    height: 22px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    top: 8px;
+    right: 20px;
+    cursor: pointer;
+  }
+  .left-bar {
+    position: absolute;
+    background-color: transparent;
+    transform: rotate(35deg);
+    right: -15px;
+    &:after {
+      transition: 0.3s;
+      content:"";
+      background-color: ${({theme})=>theme.colors.color};
+      border-radius: 2px;
+      width: 12px;
+      height: 2px;
+      float: left;
+    }
+  }
+  .right-bar {
+    position: absolute;
+    background-color: transparent;
+    transform: rotate(-35deg);
+    &:after {
+      transition: 0.3s;
+      content:"";
+      background-color: ${({theme})=>theme.colors.color};
+      border-radius: 2px;
+      width: 12px;
+      height: 2px;
+      float: right;
+    }
+  }
   ${({ visible }) =>
     visible
       ? css`
           border-top-right-radius: 8px;
           border-top-left-radius: 8px;
           border-bottom: none;
+              .left-bar:after {
+                transform-origin: center center;
+                transform: rotate(-70deg);
+              }
+              .right-bar:after {
+                transform-origin: center center;
+                transform: rotate(70deg);
+              }
         `
       : css`
           border-radius: 8px;

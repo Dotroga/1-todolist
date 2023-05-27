@@ -1,5 +1,5 @@
-import React, {ChangeEvent, DetailedHTMLProps, InputHTMLAttributes, memo, useState} from "react";
-import { WrapperInput } from "./SuperInputStyled";
+import React, {ChangeEvent, DetailedHTMLProps, InputHTMLAttributes, memo, useEffect, useState} from "react";
+import {WrapperInput} from "./SuperInputStyled";
 
 type DefaultInputPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
 
@@ -11,19 +11,15 @@ type PropsType = Omit<DefaultInputPropsType, "type"> & {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
 };
 export const SuperInput: React.FC<PropsType> = memo((
-  { name, color, error, type, onChange, ...restProps }) => {
+  {name, color, error, type, onChange, ...restProps}) => {
   const upperName = name.charAt(0).toUpperCase() + name.slice(1);
+  const [filled, setFilled] = useState(!!restProps.value)
 
-  const [filled, setFilled] = useState(false)
-
-  const handler = (e: ChangeEvent<HTMLInputElement>) => {
-    onChange(e)
-    setFilled(!!e.currentTarget.value)
-  }
+  useEffect(() => setFilled(!!restProps.value), [restProps.value])
 
   return (
     <WrapperInput color={color!} error={error} filled={filled}>
-      <input name={name} type={type} {...restProps} onChange={handler} required={true}/>
+      <input name={name} type={type} {...restProps} onChange={onChange} required={restProps.required}/>
       <span>{error ? error : upperName}</span>
     </WrapperInput>
   );

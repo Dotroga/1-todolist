@@ -12,7 +12,7 @@ export const StyledNavLink = styled(NavLink)<PropsType>`
   display: flex;
   align-items: center;
   gap: 15px;
-  color: #c1c4cd;
+  color: ${({theme})=>theme.colors.font};
   padding: 8px;
   border-radius: 8px;
   text-decoration: none;

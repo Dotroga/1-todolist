@@ -113,6 +113,7 @@ export const fetchDataTC = () => async (dispatch: ThunkDispatchType) => {
 export const addListTK = (title: string, navigate: NavigateFunction, color: string) => (dispatch: Dispatch) => {
   const newTitle = title.trim();
   if (newTitle !== "") {
+    debugger
     dispatch(setIsLoadingAddListForm(true));
     const colorAndTitle = color + newTitle;
     todoApi
@@ -131,20 +132,25 @@ export const addListTK = (title: string, navigate: NavigateFunction, color: stri
 
 export const editingListTK =
   (listId: string, title: string, color: string, navigate: NavigateFunction) => (dispatch: Dispatch) => {
-    dispatch(setIsLoadingAddListForm(true));
-    dispatch(setIsLoading(listId, true));
-    const colorAndTitle = color + title;
-    todoApi
-      .updateList(listId, colorAndTitle)
-      .then(() => {
-        dispatch(editingListAC(listId, colorAndTitle));
-        navigate(title);
-        dispatch(setIsLoadingAddListForm(false));
-      })
-      .finally(() => {
-        dispatch(toggleAddListFormAC(false));
-        dispatch(setIsLoading(listId, false));
-      });
+    const newTitle = title.trim();
+    if (newTitle !== "") {
+      dispatch(setIsLoadingAddListForm(true));
+      dispatch(setIsLoading(listId, true));
+      const colorAndTitle = color + title;
+      todoApi
+        .updateList(listId, colorAndTitle)
+        .then(() => {
+          dispatch(editingListAC(listId, colorAndTitle));
+          navigate(title);
+          dispatch(setIsLoadingAddListForm(false));
+        })
+        .finally(() => {
+          dispatch(toggleAddListFormAC(false));
+          dispatch(setIsLoading(listId, false));
+        });
+    }  else {
+  dispatch(setErrorAC(true));
+}
   };
 
 export const removeListTK = (listId: string, navigate: NavigateFunction) => (dispatch: Dispatch) => {
