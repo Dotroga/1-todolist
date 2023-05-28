@@ -1,7 +1,7 @@
 import { TasksType } from "./state";
 import { addListACType, getListsACType, removeListACType, setNumberOfTasks } from "./listsReducer";
 import { Dispatch } from "redux";
-import { TaskType, todoApi } from "api/todoAPI";
+import {taskAPI, TaskType} from "api/todoAPI";
 export const tasksReducer = (tasks: TasksType = {}, action: TsarType): TasksType => {
   switch (action.type) {
     case "SET-LISTS": {
@@ -80,12 +80,12 @@ export const changeTaskStatusAC = (listId: string, id: string, isDone: boolean) 
 export const renameTaskAC = (listId: string, id: string, title: string) =>
   ({ type: "RENAME-TASK", listId, id, title } as const);
 export const setTaskTC = (todoId: string) => (dispatch: Dispatch) => {
-  todoApi.getTasks(todoId).then((res) => {
+  taskAPI.getTasks(todoId).then((res) => {
     dispatch(setTasksAC(todoId, res.items));
   });
 };
 export const addTaskTK = (listId: string, title: string, numberOfTasks: number | undefined) => (dispatch: Dispatch) => {
-  todoApi.createTask(listId, title).then((res) => {
+  taskAPI.createTask(listId, title).then((res) => {
     const num = numberOfTasks ? numberOfTasks + 1 : 1;
     dispatch(addTaskAC(listId, res.data.data.item));
     dispatch(setNumberOfTasks(listId, num));

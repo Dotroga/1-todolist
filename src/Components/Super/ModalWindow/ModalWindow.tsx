@@ -8,7 +8,7 @@ import editViolet from "../../../Icons/editViolet.svg";
 import arrowUpViolet from "../../../Icons/arrowUpViolet.svg";
 import arrowDownViolet from "../../../Icons/arrowDownViolet.svg";
 import deleteUrnViolet from "../../../Icons/deleteUrnViolet.svg";
-import { removeListTK } from "redux/listsReducer";
+import {removeListTK, reorderUpListTK} from "redux/listsReducer";
 import {useAppDispatch, useAppSelector} from "redux/store";
 import {
   changeColorAC,
@@ -17,7 +17,6 @@ import {
   toggleAddListFormAC,
 } from "redux/statusOffWindowsReducer";
 import { useNavigate } from "react-router-dom";
-import {useSelector} from "react-redux";
 
 type PropsType = {
   listId?: string | undefined;
@@ -33,6 +32,7 @@ export const ModalWindow: React.FC<PropsType> = memo((props) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const theme = useAppSelector((state)=>state.StatusOffWindows.theme.type)
+  const lists = useAppSelector((state)=>state.lists)
   const ref = useRef<HTMLDivElement>(null);
   const useOutsideClick = (ref: React.RefObject<HTMLDivElement>, handler: (v: boolean) => void, attached = true) => {
     useEffect(() => {
@@ -64,6 +64,12 @@ export const ModalWindow: React.FC<PropsType> = memo((props) => {
     dispatch(removeListTK(listId!, navigate));
     onCloses(false);
   };
+  const reorderUpList = () => {
+   dispatch(reorderUpListTK(listId!, lists, 'up'))
+  };
+  const reorderDownList = () => {
+    dispatch(reorderUpListTK(listId!, lists, 'down'))
+  };
 
   return (
     <Wrapper ref={ref}>
@@ -72,11 +78,11 @@ export const ModalWindow: React.FC<PropsType> = memo((props) => {
           <img src={theme === 'dark' ? edit : editViolet} alt="" />
           <p>Edit</p>
         </button>
-        <button disabled={isLoading!}>
+        <button onClick={reorderUpList} disabled={isLoading!}>
           <img src={theme === 'dark' ? arrowUp : arrowUpViolet} alt="" />
           <p>Move up</p>
         </button>
-        <button disabled={isLoading!}>
+        <button onClick={reorderDownList}  disabled={isLoading!}>
           <img src={theme === 'dark' ? arrowDown : arrowDownViolet} alt="" />
           <p>Move down</p>
         </button>

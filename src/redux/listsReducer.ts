@@ -1,5 +1,5 @@
 import { FilterType } from "./state";
-import { todoApi } from "api/todoAPI";
+import {listAPI, taskAPI} from "api/todoAPI";
 import { Dispatch } from "redux";
 import { setErrorAC, setErrorSnackbar, setIsLoadingAddListForm, toggleAddListFormAC } from "./statusOffWindowsReducer";
 import { NavigateFunction } from "react-router/dist/lib/hooks";
@@ -58,6 +58,17 @@ export const listsReducer = (lists: ListType[] = [], action: Actions): ListType[
       return lists.filter((l) => l.id !== action.listId);
     case "SET-IS-LOADING":
       return lists.map((l) => (l.id === action.listId ? { ...l, isLoading: action.isLoading } : l));
+    case "REORDER-LIST": {
+      const newLists = [...lists]
+      if (action.change === 'up') {
+        newLists[action.index] = lists[action.index - 1];
+        newLists[action.index - 1] = lists[action.index];
+      } else {
+        newLists[action.index] = lists[action.index + 1];
+        newLists[action.index + 1] = lists[action.index];
+      }
+      return newLists
+    }
     default:
       return lists;
   }
@@ -92,18 +103,15 @@ export const removeListAC = (listId: string) =>
     listId,
   } as const);
 export const setIsLoading = (listId: string, isLoading: boolean) =>
-  ({
-    type: "SET-IS-LOADING",
-    listId,
-    isLoading,
-  } as const);
-
+  ({type: "SET-IS-LOADING", listId, isLoading} as const);
+export const reorderList = (index: number, change: 'up' | 'down') =>
+  ({type: 'REORDER-LIST', index, change} as const)
 export const fetchDataTC = () => async (dispatch: ThunkDispatchType) => {
   try {
-    const lists = await todoApi.getLists();
+    const lists = await listAPI.getLists();
     dispatch(setListsAC(lists));
     lists.map(async (l) => {
-      const tasks = await todoApi.getTasks(l.id);
+      const tasks = await taskAPI.getTasks(l.id);
       dispatch(setTasksAC(l.id, tasks.items));
       dispatch(setNumberOfTasks(l.id, tasks.totalCount));
     });
@@ -116,7 +124,7 @@ export const addListTK = (title: string, navigate: NavigateFunction, color: stri
     debugger
     dispatch(setIsLoadingAddListForm(true));
     const colorAndTitle = color + newTitle;
-    todoApi
+    listAPI
       .createList(colorAndTitle)
       .then((res) => {
         dispatch(addNewListAC(res.data.data.item.id, colorAndTitle));
@@ -129,7 +137,6 @@ export const addListTK = (title: string, navigate: NavigateFunction, color: stri
     dispatch(setErrorAC(true));
   }
 };
-
 export const editingListTK =
   (listId: string, title: string, color: string, navigate: NavigateFunction) => (dispatch: Dispatch) => {
     const newTitle = title.trim();
@@ -137,7 +144,7 @@ export const editingListTK =
       dispatch(setIsLoadingAddListForm(true));
       dispatch(setIsLoading(listId, true));
       const colorAndTitle = color + title;
-      todoApi
+      listAPI
         .updateList(listId, colorAndTitle)
         .then(() => {
           dispatch(editingListAC(listId, colorAndTitle));
@@ -155,7 +162,7 @@ export const editingListTK =
 
 export const removeListTK = (listId: string, navigate: NavigateFunction) => (dispatch: Dispatch) => {
   dispatch(setIsLoading(listId, true));
-  todoApi
+  listAPI
     .deleteList(listId)
     .then(() => {
       dispatch(removeListAC(listId));
@@ -165,6 +172,22 @@ export const removeListTK = (listId: string, navigate: NavigateFunction) => (dis
       dispatch(setErrorSnackbar(e.message));
     });
 };
+
+export const reorderUpListTK = (listId: string, lists: ListType[], change: 'up' | 'down') => (dispatch: Dispatch) => {
+  const index = lists.findIndex(l=>l.id===listId)
+  let afterListId: string | null
+  if (change === 'up') {
+    afterListId = index > 1 ? lists[index - 2].id : null
+  }  else {
+    afterListId = index === lists.length - 1 ? listId : lists[index + 1].id
+  }
+  listAPI.reorderList(listId, afterListId)
+    .then((res) => {
+        if (res.data.resultCode === 0) {
+          dispatch(reorderList(index, change))
+        }
+    })
+}
 
 export type ListType = {
   id: string;
@@ -192,7 +215,8 @@ export type Actions =
   | removeListACType
   | addListACType
   | setNumberOfTasksType
-  | setIsLoadingType;
+  | setIsLoadingType
+  | reorderListType
 
 export type getListsACType = ReturnType<typeof setListsAC>;
 export type addListACType = ReturnType<typeof addNewListAC>;
@@ -200,3 +224,5 @@ export type renameListACType = ReturnType<typeof editingListAC>;
 export type removeListACType = ReturnType<typeof removeListAC>;
 export type setNumberOfTasksType = ReturnType<typeof setNumberOfTasks>;
 export type setIsLoadingType = ReturnType<typeof setIsLoading>;
+export type reorderListType = ReturnType<typeof reorderList>;
+
