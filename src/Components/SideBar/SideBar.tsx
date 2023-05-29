@@ -13,12 +13,12 @@ import {SwitchThemeButton} from "Components/SideBar/SwitchThemeButton";
 
 
 export const SideBar = memo(() => {
+  console.log('SideBar')
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(fetchDataTC()).then((r) => r);
   }, []);
   const isCollapsedSB = useAppSelector<boolean>((state) => state.StatusOffWindows.isCollapsedSB);
-  const isVisibleALF = useAppSelector<boolean>((state) => state.StatusOffWindows.isVisibleALF);
   const lists = useAppSelector<ListType[]>((state) => state.lists);
   const theme = useAppSelector((state)=> state.StatusOffWindows.theme)
 
@@ -34,11 +34,9 @@ export const SideBar = memo(() => {
         key={i}
         listId={l.id}
         isLoading={l.isLoading}
-        isOpen={isCollapsedSB}
         numberOfTasks={l.numberOfTasks}
         title={l.title}
         color={l.color}
-        to={`/${l.title}`}
       />
     );
   });
@@ -46,10 +44,10 @@ export const SideBar = memo(() => {
   return (
     <SideBarContainer isOpen={isCollapsedSB}>
       <MenuBurger />
-      <SideBarIcon isOpen={isCollapsedSB} title="All lists" color="red" to={"/"} />
+      <SideBarIcon title="All lists" color="red"/>
       <AddNewList>
-        <AddListButton isOpen={isCollapsedSB} isVisibleALF={isVisibleALF} listsLength={lists.length} />
-        <AddListForm isOpen={isCollapsedSB} isVisibleALF={isVisibleALF} listsLength={lists.length} />
+        <AddListButton listsLength={lists.length} />
+        <AddListForm isOpen={isCollapsedSB} listsLength={lists.length} />
       </AddNewList>
       {allItem}
       <footer>

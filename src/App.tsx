@@ -12,6 +12,7 @@ import { ListType } from "redux/listsReducer";
 
 
 export const App = memo(() => {
+  console.log('App')
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);

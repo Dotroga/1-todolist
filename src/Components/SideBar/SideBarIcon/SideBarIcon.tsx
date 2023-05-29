@@ -3,24 +3,26 @@ import fourSquare from "../../../Icons/fourSquare.png";
 import { StyledNavLink } from "./SideBarIconStyled";
 import { ModalWindow } from "../../Super/ModalWindow/ModalWindow";
 import { ThreeDotsButton } from "../../Super/ThreeDotsButton/ThreeDotsButton";
+import {useAppSelector} from "redux/store";
+import {useLocation, useNavigate} from "react-router-dom";
 
 type SideBarIconsPropsType = {
   listId?: string;
-  isOpen: boolean;
   title: string;
   color: string;
-  to: string;
   numberOfTasks?: number;
   isLoading?: boolean;
 };
 
 export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
-  const { listId, isOpen, title, color, to, numberOfTasks, isLoading } = props;
-
+  const { listId,  title, color, numberOfTasks, isLoading } = props;
+  const navigate = useNavigate()
+  const location = useLocation();
   const [hover, setHover] = useState(false);
   const [isOpenOptions, setIsOpenOptions] = useState(false);
-  const onHover = () => setHover(true);
-  const outHover = () => !isOpenOptions && setHover(false);
+  const isOpen = useAppSelector<boolean>((state) => state.StatusOffWindows.isCollapsedSB);
+  const onHover = useCallback(() => setHover(true),[hover])
+  const outHover = useCallback(() => !isOpenOptions && setHover(false),[hover])
   const opened = useCallback(() => setIsOpenOptions(!isOpenOptions), [isOpenOptions]);
   const closed = useCallback(
     (v: boolean) => {
@@ -30,9 +32,14 @@ export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
     [hover, isOpenOptions]
   );
 
+  const navigateTo = () => {
+    const to = title === "All lists" ? '/' : '/' + title
+    decodeURIComponent(location.pathname) !== to && navigate(to)
+  }
+
   return (
     <StyledNavLink
-      to={to}
+      onClick={navigateTo}
       visible={isOpen ? "" : null}
       color={color}
       hover={hover.toString()}
@@ -43,7 +50,7 @@ export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
       <div>{title}</div>
       {title !== "All lists" && (
         <div className="AdditionalOptions">
-          {hover && <ThreeDotsButton onClick={opened} />}
+          {hover && <ThreeDotsButton onClick={opened} isOpen={isOpenOptions}/>}
           <ModalWindow
             title={title}
             color={color}

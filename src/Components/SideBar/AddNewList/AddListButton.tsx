@@ -1,24 +1,32 @@
-import React, { memo, useState } from "react";
+import React, {memo, useCallback, useState} from "react";
 import plus from "../../../Icons/plus.svg";
 import styled, { css } from "styled-components";
 import { toggleAddListFormAC } from "redux/statusOffWindowsReducer";
 import { useDispatch } from "react-redux";
 import { MaxQuantity } from "../../Super/MaxQuantity/MaxQuantity";
+import {useAppSelector} from "redux/store";
 
-type AddListButtonPropsType = {
-  isOpen: boolean;
-  isVisibleALF: boolean;
-  listsLength: number;
-};
-export const AddListButton: React.FC<AddListButtonPropsType> = memo((props) => {
-  const { isVisibleALF, listsLength } = props;
+
+export const AddListButton = memo((props:{listsLength: number}) => {
   const [hovered, setHovered] = useState<boolean>(false);
+  const isVisibleSB = useAppSelector<boolean>((state) => state.StatusOffWindows.isCollapsedSB);
+  const isVisibleALF = useAppSelector<boolean>((state) => state.StatusOffWindows.isVisibleALF);
   const dispatch = useDispatch();
-  const toggleAddListForm = () => dispatch(toggleAddListFormAC(!isVisibleALF));
+
+  const toggleAddListForm = useCallback(() => {
+    dispatch(toggleAddListFormAC(!isVisibleALF));
+  },[isVisibleALF])
+
   return (
-    <Wrapper {...props} hovered={hovered} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+    <Wrapper {...props}
+             isVisibleSB={isVisibleSB}
+             hovered={hovered}
+             onMouseEnter={() => setHovered(true)}
+             onMouseLeave={() => setHovered(false)}
+             isVisibleALF={isVisibleALF}
+    >
       <p>Lists</p>
-      <MaxQuantity maxNum={10} currentNum={listsLength} />
+      <MaxQuantity maxNum={10} currentNum={props.listsLength} />
       <SvgSquare>
         <SvgPlus src={plus} alt="plus" onClick={toggleAddListForm} isVisibleALF={isVisibleALF} />
       </SvgSquare>
@@ -27,7 +35,7 @@ export const AddListButton: React.FC<AddListButtonPropsType> = memo((props) => {
 });
 
 type WrapperType = {
-  isOpen: boolean;
+  isVisibleSB: boolean;
   isVisibleALF: boolean;
   hovered: boolean;
   listsLength: number;
@@ -53,8 +61,8 @@ const Wrapper = styled.div<WrapperType>`
           }
         `}
   div, span, p {
-    ${({ isOpen }) =>
-      !isOpen &&
+    ${({ isVisibleSB }) =>
+      !isVisibleSB &&
       css`
         display: none;
       `};

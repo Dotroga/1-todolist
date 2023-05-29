@@ -1,12 +1,13 @@
 import React from "react";
-import styled from "styled-components";
+import styled, {css} from "styled-components";
 
 type PropsType = {
-  onClick: () => void;
+  onClick: () => void
+  isOpen: boolean
 };
 export const ThreeDotsButton: React.FC<PropsType> = (props) => {
   return (
-    <Button className="ThreeDotsButton" onClick={props.onClick}>
+    <Button onClick={props.onClick} isOpen={props.isOpen}>
       <span></span>
       <span></span>
       <span></span>
@@ -14,7 +15,7 @@ export const ThreeDotsButton: React.FC<PropsType> = (props) => {
   );
 };
 
-const Button = styled.button`
+const Button = styled.button<{isOpen:boolean}>`
   display: flex;
   align-items: center;
   gap: 2px;
@@ -30,6 +31,10 @@ const Button = styled.button`
     height: 6px;
     width: 6px;
   }
+  ${({isOpen})=>isOpen && css`
+    transform: scale(1.1);
+    opacity: 1;
+  `}
   &:hover {
     transform: scale(1.1);
     opacity: 1;

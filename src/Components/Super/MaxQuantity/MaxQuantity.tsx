@@ -1,4 +1,4 @@
-import React from "react";
+import React, {memo} from "react";
 import styled from "styled-components";
 
 type MaxQuantityPropsType = {
@@ -6,9 +6,10 @@ type MaxQuantityPropsType = {
   currentNum: number;
 };
 
-export const MaxQuantity = (props: MaxQuantityPropsType) => {
+export const MaxQuantity = memo((props: MaxQuantityPropsType) => {
+  console.log('max')
   const { maxNum, currentNum } = props;
   return <Wrapper>{`${currentNum} / ${maxNum}`}</Wrapper>;
-};
+})
 
 const Wrapper = styled.div``;

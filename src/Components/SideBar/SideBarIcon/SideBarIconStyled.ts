@@ -1,5 +1,4 @@
 import styled, { css } from "styled-components";
-import { NavLink } from "react-router-dom";
 
 type PropsType = {
   visible: string | null;
@@ -8,7 +7,7 @@ type PropsType = {
   onMouseOver: any;
   onMouseOut: any;
 };
-export const StyledNavLink = styled(NavLink)<PropsType>`
+export const StyledNavLink = styled.div<PropsType>`
   display: flex;
   align-items: center;
   gap: 15px;
@@ -16,7 +15,7 @@ export const StyledNavLink = styled(NavLink)<PropsType>`
   padding: 8px;
   border-radius: 8px;
   text-decoration: none;
-
+  cursor: pointer;
   &.active {
     font-weight: bold;
     background-color: ${({theme})=>theme.colors.topColor};
