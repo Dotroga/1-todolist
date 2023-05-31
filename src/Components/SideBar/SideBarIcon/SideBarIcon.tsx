@@ -22,21 +22,19 @@ export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
   const [isOpenOptions, setIsOpenOptions] = useState(false);
   const isOpen = useAppSelector<boolean>((state) => state.StatusOffWindows.isCollapsedSB);
   const onHover = useCallback(() => setHover(true),[hover])
-  const outHover = useCallback(() => !isOpenOptions && setHover(false),[hover])
-  const opened = useCallback(() => setIsOpenOptions(!isOpenOptions), [isOpenOptions]);
-  const closed = useCallback(
-    (v: boolean) => {
+  const outHover = useCallback(() => !isOpenOptions && setHover(false),[isOpenOptions])
+  const opened = () => setIsOpenOptions(!isOpenOptions)
+  const closed = (v: boolean) => {
       setIsOpenOptions(v);
       setHover(false);
-    },
-    [hover, isOpenOptions]
-  );
+    }
+
 
   const navigateTo = () => {
     const to = title === "All lists" ? '/' : '/' + title
     decodeURIComponent(location.pathname) !== to && navigate(to)
   }
-
+  console.log(isOpenOptions)
   return (
     <StyledNavLink
       onClick={navigateTo}

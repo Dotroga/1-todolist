@@ -33,18 +33,18 @@ export const AddListForm: React.FC<AddNewListType> = memo(({ isOpen, listsLength
       const text = e.currentTarget.value;
       dispatch(changeTitleNewListAC(text));
       dispatch(setErrorAC(false));
-    }, [addListForm.title]);
+    }, []);
 
   const changeColor = useCallback((color: ColorType) => {
     dispatch(changeColorAC(color.color));
-  }, [addListForm.color]);
+  }, []);
 
   const addList = useCallback(() => {
     const color = addListForm.color ? addListForm.color.color : arrColor[3].color;
     addListForm.mode
       ? dispatch(addListTK(addListForm.title, navigate, color))
       : dispatch(editingListTK(addListForm.listId!, addListForm.title, color, navigate));
-  }, []);
+  }, [addListForm.title, addListForm.color]);
 
   const toggleAddListForm = useCallback(() => {
     dispatch(toggleAddListFormAC(false));
