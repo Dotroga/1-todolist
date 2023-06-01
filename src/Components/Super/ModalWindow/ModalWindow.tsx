@@ -15,7 +15,7 @@ import {
   changeModeAddListAC,
   changeTitleNewListAC,
   toggleAddListFormAC,
-} from "redux/statusOffWindowsReducer";
+} from "redux/appReducer";
 import { useNavigate } from "react-router-dom";
 
 type PropsType = {
@@ -31,7 +31,7 @@ export const ModalWindow: React.FC<PropsType> = memo((props) => {
   const { listId, title, color, isOpen, onCloses, isLoading } = props;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const theme = useAppSelector((state)=>state.StatusOffWindows.theme.type)
+  const theme = useAppSelector((state)=>state.app.theme.type)
   const lists = useAppSelector((state)=>state.lists)
   const ref = useRef<HTMLDivElement>(null);
   const useOutsideClick = (ref: React.RefObject<HTMLDivElement>, handler: (v: boolean) => void, attached = true) => {

@@ -11,7 +11,7 @@ type PropType = {
 
 export const LogOut: React.FC<PropType> = ({ isCollapsedSB }) => {
   const dispatch = useAppDispatch();
-  const theme = useAppSelector((state)=>state.StatusOffWindows.theme.type)
+  const theme = useAppSelector((state)=>state.app.theme.type)
   const logOutHandler = () => {
     dispatch(logOutTC());
   };

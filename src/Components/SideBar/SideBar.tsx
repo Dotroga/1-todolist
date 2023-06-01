@@ -8,7 +8,7 @@ import { AddListForm } from "./AddNewList/AddListForm/AddListForm";
 import { fetchDataTC, ListType } from "redux/listsReducer";
 import { LogOut } from "./LogOut";
 import {baseTheme, lightTheme} from "theme";
-import {changeTheme} from "redux/statusOffWindowsReducer";
+import {changeTheme} from "redux/appReducer";
 import {SwitchThemeButton} from "Components/SideBar/SwitchThemeButton";
 
 
@@ -18,9 +18,9 @@ export const SideBar = memo(() => {
   useEffect(() => {
     dispatch(fetchDataTC()).then((r) => r);
   }, []);
-  const isCollapsedSB = useAppSelector<boolean>((state) => state.StatusOffWindows.isCollapsedSB);
+  const isCollapsedSB = useAppSelector<boolean>((state) => state.app.isCollapsedSB);
   const lists = useAppSelector<ListType[]>((state) => state.lists);
-  const theme = useAppSelector((state)=> state.StatusOffWindows.theme)
+  const theme = useAppSelector((state)=> state.app.theme)
 
   const themeHandler = () => {
     theme.type === 'dark'

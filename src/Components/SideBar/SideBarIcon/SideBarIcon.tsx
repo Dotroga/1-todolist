@@ -20,7 +20,7 @@ export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
   const location = useLocation();
   const [hover, setHover] = useState(false);
   const [isOpenOptions, setIsOpenOptions] = useState(false);
-  const isOpen = useAppSelector<boolean>((state) => state.StatusOffWindows.isCollapsedSB);
+  const isOpen = useAppSelector<boolean>((state) => state.app.isCollapsedSB);
   const onHover = useCallback(() => setHover(true),[hover])
   const outHover = useCallback(() => !isOpenOptions && setHover(false),[isOpenOptions])
   const opened = () => setIsOpenOptions(!isOpenOptions)

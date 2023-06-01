@@ -12,7 +12,7 @@ import {
   ColorType,
   setErrorAC,
   toggleAddListFormAC,
-} from "redux/statusOffWindowsReducer";
+} from "redux/appReducer";
 import { MaxQuantity } from "../../../Super/MaxQuantity/MaxQuantity";
 import { SuperInput } from "../../../Super/SuperInput/SuperInput";
 
@@ -24,10 +24,10 @@ type AddNewListType = {
 export const AddListForm: React.FC<AddNewListType> = memo(({ isOpen, listsLength }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const isVisibleALF = useAppSelector<boolean>((state) => state.StatusOffWindows.isVisibleALF);
-  const addListForm = useAppSelector<AddListFormType>((state) => state.StatusOffWindows.addListForm);
-  const arrColor = useAppSelector<ColorType[]>((state) => state.StatusOffWindows.arrColor);
-  const isLoading = useAppSelector((state) => state.StatusOffWindows.addListForm.isLoading);
+  const isVisibleALF = useAppSelector<boolean>((state) => state.app.isVisibleALF);
+  const addListForm = useAppSelector<AddListFormType>((state) => state.app.addListForm);
+  const arrColor = useAppSelector<ColorType[]>((state) => state.app.arrColor);
+  const isLoading = useAppSelector((state) => state.app.addListForm.isLoading);
 
   const changeTitle = useCallback((e: ChangeEvent<HTMLInputElement>) => {
       const text = e.currentTarget.value;

@@ -2,14 +2,12 @@ import React, { memo, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "redux/store";
 import { DeleteButton } from "../DeleteButton/DeleteButton";
-import { setErrorSnackbar } from "redux/statusOffWindowsReducer";
+import { setErrorSnackbar } from "redux/appReducer";
 
 export const ErrorSnackbar = memo(() => {
   const dispatch = useAppDispatch();
   const [show, setShow] = useState(false);
-  const error = useAppSelector((state) => {
-    return state.StatusOffWindows.errorSnackbar;
-  });
+  const error = useAppSelector((state) => state.app.errorSnackbar)
 
   useEffect(() => {
     let id: NodeJS.Timeout | undefined;

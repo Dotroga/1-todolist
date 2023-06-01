@@ -69,7 +69,7 @@ const initialState = {
   errorSnackbar: "Some error",
 };
 
-export const StatusOffWindowsReducer = (
+export const AppReducer = (
   state: StatusWindowsType = initialState,
   action: Actions
 ): StatusWindowsType => {

@@ -1,13 +1,11 @@
 import React, {memo} from "react";
-import menuBurger from "../../Icons/menuBurger.svg";
-import arrow from "../../Icons/arrow.svg";
 import styled, {css} from "styled-components";
 import {useAppSelector} from "redux/store";
 import {useDispatch} from "react-redux";
-import {toggleSideBarAC} from "redux/statusOffWindowsReducer";
+import {toggleSideBarAC} from "redux/appReducer";
 
 export const MenuBurger = memo(() => {
-  const CollapsedSB = useAppSelector<boolean>((state) => state.StatusOffWindows.isCollapsedSB);
+  const CollapsedSB = useAppSelector<boolean>((state) => state.app.isCollapsedSB);
   const dispatch = useDispatch();
   const toggleSideBar = () => dispatch(toggleSideBarAC());
 
@@ -96,7 +94,7 @@ const Wrapper = styled.div<{ isOpen: boolean }>`
               height: 4px;
               display: block;
               top: -2px;
-              left: 0px;
+              left: 0;
               transition: .4s cubic-bezier(.8, .5, .2, 1.4);
             }
 
@@ -105,7 +103,7 @@ const Wrapper = styled.div<{ isOpen: boolean }>`
               height: 4px;
               display: block;
               top: 13px;
-              left: 0px;
+              left: 0;
               transition: .4s cubic-bezier(.8, .5, .2, 1.4);
             }
 
@@ -114,7 +112,7 @@ const Wrapper = styled.div<{ isOpen: boolean }>`
               height: 4px;
               display: block;
               bottom: -2px;
-              left: 0px;
+              left: 0;
               transition: .4s cubic-bezier(.8, .5, .2, 1.4);
             }
           `}

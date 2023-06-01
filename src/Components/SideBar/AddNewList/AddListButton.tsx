@@ -1,7 +1,7 @@
 import React, {memo, useCallback, useState} from "react";
 import plus from "../../../Icons/plus.svg";
 import styled, { css } from "styled-components";
-import { toggleAddListFormAC } from "redux/statusOffWindowsReducer";
+import { toggleAddListFormAC } from "redux/appReducer";
 import { useDispatch } from "react-redux";
 import { MaxQuantity } from "../../Super/MaxQuantity/MaxQuantity";
 import {useAppSelector} from "redux/store";
@@ -9,8 +9,8 @@ import {useAppSelector} from "redux/store";
 
 export const AddListButton = memo((props:{listsLength: number}) => {
   const [hovered, setHovered] = useState<boolean>(false);
-  const isVisibleSB = useAppSelector<boolean>((state) => state.StatusOffWindows.isCollapsedSB);
-  const isVisibleALF = useAppSelector<boolean>((state) => state.StatusOffWindows.isVisibleALF);
+  const isVisibleSB = useAppSelector<boolean>((state) => state.app.isCollapsedSB);
+  const isVisibleALF = useAppSelector<boolean>((state) => state.app.isVisibleALF);
   const dispatch = useDispatch();
 
   const toggleAddListForm = useCallback(() => {

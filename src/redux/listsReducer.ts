@@ -1,7 +1,7 @@
 import { FilterType } from "./state";
 import {listAPI, taskAPI} from "api/todoAPI";
 import { Dispatch } from "redux";
-import { setErrorAC, setErrorSnackbar, setIsLoadingAddListForm, toggleAddListFormAC } from "./statusOffWindowsReducer";
+import { setErrorAC, setErrorSnackbar, setIsLoadingAddListForm, toggleAddListFormAC } from "redux/appReducer";
 import { NavigateFunction } from "react-router/dist/lib/hooks";
 import { setTasksAC } from "./taskReducer";
 import { ThunkDispatchType } from "./store";
@@ -121,7 +121,6 @@ export const fetchDataTC = () => async (dispatch: ThunkDispatchType) => {
 export const addListTK = (title: string, navigate: NavigateFunction, color: string) => (dispatch: Dispatch) => {
   const newTitle = title.trim();
   if (newTitle !== "") {
-    debugger
     dispatch(setIsLoadingAddListForm(true));
     const colorAndTitle = color + newTitle;
     listAPI

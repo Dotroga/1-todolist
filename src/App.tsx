@@ -12,12 +12,11 @@ import { ListType } from "redux/listsReducer";
 
 
 export const App = memo(() => {
-  console.log('App')
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
   const isInitialized = useAppSelector((state) => state.auth.isInitialized);
-  const theme = useAppSelector((state)=> state.StatusOffWindows.theme)
+  const theme = useAppSelector((state)=> state.app.theme)
   useEffect(() => {
     dispatch(initializeAppTC());
   }, []);
