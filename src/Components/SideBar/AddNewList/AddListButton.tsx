@@ -1,7 +1,7 @@
 import React, {memo, useCallback, useState} from "react";
 import plus from "../../../Icons/plus.svg";
 import styled, { css } from "styled-components";
-import { toggleAddListFormAC } from "redux/appReducer";
+import { toggleAddListForm } from "redux/appReducer";
 import { useDispatch } from "react-redux";
 import { MaxQuantity } from "../../Super/MaxQuantity/MaxQuantity";
 import {useAppSelector} from "redux/store";
@@ -13,8 +13,8 @@ export const AddListButton = memo((props:{listsLength: number}) => {
   const isVisibleALF = useAppSelector<boolean>((state) => state.app.isVisibleALF);
   const dispatch = useDispatch();
 
-  const toggleAddListForm = useCallback(() => {
-    dispatch(toggleAddListFormAC(!isVisibleALF));
+  const toggle= useCallback(() => {
+    return dispatch(toggleAddListForm(!isVisibleALF));
   },[isVisibleALF])
 
   return (
@@ -28,7 +28,7 @@ export const AddListButton = memo((props:{listsLength: number}) => {
       <p>Lists</p>
       <MaxQuantity maxNum={10} currentNum={props.listsLength} />
       <SvgSquare>
-        <SvgPlus src={plus} alt="plus" onClick={toggleAddListForm} isVisibleALF={isVisibleALF} />
+        <SvgPlus src={plus} alt="plus" onClick={toggle} isVisibleALF={isVisibleALF} />
       </SvgSquare>
     </Wrapper>
   );

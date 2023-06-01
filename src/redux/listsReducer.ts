@@ -1,7 +1,7 @@
 import { FilterType } from "./state";
 import {listAPI, taskAPI} from "api/todoAPI";
 import { Dispatch } from "redux";
-import { setErrorAC, setErrorSnackbar, setIsLoadingAddListForm, toggleAddListFormAC } from "redux/appReducer";
+import { setError, setErrorSnackbar, setIsLoadingAddListForm, toggleAddListForm } from "redux/appReducer";
 import { NavigateFunction } from "react-router/dist/lib/hooks";
 import { setTasksAC } from "./taskReducer";
 import { ThunkDispatchType } from "./store";
@@ -128,12 +128,12 @@ export const addListTK = (title: string, navigate: NavigateFunction, color: stri
       .then((res) => {
         dispatch(addNewListAC(res.data.data.item.id, colorAndTitle));
         navigate(`/${colorAndTitle}`);
-        dispatch(toggleAddListFormAC(false));
+        dispatch(toggleAddListForm(false));
         return res.data.data.item.id;
       })
       .finally(() => dispatch(setIsLoadingAddListForm(false)));
   } else {
-    dispatch(setErrorAC(true));
+    dispatch(setError(true));
   }
 };
 export const editingListTK =
@@ -151,11 +151,11 @@ export const editingListTK =
           dispatch(setIsLoadingAddListForm(false));
         })
         .finally(() => {
-          dispatch(toggleAddListFormAC(false));
+          dispatch(toggleAddListForm(false));
           dispatch(setIsLoading(listId, false));
         });
     }  else {
-  dispatch(setErrorAC(true));
+  dispatch(setError(true));
 }
   };
 

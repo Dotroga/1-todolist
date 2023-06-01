@@ -1,41 +1,19 @@
 import {baseTheme} from "theme";
 import {DefaultTheme} from "styled-components";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 export type ColorType = { color: any; title: string };
-export type StatusWindowsType = {
-  theme: DefaultTheme,
-  isCollapsedSB: boolean;
-  isVisibleALF: boolean;
-  addListForm: AddListFormType;
-  addTaskForm: AddTaskFormType;
-  arrColor: ColorType[];
-  errorSnackbar: null | string;
-};
-
-export type AddListFormType = {
-  listId: string | null;
-  mode: boolean;
-  title: string;
-  error: string | null;
-  color: ColorType | null;
-  isLoading: boolean;
-};
-export type AddTaskFormType = {
-  title: string;
-  description: string | null;
-  error: null | string;
-};
 
 const initialState = {
   theme: baseTheme,
   isCollapsedSB: false,
   isVisibleALF: false,
   addListForm: {
-    listId: null,
+    listId: null as string | null,
     mode: true,
     title: "",
-    error: null,
-    color: null,
+    error: null as string | null,
+    color: null  as ColorType | null,
     isLoading: false,
   },
   addTaskForm: {
@@ -66,102 +44,50 @@ const initialState = {
     { color: "#b7b7b7", title: "Grey" },
     { color: "#caab92", title: "Taupe" },
   ],
-  errorSnackbar: "Some error",
+  errorSnackbar: "Some error" as string | null,
 };
 
-export const AppReducer = (
-  state: StatusWindowsType = initialState,
-  action: Actions
-): StatusWindowsType => {
-  switch (action.type) {
-    case "CHANGE-THEME": return {...state, theme: action.theme}
-    case "TOGGLE-SIDE-BAR":
-      return {
-        ...state,
-        isCollapsedSB: !state.isCollapsedSB,
-        isVisibleALF: false,
-      };
-    case "TOGGLE-ADD-LIST-FORM": {
-      const color = null;
-      const addListForm = {
-        ...state.addListForm,
-        title: "",
-        mode: true,
-        error: null,
-        color,
-        listId: null,
-      };
-      return { ...state, isVisibleALF: action.change, addListForm };
-    }
-    case "CHANGE-TITLE-NEW-LIST":
-      return {
-        ...state,
-        addListForm: { ...state.addListForm, title: action.text },
-      };
-    case "CHANGE-COLOR":
-      const newColor = state.arrColor.filter((i) => i.color === action.color);
-      return {
-        ...state,
-        addListForm: { ...state.addListForm, color: newColor[0] },
-      };
-    case "SET-ERROR":
-      return {
-        ...state,
-        addListForm: {
-          ...state.addListForm,
-          error: action.change ? "Title is required" : null,
-        },
-      };
-    case "CHANGE-MODE-ADD-LIST": {
-      return {
-        ...state,
-        addListForm: {
-          ...state.addListForm,
-          mode: action.mode,
-          listId: action.listId,
-        },
-      };
-    }
-    case "SET-ERROR-SNACKBAR":
-      return { ...state, errorSnackbar: action.error };
-    case "SET-IS-LOADING-ADD-LIST":
-      return {
-        ...state,
-        addListForm: { ...state.addListForm, isLoading: action.isLoading },
-      };
-    default:
-      return state;
+const slice = createSlice({
+  name: 'app',
+  initialState: initialState,
+  reducers: {
+    changeTheme(state, action: PayloadAction<DefaultTheme>) {
+      state.theme = action.payload
+    },
+    toggleSideBar(state) {
+      state.isCollapsedSB = !state.isCollapsedSB
+      state.isVisibleALF = false
+    },
+    toggleAddListForm(state, action: PayloadAction<boolean>) {
+      state.isVisibleALF = action.payload
+      state.addListForm = {...state.addListForm,
+        title: "", mode: true, error: null, color: null, listId: null,};
+    },
+    changeTitleNewList(state, action: PayloadAction<string>) {
+      state.addListForm.title = action.payload
+    },
+    changeColor(state, action: PayloadAction<string>) {
+      const newColor = state.arrColor.filter((i) => i.color === action.payload);
+      state.addListForm = {...state.addListForm, color: newColor[0]}
+    },
+    setError(state, action: PayloadAction<boolean>) {
+        state.addListForm.error = action.payload ? "Title is required" : null
+    },
+    changeModeAddList(state, action: PayloadAction<{listId: string, mode: boolean}>) {
+      state.addListForm.mode = action.payload.mode
+      state.addListForm.listId = action.payload.listId
+    },
+    setErrorSnackbar(state, action: PayloadAction<null | string>) {
+      state.errorSnackbar = action.payload
+    },
+    setIsLoadingAddListForm(state, action: PayloadAction<boolean>) {
+        state.addListForm.isLoading = action.payload
+    },
   }
-};
-export const changeTheme = (theme: DefaultTheme) => ({ type: "CHANGE-THEME" , theme} as const);
-export const toggleSideBarAC = () => ({ type: "TOGGLE-SIDE-BAR" } as const);
-export const toggleAddListFormAC = (change: boolean) => ({ type: "TOGGLE-ADD-LIST-FORM", change } as const);
-export const changeTitleNewListAC = (text: string) => ({ type: "CHANGE-TITLE-NEW-LIST", text } as const);
-export const changeColorAC = (color: string) => ({ type: "CHANGE-COLOR", color } as const);
-export const setErrorAC = (change: boolean) => ({ type: "SET-ERROR", change } as const);
-export const changeModeAddListAC = (listId: string, mode: boolean) =>
-  ({ type: "CHANGE-MODE-ADD-LIST", listId, mode } as const);
-export const setErrorSnackbar = (error: null | string) => ({ type: "SET-ERROR-SNACKBAR", error } as const);
-export const setIsLoadingAddListForm = (isLoading: boolean) =>
-  ({ type: "SET-IS-LOADING-ADD-LIST", isLoading } as const);
+})
 
-type Actions =
-  | toggleSideBarACType
-  | toggleAddListFormACType
-  | changeTitleNewListACType
-  | changeColorACType
-  | setErrorACType
-  | changeModeAddListACType
-  | setErrorSnackbarType
-  | setIsLoadingAddListFormType
-  | changeThemeType
+export const app = slice.reducer
+export const {changeTheme, toggleSideBar, toggleAddListForm, changeTitleNewList, changeColor,
+  setError, changeModeAddList, setErrorSnackbar, setIsLoadingAddListForm} = slice.actions
 
-export type changeThemeType  = ReturnType<typeof changeTheme >;
-export type toggleSideBarACType = ReturnType<typeof toggleSideBarAC>;
-export type toggleAddListFormACType = ReturnType<typeof toggleAddListFormAC>;
-export type changeTitleNewListACType = ReturnType<typeof changeTitleNewListAC>;
-export type changeColorACType = ReturnType<typeof changeColorAC>;
-export type setErrorACType = ReturnType<typeof setErrorAC>;
-export type changeModeAddListACType = ReturnType<typeof changeModeAddListAC>;
-export type setErrorSnackbarType = ReturnType<typeof setErrorSnackbar>;
-export type setIsLoadingAddListFormType = ReturnType<typeof setIsLoadingAddListForm>;
+
