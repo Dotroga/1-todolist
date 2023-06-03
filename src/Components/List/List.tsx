@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useAppDispatch } from "redux/store";
-import { ListType, removeListTK } from "redux/listsReducer";
+import { ListType, removeListTK } from "redux/lists.reducer";
 import { DeleteButton } from "../DeleteButton/DeleteButton";
 import { Tasks } from "./Tasks/Tasks";
 import { AddNewTask } from "./AddNewTask/AddNewTask";

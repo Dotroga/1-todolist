@@ -1,5 +1,4 @@
-import {baseTheme} from "theme";
-import {DefaultTheme} from "styled-components";
+import {baseTheme, lightTheme} from "theme";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 export type ColorType = { color: any; title: string };
@@ -51,8 +50,10 @@ const slice = createSlice({
   name: 'app',
   initialState: initialState,
   reducers: {
-    changeTheme(state, action: PayloadAction<DefaultTheme>) {
-      state.theme = action.payload
+    changeTheme(state) {
+      state.theme.type === 'dark'
+        ? state.theme = lightTheme
+        : state.theme = baseTheme
     },
     toggleSideBar(state) {
       state.isCollapsedSB = !state.isCollapsedSB

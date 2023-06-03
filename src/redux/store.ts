@@ -1,11 +1,11 @@
 import { combineReducers, AnyAction } from "redux";
 import { useSelector, TypedUseSelectorHook, useDispatch } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
-import {auth} from "./authReducer";
+import {auth} from "redux/auth.reducer";
 import {configureStore} from "@reduxjs/toolkit";
-import {app} from "redux/appReducer";
-import {lists} from "redux/listsReducer";
-import {tasks} from "redux/taskReducer";
+import {app} from "redux/app.reducer";
+import {lists} from "redux/lists.reducer";
+import {tasks} from "redux/task.reducer";
 
 const rootReducer = combineReducers({auth, lists, tasks, app});
 

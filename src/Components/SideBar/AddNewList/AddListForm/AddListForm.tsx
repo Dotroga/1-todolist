@@ -2,7 +2,7 @@ import React, { ChangeEvent, memo, useCallback } from "react";
 import styled from "styled-components";
 import { SuperButton } from "../../../Super/SuperButton/SuperButton";
 import { Select } from "../../../Super/Select/Select";
-import { addListTK, editingListTK } from "redux/listsReducer";
+import { addListTK, editingListTK } from "redux/lists.reducer";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "redux/store";
 import {
@@ -10,22 +10,29 @@ import {
   changeTitleNewList,
   ColorType,
   setError, toggleAddListForm,
-} from "redux/appReducer";
+} from "redux/app.reducer";
 import { MaxQuantity } from "../../../Super/MaxQuantity/MaxQuantity";
 import { SuperInput } from "../../../Super/SuperInput/SuperInput";
+import {
+  selectAddListForm,
+  selectArrColor,
+  selectIsCollapsedSB,
+  selectIsLoading,
+  selectIsVisibleALF
+} from "redux/app.selectors";
+import {selectListsLength} from "redux/lists.selectors";
 
-type AddNewListType = {
-  isOpen: boolean;
-  listsLength: number;
-};
 
-export const AddListForm: React.FC<AddNewListType> = memo(({ isOpen, listsLength }) => {
+export const AddListForm: React.FC = memo(() => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const isVisibleALF = useAppSelector<boolean>((state) => state.app.isVisibleALF);
-  const addListForm = useAppSelector((state) => state.app.addListForm);
-  const arrColor = useAppSelector<ColorType[]>((state) => state.app.arrColor);
-  const isLoading = useAppSelector((state) => state.app.addListForm.isLoading);
+
+  const isVisibleALF = useAppSelector(selectIsVisibleALF);
+  const addListForm = useAppSelector(selectAddListForm);
+  const arrColor = useAppSelector(selectArrColor);
+  const isLoading = useAppSelector(selectIsLoading);
+  const isCollapsedSB = useAppSelector(selectIsCollapsedSB);
+  const length = useAppSelector(selectListsLength)
 
   const changeTitle = useCallback((e: ChangeEvent<HTMLInputElement>) => {
       const text = e.currentTarget.value;
@@ -49,11 +56,11 @@ export const AddListForm: React.FC<AddNewListType> = memo(({ isOpen, listsLength
   }, []);
 
   return (
-    <Wrapper isVisibleAL={isVisibleALF} isOpen={isOpen}>
+    <Wrapper isVisibleAL={isVisibleALF} isOpen={isCollapsedSB}>
       <SuperInput onChange={changeTitle} name={"Title"} value={addListForm.title} error={addListForm.error!}/>
       <Select title="Color" arr={arrColor} item={addListForm.color} callBack={changeColorHandler}/>
       <div className='buttonContainer'>
-        <MaxQuantity maxNum={10} currentNum={listsLength}/>
+        <MaxQuantity maxNum={10} currentNum={length}/>
         <SuperButton title="Cancel" onClick={toggleAddListFormHandler}/>
         <SuperButton
           title={addListForm.mode ? "Add" : "Save"}

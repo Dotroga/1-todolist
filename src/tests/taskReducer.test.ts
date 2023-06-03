@@ -1,5 +1,5 @@
-import { addTask, changeTaskStatus, renameTask,} from "./taskReducer";
-import { listsToDo, tasksToDo, TasksType } from "./state";
+
+import {tasksToDo, TasksType } from "redux/state";
 
 
 const startState: TasksType = tasksToDo;

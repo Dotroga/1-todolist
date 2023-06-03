@@ -1,24 +1,27 @@
 import React, {memo, useCallback, useState} from "react";
 import plus from "../../../Icons/plus.svg";
 import styled, { css } from "styled-components";
-import { toggleAddListForm } from "redux/appReducer";
+import { toggleAddListForm } from "redux/app.reducer";
 import { useDispatch } from "react-redux";
 import { MaxQuantity } from "../../Super/MaxQuantity/MaxQuantity";
 import {useAppSelector} from "redux/store";
+import {selectListsLength} from "redux/lists.selectors";
+import {selectIsCollapsedSB, selectIsVisibleALF} from "redux/app.selectors";
 
 
-export const AddListButton = memo((props:{listsLength: number}) => {
-  const [hovered, setHovered] = useState<boolean>(false);
-  const isVisibleSB = useAppSelector<boolean>((state) => state.app.isCollapsedSB);
-  const isVisibleALF = useAppSelector<boolean>((state) => state.app.isVisibleALF);
+export const AddListButton = memo(() => {
   const dispatch = useDispatch();
+  const [hovered, setHovered] = useState(false);
 
-  const toggle= useCallback(() => {
-    return dispatch(toggleAddListForm(!isVisibleALF));
-  },[isVisibleALF])
+  const isVisibleSB = useAppSelector(selectIsCollapsedSB);
+  const isVisibleALF = useAppSelector(selectIsVisibleALF);
+  const length = useAppSelector(selectListsLength)
+
+  const toggle = useCallback(() =>
+    dispatch(toggleAddListForm(!isVisibleALF)),[isVisibleALF])
 
   return (
-    <Wrapper {...props}
+    <Wrapper length={length}
              isVisibleSB={isVisibleSB}
              hovered={hovered}
              onMouseEnter={() => setHovered(true)}
@@ -26,7 +29,7 @@ export const AddListButton = memo((props:{listsLength: number}) => {
              isVisibleALF={isVisibleALF}
     >
       <p>Lists</p>
-      <MaxQuantity maxNum={10} currentNum={props.listsLength} />
+      <MaxQuantity maxNum={10} currentNum={length} />
       <SvgSquare>
         <SvgPlus src={plus} alt="plus" onClick={toggle} isVisibleALF={isVisibleALF} />
       </SvgSquare>
@@ -38,7 +41,7 @@ type WrapperType = {
   isVisibleSB: boolean;
   isVisibleALF: boolean;
   hovered: boolean;
-  listsLength: number;
+  length: number;
 };
 
 const Wrapper = styled.div<WrapperType>`
@@ -47,8 +50,8 @@ const Wrapper = styled.div<WrapperType>`
   justify-content: space-between;
   margin: 4px 0;
   height: 32px;
-  ${({ hovered, isVisibleALF, listsLength }) =>
-    (hovered || isVisibleALF) && listsLength < 10
+  ${({ hovered, isVisibleALF, length }) =>
+    (hovered || isVisibleALF) && length < 10
       ? css`
           div {
             display: none;

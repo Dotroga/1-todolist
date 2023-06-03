@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import { SuperButton } from "../../Super/SuperButton/SuperButton";
-import { addTaskTK } from "redux/taskReducer";
+import { addTaskTK } from "redux/task.reducer";
 import { useAppDispatch } from "redux/store";
 import { SuperInput } from "../../Super/SuperInput/SuperInput";
 import { useFormik } from "formik";

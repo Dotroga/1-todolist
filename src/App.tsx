@@ -5,26 +5,30 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import { List } from "Components/List/List";
 import styled, {createGlobalStyle, ThemeProvider} from "styled-components";
 import { Login } from "Components/Login/Login";
-import { initializeAppTC } from "redux/authReducer";
+import { initializeAppTC } from "redux/auth.reducer";
 import { SpinnerLoader } from "Components/Super/Loader/SpinerLoader";
 import { ErrorSnackbar } from "Components/ErrorSnackbar/ErrorSnackbar";
-import { ListType } from "redux/listsReducer";
-
+import {selectIsInitialized, selectIsLoggedIn} from "redux/auth.selectors";
+import {selectTheme} from "redux/app.selectors";
+import {selectLists} from "redux/lists.selectors";
 
 export const App = memo(() => {
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
-  const isInitialized = useAppSelector((state) => state.auth.isInitialized);
-  const theme = useAppSelector((state)=> state.app.theme)
-  useEffect(() => {
-    dispatch(initializeAppTC());
-  }, []);
+
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const isInitialized = useAppSelector(selectIsInitialized);
+  const lists = useAppSelector(selectLists);
+  const theme = useAppSelector(selectTheme)
+
+  useEffect(() => dispatch(initializeAppTC()), []);
   useEffect(() => {
     !isLoggedIn && navigate("/login");
   }, [isLoggedIn]);
-  const lists = useAppSelector<ListType[]>((state) => state.lists);
+
   if (!isInitialized) return <SpinnerLoader/>;
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyled />

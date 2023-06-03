@@ -4,9 +4,10 @@ import { SuperInput } from "../Super/SuperInput/SuperInput";
 import styled from "styled-components";
 import { SuperButton } from "../Super/SuperButton/SuperButton";
 import { SuperCheckbox } from "../Super/SuperCheckbox/SuperCheckbox";
-import { loginTC } from "redux/authReducer";
+import { loginTC } from "redux/auth.reducer";
 import { useAppDispatch, useAppSelector } from "redux/store";
 import { Navigate } from "react-router-dom";
+import {selectIsLoggedIn} from "redux/auth.selectors";
 
 export type LoginType = {
   email: string;
@@ -16,7 +17,7 @@ export type LoginType = {
 
 export const Login = () => {
   const dispatch = useAppDispatch();
-  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const formik = useFormik({
     initialValues: {
       email: "",

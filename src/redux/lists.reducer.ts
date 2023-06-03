@@ -1,10 +1,10 @@
-import { FilterType } from "./state";
+import { FilterType } from "redux/state";
 import {listAPI, taskAPI} from "api/todoAPI";
 import { Dispatch } from "redux";
-import { setError, setErrorSnackbar, setIsLoadingAddListForm, toggleAddListForm } from "redux/appReducer";
+import { setError, setErrorSnackbar, setIsLoadingAddListForm, toggleAddListForm } from "redux/app.reducer";
 import { NavigateFunction } from "react-router/dist/lib/hooks";
-import { setTasks } from "./taskReducer";
-import { ThunkDispatchType } from "./store";
+import { setTasks } from "redux/task.reducer";
+import { ThunkDispatchType } from "redux/store";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 const parse = (title: string) => [title.slice(7), title.substring(0, 7)];

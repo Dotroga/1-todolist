@@ -1,5 +1,4 @@
-import { tasksToDo, TasksType } from "./state";
-import { v1 } from "uuid";
+import { tasksToDo, TasksType } from "redux/state";
 
 const startState: TasksType = tasksToDo;
 

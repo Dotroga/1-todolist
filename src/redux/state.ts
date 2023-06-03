@@ -1,6 +1,6 @@
 import { v1 } from "uuid";
 import { TaskType } from "api/todoAPI";
-import { ListType } from "./listsReducer";
+import { ListType } from "redux/lists.reducer";
 export type ServerSideListType = {
   id: string;
   title: string;

@@ -8,14 +8,14 @@ import editViolet from "../../../Icons/editViolet.svg";
 import arrowUpViolet from "../../../Icons/arrowUpViolet.svg";
 import arrowDownViolet from "../../../Icons/arrowDownViolet.svg";
 import deleteUrnViolet from "../../../Icons/deleteUrnViolet.svg";
-import {removeListTK, reorderUpListTK} from "redux/listsReducer";
+import {removeListTK, reorderUpListTK} from "redux/lists.reducer";
 import {useAppDispatch, useAppSelector} from "redux/store";
 import {
   changeColor,
   changeModeAddList,
   changeTitleNewList,
   toggleAddListForm,
-} from "redux/appReducer";
+} from "redux/app.reducer";
 import { useNavigate } from "react-router-dom";
 
 type PropsType = {

@@ -2,7 +2,7 @@ import React, { memo, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "redux/store";
 import { DeleteButton } from "../DeleteButton/DeleteButton";
-import { setErrorSnackbar } from "redux/appReducer";
+import { setErrorSnackbar } from "redux/app.reducer";
 
 export const ErrorSnackbar = memo(() => {
   const dispatch = useAppDispatch();

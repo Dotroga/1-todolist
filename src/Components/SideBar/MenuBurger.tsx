@@ -2,15 +2,15 @@ import React, {memo} from "react";
 import styled, {css} from "styled-components";
 import {useAppSelector} from "redux/store";
 import {useDispatch} from "react-redux";
-import {toggleSideBar} from "redux/appReducer";
+import {toggleSideBar} from "redux/app.reducer";
+import {selectCollapsedSB} from "redux/app.selectors";
 
 export const MenuBurger = memo(() => {
-  const CollapsedSB = useAppSelector<boolean>((state) => state.app.isCollapsedSB);
   const dispatch = useDispatch();
+  const collapsedSB = useAppSelector(selectCollapsedSB)
   const toggle = () => dispatch(toggleSideBar());
-
   return (
-    <Wrapper onClick={toggle} isOpen={CollapsedSB}>
+    <Wrapper onClick={toggle} isOpen={collapsedSB}>
       <span></span>
       <span></span>
       <span></span>

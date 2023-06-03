@@ -5,64 +5,34 @@ import styled, {css} from "styled-components";
 import { SideBarIcon } from "./SideBarIcon/SideBarIcon";
 import { AddListButton } from "./AddNewList/AddListButton";
 import { AddListForm } from "./AddNewList/AddListForm/AddListForm";
-import { fetchDataTC, ListType } from "redux/listsReducer";
+import { fetchDataTC} from "redux/lists.reducer";
 import { LogOut } from "./LogOut";
-import {baseTheme, lightTheme} from "theme";
-import {changeTheme} from "redux/appReducer";
 import {SwitchThemeButton} from "Components/SideBar/SwitchThemeButton";
-
+import {selectIsCollapsedSB} from "redux/app.selectors";
+import {SideBarLists} from "Components/SideBar/SideBarLists/SideBarlists";
 
 export const SideBar = memo(() => {
-  console.log('SideBar')
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(fetchDataTC()).then((r) => r);
-  }, []);
-  const isCollapsedSB = useAppSelector<boolean>((state) => state.app.isCollapsedSB);
-  const lists = useAppSelector<ListType[]>((state) => state.lists);
-  const theme = useAppSelector((state)=> state.app.theme)
-
-  const themeHandler = () => {
-    theme.type === 'dark'
-      ? dispatch(changeTheme(lightTheme))
-      : dispatch(changeTheme(baseTheme))
-  }
-
-  const allItem = lists.map((l, i) => {
-    return (
-      <SideBarIcon
-        key={i}
-        listId={l.id}
-        isLoading={l.isLoading}
-        numberOfTasks={l.numberOfTasks}
-        title={l.title}
-        color={l.color}
-      />
-    );
-  });
-
+  useEffect(() => {dispatch(fetchDataTC()).then(r => r)}, [])
+  const isCollapsedSB = useAppSelector(selectIsCollapsedSB);
   return (
     <SideBarContainer isOpen={isCollapsedSB}>
       <MenuBurger />
       <SideBarIcon title="All lists" color="red"/>
       <AddNewList>
-        <AddListButton listsLength={lists.length} />
-        <AddListForm isOpen={isCollapsedSB} listsLength={lists.length} />
+        <AddListButton />
+        <AddListForm />
       </AddNewList>
-      {allItem}
+      <SideBarLists/>
       <footer>
-        <SwitchThemeButton onClick={themeHandler}/>
-        <LogOut isCollapsedSB={isCollapsedSB} />
+        <SwitchThemeButton />
+        <LogOut/>
       </footer>
     </SideBarContainer>
   );
 });
 
-type SideBarContainerPropsType = {
-  isOpen: boolean;
-};
-
-const SideBarContainer = styled.div<SideBarContainerPropsType>`
+const SideBarContainer = styled.div<{ isOpen: boolean }>`
   display: flex;
   width: ${({ isOpen }) => (isOpen ? "260px" : "43px")};
   min-width: ${({ isOpen }) => (isOpen ? "260px" : "43px")};

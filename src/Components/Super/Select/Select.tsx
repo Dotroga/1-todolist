@@ -1,6 +1,6 @@
 import React, { memo, useState } from "react";
 import styled from "styled-components";
-import { ColorType } from "redux/appReducer";
+import { ColorType } from "redux/app.reducer";
 import {SelectWrapper} from "Components/Super/Select/Select.styled";
 
 type PropsType = {

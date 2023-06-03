@@ -3,21 +3,20 @@ import logOut from "./../../Icons/logOut.svg";
 import logOutViolet from "./../../Icons/logOutViolet.svg";
 import styled from "styled-components";
 import {useAppDispatch, useAppSelector} from "redux/store";
-import { logOutTC } from "redux/authReducer";
+import { logOutTC } from "redux/auth.reducer";
+import {selectIsCollapsedSB, selectTheme} from "redux/app.selectors";
 
-type PropType = {
-  isCollapsedSB: boolean;
-};
+export const LogOut: React.FC = () => {
 
-export const LogOut: React.FC<PropType> = ({ isCollapsedSB }) => {
   const dispatch = useAppDispatch();
-  const theme = useAppSelector((state)=>state.app.theme.type)
-  const logOutHandler = () => {
-    dispatch(logOutTC());
-  };
+  const isCollapsedSB = useAppSelector(selectIsCollapsedSB)
+  const theme = useAppSelector(selectTheme)
+
+  const logOutHandler = () => dispatch(logOutTC())
+
   return (
     <Wrapper onClick={logOutHandler}>
-      <img src={theme === 'dark' ? logOut : logOutViolet} alt="" />
+      <img src={theme.type === 'dark' ? logOut : logOutViolet} alt="" />
       {isCollapsedSB && <span>Log Out</span>}
     </Wrapper>
   );

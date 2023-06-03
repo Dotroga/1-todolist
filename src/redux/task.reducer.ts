@@ -1,5 +1,5 @@
-import {TasksType} from "./state";
-import {addNewList, removeList, setLists, setNumberOfTasks} from "./listsReducer";
+import {TasksType} from "redux/state";
+import {addNewList, removeList, setLists, setNumberOfTasks} from "redux/lists.reducer";
 import {Dispatch} from "redux";
 import {taskAPI, TaskType} from "api/todoAPI";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";

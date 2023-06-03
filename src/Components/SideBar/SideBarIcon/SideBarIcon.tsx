@@ -29,12 +29,10 @@ export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
       setHover(false);
     }
 
-
   const navigateTo = () => {
-    const to = title === "All lists" ? '/' : '/' + title
+    const to = title === "All lists" ? '/' : `/${title}`
     decodeURIComponent(location.pathname) !== to && navigate(to)
   }
-  console.log(isOpenOptions)
   return (
     <StyledNavLink
       onClick={navigateTo}
