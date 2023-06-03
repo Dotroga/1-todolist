@@ -1,6 +1,4 @@
 import { tasksToDo, TasksType } from "./state";
-import { tasksReducer } from "./taskReducer";
-import { addNewListAC, listsReducer, removeListAC } from "./listsReducer";
 import { v1 } from "uuid";
 
 const startState: TasksType = tasksToDo;

@@ -3,15 +3,18 @@ import {listAPI, taskAPI} from "api/todoAPI";
 import { Dispatch } from "redux";
 import { setError, setErrorSnackbar, setIsLoadingAddListForm, toggleAddListForm } from "redux/appReducer";
 import { NavigateFunction } from "react-router/dist/lib/hooks";
-import { setTasksAC } from "./taskReducer";
+import { setTasks } from "./taskReducer";
 import { ThunkDispatchType } from "./store";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 const parse = (title: string) => [title.slice(7), title.substring(0, 7)];
 
-export const listsReducer = (lists: ListType[] = [], action: Actions): ListType[] => {
-  switch (action.type) {
-    case "SET-LISTS": {
-      return action.lists.map((l) => {
+const slice = createSlice({
+  name: 'lists',
+  initialState: [] as ListType[],
+  reducers: {
+    setLists(state, action: PayloadAction<{ lists: ListThunkType[] }>) {
+      return action.payload.lists.map((l) => {
         const titleAndColor = parse(l.title);
         return {
           ...l,
@@ -22,98 +25,68 @@ export const listsReducer = (lists: ListType[] = [], action: Actions): ListType[
           isLoading: false,
         };
       });
-    }
-    case "SET-NUMBER": {
-      return lists.map((l) => (action.listId === l.id ? { ...l, numberOfTasks: action.number } : l));
-    }
-    case "ADD-LIST": {
-      const titleAndColor = parse(action.title);
+    },
+    setNumberOfTasks(state, action: PayloadAction<{ listId: string, number: number }>) {
+      const list = state.find((l) => action.payload.listId === l.id)
+      if (list) {list.numberOfTasks = action.payload.number}
+    },
+    addNewList(state, action: PayloadAction<{ id: string, title: string }>) {
+      const titleAndColor = parse(action.payload.title);
       const newList: ListType = {
-        id: action.id,
+        id: action.payload.id,
         title: titleAndColor[0],
         color: titleAndColor[1],
-        path: action.title,
+        path: action.payload.title,
         addedDate: "",
         order: 0,
         filter: "All",
         numberOfTasks: 0,
         isLoading: false,
       };
-      return [newList, ...lists];
-    }
-    case "RENAME-TASK-LIST": {
-      const titleAndColor = parse(action.title);
-      return lists.map((l) =>
-        l.id === action.listId
-          ? {
-              ...l,
-              title: titleAndColor[0],
-              color: titleAndColor[1],
-              path: action.title,
-            }
-          : l
-      );
-    }
-    case "REMOVE-TASK-LIST":
-      return lists.filter((l) => l.id !== action.listId);
-    case "SET-IS-LOADING":
-      return lists.map((l) => (l.id === action.listId ? { ...l, isLoading: action.isLoading } : l));
-    case "REORDER-LIST": {
-      const newLists = [...lists]
-      if (action.change === 'up') {
-        newLists[action.index] = lists[action.index - 1];
-        newLists[action.index - 1] = lists[action.index];
+      state.unshift(newList)
+    },
+    editingList(state, action: PayloadAction<{ listId: string, title: string }>) {
+      debugger
+      const titleAndColor = parse(action.payload.title);
+      const todo = state.find((l) => l.id === action.payload.listId);
+      if (todo) {
+        todo.title = titleAndColor[0]
+        todo.color = titleAndColor[1]
+      }
+    },
+    removeList(state, action: PayloadAction<{ listId: string }>) {
+     const index = state.findIndex((l) => l.id === action.payload.listId);
+     index !== -1 && state.splice(index, 1)
+    },
+    setIsLoading(state, action: PayloadAction<{ listId: string, isLoading: boolean }>) {
+      const list = state.find((l) => action.payload.listId === l.id)
+      if (list) {list.isLoading = action.payload.isLoading}
+    },
+    reorderList(state, action: PayloadAction<{ index: number, change: 'up' | 'down' }>) {
+      const newLists = [...state]
+      if (action.payload.change === 'up') {
+        newLists[action.payload.index] = state[action.payload.index - 1];
+        newLists[action.payload.index - 1] = state[action.payload.index];
       } else {
-        newLists[action.index] = lists[action.index + 1];
-        newLists[action.index + 1] = lists[action.index];
+        newLists[action.payload.index] = state[action.payload.index + 1];
+        newLists[action.payload.index + 1] = state[action.payload.index];
       }
       return newLists
     }
-    default:
-      return lists;
   }
-};
+})
 
-export const setListsAC = (lists: ListThunkType[]) =>
-  ({
-    type: "SET-LISTS",
-    lists,
-  } as const);
-export const setNumberOfTasks = (listId: string, number: number) =>
-  ({
-    type: "SET-NUMBER",
-    listId,
-    number,
-  } as const);
-export const addNewListAC = (id: string, title: string) =>
-  ({
-    type: "ADD-LIST",
-    id,
-    title,
-  } as const);
-export const editingListAC = (listId: string, title: string) =>
-  ({
-    type: "RENAME-TASK-LIST",
-    listId,
-    title,
-  } as const);
-export const removeListAC = (listId: string) =>
-  ({
-    type: "REMOVE-TASK-LIST",
-    listId,
-  } as const);
-export const setIsLoading = (listId: string, isLoading: boolean) =>
-  ({type: "SET-IS-LOADING", listId, isLoading} as const);
-export const reorderList = (index: number, change: 'up' | 'down') =>
-  ({type: 'REORDER-LIST', index, change} as const)
+export const lists = slice.reducer
+export  const {setLists, setNumberOfTasks, addNewList, editingList, removeList, setIsLoading, reorderList} = slice.actions
+
 export const fetchDataTC = () => async (dispatch: ThunkDispatchType) => {
   try {
     const lists = await listAPI.getLists();
-    dispatch(setListsAC(lists));
+    dispatch(setLists({lists}));
     lists.map(async (l) => {
       const tasks = await taskAPI.getTasks(l.id);
-      dispatch(setTasksAC(l.id, tasks.items));
-      dispatch(setNumberOfTasks(l.id, tasks.totalCount));
+      dispatch(setTasks({listId:l.id, tasks: tasks.items}));
+      dispatch(setNumberOfTasks({listId: l.id, number: tasks.totalCount}));
     });
   } catch (error) {}
 };
@@ -126,7 +99,7 @@ export const addListTK = (title: string, navigate: NavigateFunction, color: stri
     listAPI
       .createList(colorAndTitle)
       .then((res) => {
-        dispatch(addNewListAC(res.data.data.item.id, colorAndTitle));
+        dispatch(addNewList({id: res.data.data.item.id, title: colorAndTitle}));
         navigate(`/${colorAndTitle}`);
         dispatch(toggleAddListForm(false));
         return res.data.data.item.id;
@@ -141,18 +114,18 @@ export const editingListTK =
     const newTitle = title.trim();
     if (newTitle !== "") {
       dispatch(setIsLoadingAddListForm(true));
-      dispatch(setIsLoading(listId, true));
+      dispatch(setIsLoading({listId, isLoading: true}));
       const colorAndTitle = color + title;
       listAPI
         .updateList(listId, colorAndTitle)
         .then(() => {
-          dispatch(editingListAC(listId, colorAndTitle));
+          dispatch(editingList({listId, title: colorAndTitle}));
           navigate(title);
           dispatch(setIsLoadingAddListForm(false));
         })
         .finally(() => {
           dispatch(toggleAddListForm(false));
-          dispatch(setIsLoading(listId, false));
+          dispatch(setIsLoading({listId, isLoading: false}));
         });
     }  else {
   dispatch(setError(true));
@@ -160,11 +133,11 @@ export const editingListTK =
   };
 
 export const removeListTK = (listId: string, navigate: NavigateFunction) => (dispatch: Dispatch) => {
-  dispatch(setIsLoading(listId, true));
+  dispatch(setIsLoading({listId, isLoading: true}));
   listAPI
     .deleteList(listId)
     .then(() => {
-      dispatch(removeListAC(listId));
+      dispatch(removeList({listId}));
       navigate("/");
     })
     .catch((e) => {
@@ -183,7 +156,7 @@ export const reorderUpListTK = (listId: string, lists: ListType[], change: 'up' 
   listAPI.reorderList(listId, afterListId)
     .then((res) => {
         if (res.data.resultCode === 0) {
-          dispatch(reorderList(index, change))
+          dispatch(reorderList({index, change}))
         }
     })
 }
@@ -208,20 +181,4 @@ export type ListThunkType = {
   numberOfTasks?: number;
 };
 
-export type Actions =
-  | getListsACType
-  | renameListACType
-  | removeListACType
-  | addListACType
-  | setNumberOfTasksType
-  | setIsLoadingType
-  | reorderListType
-
-export type getListsACType = ReturnType<typeof setListsAC>;
-export type addListACType = ReturnType<typeof addNewListAC>;
-export type renameListACType = ReturnType<typeof editingListAC>;
-export type removeListACType = ReturnType<typeof removeListAC>;
-export type setNumberOfTasksType = ReturnType<typeof setNumberOfTasks>;
-export type setIsLoadingType = ReturnType<typeof setIsLoading>;
-export type reorderListType = ReturnType<typeof reorderList>;
 

@@ -1,6 +1,6 @@
-import { addTaskAC, changeTaskStatusAC, renameTaskAC, tasksReducer } from "./taskReducer";
+import { addTask, changeTaskStatus, renameTask,} from "./taskReducer";
 import { listsToDo, tasksToDo, TasksType } from "./state";
-import { setListsAC } from "./listsReducer";
+
 
 const startState: TasksType = tasksToDo;
 
