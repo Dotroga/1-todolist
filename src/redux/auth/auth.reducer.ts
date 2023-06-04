@@ -1,8 +1,10 @@
 import { LoginType } from "Components/Login/Login";
 import { authAPI } from "api/todoAPI";
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAppAsyncThunk} from "utils/createAppAsyncThunk";
 
-const initializeApp = createAsyncThunk('auth/initializeApp', async (arg, thunkAPI) => {
+const initializeApp = createAppAsyncThunk
+('auth/initializeApp', async (arg, thunkAPI) => {
   const {dispatch} = thunkAPI
   const res = await authAPI.me()
   if (res.data.resultCode === 0) {
@@ -13,7 +15,7 @@ const initializeApp = createAsyncThunk('auth/initializeApp', async (arg, thunkAP
   dispatch(authActions.setIsInitialized({isInitialized: true}));
 })
 
-const login = createAsyncThunk('auth/login', async (data: LoginType, thunkAPI) => {
+const login = createAppAsyncThunk('auth/login', async (data: LoginType, thunkAPI) => {
   const res = await authAPI.login(data)
   if (res.data.resultCode === 0) {
     return {isLoggedIn: true}
@@ -23,7 +25,7 @@ const login = createAsyncThunk('auth/login', async (data: LoginType, thunkAPI) =
   }
 })
 
-const logOut = createAsyncThunk('auth/logOut', async (arg, thunkAPI) => {
+const logOut = createAppAsyncThunk('auth/logOut', async (arg, thunkAPI) => {
   const {dispatch} = thunkAPI
   const res = await authAPI.logout()
   res.data.resultCode === 0

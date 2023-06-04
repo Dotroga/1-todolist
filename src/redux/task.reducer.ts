@@ -2,7 +2,7 @@ import {TasksType} from "redux/state";
 import {addNewList, removeList, setLists, setNumberOfTasks} from "redux/lists.reducer";
 import {taskAPI, TaskType} from "api/todoAPI";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {handleServerNetworkError} from "utils/errorUtils";
+import {handleServerAppError, handleServerNetworkError} from "utils/errorUtils";
 import {createAppAsyncThunk} from "utils/createAppAsyncThunk";
 
 
@@ -24,8 +24,13 @@ const addTask = createAppAsyncThunk<{ listId: string, task: TaskType }, {listId:
   const {dispatch, rejectWithValue} = thunkAPI
   try {
     const res = await taskAPI.createTask(listId, title)
-    dispatch(setNumberOfTasks({listId, num: num + 1}));
-    return {listId, task: res.data.data.item}
+    if (res.data.resultCode === 0 ) {
+      dispatch(setNumberOfTasks({listId, num: num + 1}));
+      return {listId, task: res.data.data.item}
+    } else {
+      handleServerAppError(res.data, dispatch)
+      return rejectWithValue(null)
+    }
   } catch (e) {
     handleServerNetworkError(e, dispatch)
     return rejectWithValue(null)
