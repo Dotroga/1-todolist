@@ -5,12 +5,12 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import { List } from "Components/List/List";
 import styled, {createGlobalStyle, ThemeProvider} from "styled-components";
 import { Login } from "Components/Login/Login";
-import { initializeAppTC } from "redux/auth.reducer";
 import { SpinnerLoader } from "Components/Super/Loader/SpinerLoader";
 import { ErrorSnackbar } from "Components/ErrorSnackbar/ErrorSnackbar";
-import {selectIsInitialized, selectIsLoggedIn} from "redux/auth.selectors";
+import {selectIsInitialized, selectIsLoggedIn} from "redux/auth/auth.selectors";
 import {selectTheme} from "redux/app.selectors";
 import {selectLists} from "redux/lists.selectors";
+import {authThunks} from "redux/auth/auth.reducer";
 
 export const App = memo(() => {
 
@@ -22,7 +22,10 @@ export const App = memo(() => {
   const lists = useAppSelector(selectLists);
   const theme = useAppSelector(selectTheme)
 
-  useEffect(() => dispatch(initializeAppTC()), []);
+  useEffect(() => {
+    dispatch(authThunks.initializeApp())
+  }, []);
+
   useEffect(() => {
     !isLoggedIn && navigate("/login");
   }, [isLoggedIn]);

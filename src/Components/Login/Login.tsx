@@ -4,10 +4,10 @@ import { SuperInput } from "../Super/SuperInput/SuperInput";
 import styled from "styled-components";
 import { SuperButton } from "../Super/SuperButton/SuperButton";
 import { SuperCheckbox } from "../Super/SuperCheckbox/SuperCheckbox";
-import { loginTC } from "redux/auth.reducer";
 import { useAppDispatch, useAppSelector } from "redux/store";
 import { Navigate } from "react-router-dom";
-import {selectIsLoggedIn} from "redux/auth.selectors";
+import {selectIsLoggedIn} from "redux/auth/auth.selectors";
+import {authThunks} from "redux/auth/auth.reducer";
 
 export type LoginType = {
   email: string;
@@ -40,7 +40,7 @@ export const Login = () => {
     },
     validateOnChange: false,
     onSubmit: (values) => {
-      dispatch(loginTC(values));
+      dispatch(authThunks.login(values))
       isLoggedIn && formik.resetForm();
     },
   });

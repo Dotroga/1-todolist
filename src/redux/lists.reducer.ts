@@ -3,9 +3,9 @@ import {listAPI, taskAPI} from "api/todoAPI";
 import { Dispatch } from "redux";
 import { setError, setErrorSnackbar, setIsLoadingAddListForm, toggleAddListForm } from "redux/app.reducer";
 import { NavigateFunction } from "react-router/dist/lib/hooks";
-import { setTasks } from "redux/task.reducer";
 import { ThunkDispatchType } from "redux/store";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {tasks, taskThunk} from "redux/task.reducer";
 
 const parse = (title: string) => [title.slice(7), title.substring(0, 7)];
 
@@ -83,10 +83,8 @@ export const fetchDataTC = () => async (dispatch: ThunkDispatchType) => {
   try {
     const lists = await listAPI.getLists();
     dispatch(setLists({lists}));
-    lists.map(async (l) => {
-      const tasks = await taskAPI.getTasks(l.id);
-      dispatch(setTasks({listId:l.id, tasks: tasks.items}));
-      dispatch(setNumberOfTasks({listId: l.id, number: tasks.totalCount}));
+    lists.map((l) => {
+      dispatch(taskThunk.setTask(l.id))
     });
   } catch (error) {}
 };

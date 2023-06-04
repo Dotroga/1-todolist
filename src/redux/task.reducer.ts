@@ -2,16 +2,28 @@ import {TasksType} from "redux/state";
 import {addNewList, removeList, setLists, setNumberOfTasks} from "redux/lists.reducer";
 import {Dispatch} from "redux";
 import {taskAPI, TaskType} from "api/todoAPI";
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
+
+const setTask = createAsyncThunk('tasks/setTask', async (listId :string, thunkAPI) => {
+  const {dispatch} = thunkAPI
+  const res = await taskAPI.getTasks(listId)
+  dispatch(setNumberOfTasks({listId, number: res.totalCount}));
+  return {listId, tasks: res.items}
+})
+
+export const addTaskTK = (listId: string, title: string, numberOfTasks: number | undefined) => (dispatch: Dispatch) => {
+  taskAPI.createTask(listId, title).then((res) => {
+    const number = numberOfTasks ? numberOfTasks + 1 : 1;
+    dispatch(addTask({listId, task: res.data.data.item}));
+    dispatch(setNumberOfTasks({listId, number}));
+  });
+};
 
 const slice = createSlice({
   name: 'tasks',
   initialState: {} as TasksType,
   reducers: {
-    setTasks(state, action: PayloadAction<{ listId: string, tasks: TaskType[] }>) {
-      state[action.payload.listId] = action.payload.tasks
-    },
     removeTask(state, action: PayloadAction<{ listId: string, id: string }>) {
       const index = state[action.payload.listId].findIndex((t) => t.id === action.payload.listId);
       index !== -1 && state[action.payload.listId].splice(index, 1)
@@ -29,6 +41,9 @@ const slice = createSlice({
   },
   extraReducers: builder => {
     builder
+      .addCase(setTask.fulfilled, (state, action) => {
+        state[action.payload.listId] = action.payload.tasks
+      })
       .addCase(setLists, (state, action) => {
         action.payload.lists.forEach((l) => state[l.id] = [])
       })
@@ -42,20 +57,9 @@ const slice = createSlice({
   }
 })
 export const tasks = slice.reducer
-export const {setTasks, removeTask, addTask, renameTask, changeTaskStatus} = slice.actions
+export const {removeTask, addTask, renameTask, changeTaskStatus} = slice.actions
+export const taskThunk = {setTask}
 
-export const setTaskTC = (listId: string) => (dispatch: Dispatch) => {
-  taskAPI.getTasks(listId).then((res) => {
-    dispatch(setTasks({listId, tasks: res.items}));
-  });
-};
-export const addTaskTK = (listId: string, title: string, numberOfTasks: number | undefined) => (dispatch: Dispatch) => {
-  taskAPI.createTask(listId, title).then((res) => {
-    const number = numberOfTasks ? numberOfTasks + 1 : 1;
-    dispatch(addTask({listId, task: res.data.data.item}));
-    dispatch(setNumberOfTasks({listId, number}));
-  });
-};
 
 // const d = new Date()
 // const monthNames = ["January", "February", "March", "April", "May", "June",

@@ -3,8 +3,8 @@ import logOut from "./../../Icons/logOut.svg";
 import logOutViolet from "./../../Icons/logOutViolet.svg";
 import styled from "styled-components";
 import {useAppDispatch, useAppSelector} from "redux/store";
-import { logOutTC } from "redux/auth.reducer";
 import {selectIsCollapsedSB, selectTheme} from "redux/app.selectors";
+import {authThunks} from "redux/auth/auth.reducer";
 
 export const LogOut: React.FC = () => {
 
@@ -12,7 +12,7 @@ export const LogOut: React.FC = () => {
   const isCollapsedSB = useAppSelector(selectIsCollapsedSB)
   const theme = useAppSelector(selectTheme)
 
-  const logOutHandler = () => dispatch(logOutTC())
+  const logOutHandler = () => dispatch(authThunks.logOut())
 
   return (
     <Wrapper onClick={logOutHandler}>
