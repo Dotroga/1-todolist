@@ -31,7 +31,6 @@ const logOut = createAsyncThunk('auth/logOut', async (arg, thunkAPI) => {
     : console.log("error");
 })
 
-
 const slice = createSlice({
   name: 'auth',
   initialState: {

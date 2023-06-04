@@ -10,13 +10,8 @@ import arrowDownViolet from "../../../Icons/arrowDownViolet.svg";
 import deleteUrnViolet from "../../../Icons/deleteUrnViolet.svg";
 import {removeListTK, reorderUpListTK} from "redux/lists.reducer";
 import {useAppDispatch, useAppSelector} from "redux/store";
-import {
-  changeColor,
-  changeModeAddList,
-  changeTitleNewList,
-  toggleAddListForm,
-} from "redux/app.reducer";
 import { useNavigate } from "react-router-dom";
+import {appActions} from "redux/app.reducer";
 
 type PropsType = {
   listId?: string | undefined;
@@ -54,10 +49,10 @@ export const ModalWindow: React.FC<PropsType> = memo((props) => {
   useOutsideClick(ref, onCloses, isOpen);
 
   const editingModeList = () => {
-    dispatch(toggleAddListForm(true));
-    dispatch(changeTitleNewList(title));
-    dispatch(changeColor(color));
-    dispatch(changeModeAddList({listId: listId!, mode:false}));
+    dispatch(appActions.toggleAddListForm(true));
+    dispatch(appActions.changeTitleNewList(title));
+    dispatch(appActions.changeColor(color));
+    dispatch(appActions.changeModeAddList({listId: listId!, mode:false}));
     onCloses(false);
   };
   const removeList = () => {

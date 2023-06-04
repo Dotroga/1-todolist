@@ -5,12 +5,6 @@ import { Select } from "../../../Super/Select/Select";
 import { addListTK, editingListTK } from "redux/lists.reducer";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "redux/store";
-import {
-  changeColor,
-  changeTitleNewList,
-  ColorType,
-  setError, toggleAddListForm,
-} from "redux/app.reducer";
 import { MaxQuantity } from "../../../Super/MaxQuantity/MaxQuantity";
 import { SuperInput } from "../../../Super/SuperInput/SuperInput";
 import {
@@ -21,6 +15,7 @@ import {
   selectIsVisibleALF
 } from "redux/app.selectors";
 import {selectListsLength} from "redux/lists.selectors";
+import {appActions, ColorType} from "redux/app.reducer";
 
 
 export const AddListForm: React.FC = memo(() => {
@@ -36,12 +31,12 @@ export const AddListForm: React.FC = memo(() => {
 
   const changeTitle = useCallback((e: ChangeEvent<HTMLInputElement>) => {
       const text = e.currentTarget.value;
-      dispatch(changeTitleNewList(text));
-      dispatch(setError(false));
+      dispatch(appActions.changeTitleNewList(text));
+      dispatch(appActions.setError(false));
     }, []);
 
   const changeColorHandler = useCallback((color: ColorType) => {
-    dispatch(changeColor(color.color));
+    dispatch(appActions.changeColor(color.color));
   }, []);
 
   const addList = useCallback(() => {
@@ -52,7 +47,7 @@ export const AddListForm: React.FC = memo(() => {
   }, [addListForm.title, addListForm.color]);
 
   const toggleAddListFormHandler = useCallback(() => {
-    dispatch(toggleAddListForm(false));
+    dispatch(appActions.toggleAddListForm(false));
   }, []);
 
   return (

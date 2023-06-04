@@ -1,11 +1,11 @@
 import { FilterType } from "redux/state";
-import {listAPI, taskAPI} from "api/todoAPI";
+import {listAPI, ResponseListType, taskAPI} from "api/todoAPI";
 import { Dispatch } from "redux";
-import { setError, setErrorSnackbar, setIsLoadingAddListForm, toggleAddListForm } from "redux/app.reducer";
 import { NavigateFunction } from "react-router/dist/lib/hooks";
 import { ThunkDispatchType } from "redux/store";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {tasks, taskThunk} from "redux/task.reducer";
+import {appActions} from "redux/app.reducer";
 
 const parse = (title: string) => [title.slice(7), title.substring(0, 7)];
 
@@ -13,7 +13,7 @@ const slice = createSlice({
   name: 'lists',
   initialState: [] as ListType[],
   reducers: {
-    setLists(state, action: PayloadAction<{ lists: ListThunkType[] }>) {
+    setLists(state, action: PayloadAction<{lists: ResponseListType[]}>) {
       return action.payload.lists.map((l) => {
         const titleAndColor = parse(l.title);
         return {
@@ -82,8 +82,8 @@ export  const {setLists, setNumberOfTasks, addNewList, editingList, removeList, 
 export const fetchDataTC = () => async (dispatch: ThunkDispatchType) => {
   try {
     const lists = await listAPI.getLists();
-    dispatch(setLists({lists}));
-    lists.map((l) => {
+    dispatch(setLists({lists: lists.data}));
+    lists.data.map((l) => {
       dispatch(taskThunk.setTask(l.id))
     });
   } catch (error) {}
@@ -92,26 +92,26 @@ export const fetchDataTC = () => async (dispatch: ThunkDispatchType) => {
 export const addListTK = (title: string, navigate: NavigateFunction, color: string) => (dispatch: Dispatch) => {
   const newTitle = title.trim();
   if (newTitle !== "") {
-    dispatch(setIsLoadingAddListForm(true));
+    dispatch(appActions.setIsLoadingAddListForm(true));
     const colorAndTitle = color + newTitle;
     listAPI
       .createList(colorAndTitle)
       .then((res) => {
         dispatch(addNewList({id: res.data.data.item.id, title: colorAndTitle}));
         navigate(`/${colorAndTitle}`);
-        dispatch(toggleAddListForm(false));
+        dispatch(appActions.toggleAddListForm(false));
         return res.data.data.item.id;
       })
-      .finally(() => dispatch(setIsLoadingAddListForm(false)));
+      .finally(() => dispatch(appActions.setIsLoadingAddListForm(false)));
   } else {
-    dispatch(setError(true));
+    dispatch(appActions.setError(true));
   }
 };
 export const editingListTK =
   (listId: string, title: string, color: string, navigate: NavigateFunction) => (dispatch: Dispatch) => {
     const newTitle = title.trim();
     if (newTitle !== "") {
-      dispatch(setIsLoadingAddListForm(true));
+      dispatch(appActions.setIsLoadingAddListForm(true));
       dispatch(setIsLoading({listId, isLoading: true}));
       const colorAndTitle = color + title;
       listAPI
@@ -119,14 +119,14 @@ export const editingListTK =
         .then(() => {
           dispatch(editingList({listId, title: colorAndTitle}));
           navigate(title);
-          dispatch(setIsLoadingAddListForm(false));
+          dispatch(appActions.setIsLoadingAddListForm(false));
         })
         .finally(() => {
-          dispatch(toggleAddListForm(false));
+          dispatch(appActions.toggleAddListForm(false));
           dispatch(setIsLoading({listId, isLoading: false}));
         });
     }  else {
-  dispatch(setError(true));
+  dispatch(appActions.setError(true));
 }
   };
 
@@ -139,7 +139,7 @@ export const removeListTK = (listId: string, navigate: NavigateFunction) => (dis
       navigate("/");
     })
     .catch((e) => {
-      dispatch(setErrorSnackbar(e.message));
+      dispatch(appActions.setErrorSnackbar(e.message));
     });
 };
 

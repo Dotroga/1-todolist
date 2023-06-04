@@ -12,15 +12,16 @@ export const authAPI = {
 };
 
 export const listAPI = {
-  getLists: () => instance.get<ListType[]>("todo-lists").then((res) => res.data),
-  createList: (title: string) => instance.post<ResponseType<{ item: ListType }>>("todo-lists", { title }),
-  updateList: (listId: string, title: string) => instance.put<ResponseType>(`todo-lists/${listId}`, { title }),
-  deleteList: (listId: string) => instance.delete<ResponseType>(`todo-lists/${listId}`),
-  reorderList: (listId: string, putAfterItemId: string | null) =>{
-    console.log(putAfterItemId)
-    return instance.put<ResponseType>(`/todo-lists/${listId}/reorder`, {putAfterItemId})
-  }
-
+  getLists: () =>
+    instance.get<ResponseListType[]>("todo-lists"),
+  createList: (title: string) =>
+    instance.post<ResponseType<{ item: ResponseListType }>>("todo-lists", { title }),
+  updateList: (listId: string, title: string) =>
+    instance.put<ResponseType>(`todo-lists/${listId}`, { title }),
+  deleteList: (listId: string) =>
+    instance.delete<ResponseType>(`todo-lists/${listId}`),
+  reorderList: (listId: string, putAfterItemId: string | null) =>
+   instance.put<ResponseType>(`/todo-lists/${listId}/reorder`, {putAfterItemId})
  };
 
 export const taskAPI = {
@@ -36,13 +37,13 @@ type MeType = {
   login: string;
 };
 
-type ListType = {
+export type ResponseListType = {
   id: string;
   title: string;
   addedDate: string;
   order: number;
 };
-type ResponseType<T = {}> = {
+export type ResponseType<T = {}> = {
   resultCode: number;
   fieldsErrors: string[];
   messages: string[];

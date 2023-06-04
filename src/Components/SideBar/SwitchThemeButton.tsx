@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from "styled-components";
-import {changeTheme} from "redux/app.reducer";
 import {useAppDispatch} from "redux/store";
+import {appActions} from "redux/app.reducer";
 
 export const SwitchThemeButton = () => {
   const dispatch = useAppDispatch();
-  const themeHandler = () => dispatch(changeTheme())
+  const themeHandler = () => dispatch(appActions.changeTheme())
   return (
     <Switch>
       <input type="checkbox" onClick={themeHandler}/>

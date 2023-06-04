@@ -1,12 +1,12 @@
 import React, {memo, useCallback, useState} from "react";
 import plus from "../../../Icons/plus.svg";
 import styled, { css } from "styled-components";
-import { toggleAddListForm } from "redux/app.reducer";
 import { useDispatch } from "react-redux";
 import { MaxQuantity } from "../../Super/MaxQuantity/MaxQuantity";
 import {useAppSelector} from "redux/store";
 import {selectListsLength} from "redux/lists.selectors";
 import {selectIsCollapsedSB, selectIsVisibleALF} from "redux/app.selectors";
+import {appActions} from "redux/app.reducer";
 
 
 export const AddListButton = memo(() => {
@@ -18,7 +18,7 @@ export const AddListButton = memo(() => {
   const length = useAppSelector(selectListsLength)
 
   const toggle = useCallback(() =>
-    dispatch(toggleAddListForm(!isVisibleALF)),[isVisibleALF])
+    dispatch(appActions.toggleAddListForm(!isVisibleALF)),[isVisibleALF])
 
   return (
     <Wrapper length={length}

@@ -43,7 +43,7 @@ const initialState = {
     { color: "#b7b7b7", title: "Grey" },
     { color: "#caab92", title: "Taupe" },
   ],
-  errorSnackbar: "Some error" as string | null,
+  errorSnackbar: null as string | null,
 };
 
 const slice = createSlice({
@@ -78,8 +78,8 @@ const slice = createSlice({
       state.addListForm.mode = action.payload.mode
       state.addListForm.listId = action.payload.listId
     },
-    setErrorSnackbar(state, action: PayloadAction<null | string>) {
-      state.errorSnackbar = action.payload
+    setErrorSnackbar(state, action: PayloadAction<{error: null | string}>) {
+      state.errorSnackbar = action.payload.error
     },
     setIsLoadingAddListForm(state, action: PayloadAction<boolean>) {
         state.addListForm.isLoading = action.payload
@@ -88,7 +88,6 @@ const slice = createSlice({
 })
 
 export const app = slice.reducer
-export const {changeTheme, toggleSideBar, toggleAddListForm, changeTitleNewList, changeColor,
-  setError, changeModeAddList, setErrorSnackbar, setIsLoadingAddListForm} = slice.actions
+export const appActions = slice.actions
 
 
