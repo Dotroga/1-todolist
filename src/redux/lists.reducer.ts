@@ -1,10 +1,10 @@
 import { FilterType } from "redux/state";
-import {listAPI, ResponseListType, taskAPI} from "api/todoAPI";
+import {listAPI, ResponseListType} from "api/todoAPI";
 import { Dispatch } from "redux";
 import { NavigateFunction } from "react-router/dist/lib/hooks";
 import { ThunkDispatchType } from "redux/store";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {tasks, taskThunk} from "redux/task.reducer";
+import {taskThunk} from "redux/task.reducer";
 import {appActions} from "redux/app.reducer";
 
 const parse = (title: string) => [title.slice(7), title.substring(0, 7)];
@@ -23,12 +23,13 @@ const slice = createSlice({
           filter: "All",
           path: l.title,
           isLoading: false,
+          numberOfTasks: 0,
         };
       });
     },
-    setNumberOfTasks(state, action: PayloadAction<{ listId: string, number: number }>) {
+    setNumberOfTasks(state, action: PayloadAction<{ listId: string, num: number }>) {
       const list = state.find((l) => action.payload.listId === l.id)
-      if (list) {list.numberOfTasks = action.payload.number}
+      if (list) {list.numberOfTasks = action.payload.num}
     },
     addNewList(state, action: PayloadAction<{ id: string, title: string }>) {
       const titleAndColor = parse(action.payload.title);
@@ -166,7 +167,7 @@ export type ListType = {
   order: number;
   path: string;
   color: string;
-  numberOfTasks?: number;
+  numberOfTasks: number;
   filter: FilterType;
   isLoading: boolean;
 };

@@ -1,24 +1,36 @@
 import {TasksType} from "redux/state";
 import {addNewList, removeList, setLists, setNumberOfTasks} from "redux/lists.reducer";
-import {Dispatch} from "redux";
 import {taskAPI, TaskType} from "api/todoAPI";
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {handleServerNetworkError} from "utils/errorUtils";
+import {createAppAsyncThunk} from "utils/createAppAsyncThunk";
 
 
-const setTask = createAsyncThunk('tasks/setTask', async (listId :string, thunkAPI) => {
-  const {dispatch} = thunkAPI
-  const res = await taskAPI.getTasks(listId)
-  dispatch(setNumberOfTasks({listId, number: res.totalCount}));
-  return {listId, tasks: res.items}
+const setTask = createAppAsyncThunk<{ listId: string, tasks: TaskType[] }, string>
+('tasks/setTask', async (listId, thunkAPI) => {
+  const {dispatch, rejectWithValue} = thunkAPI
+  try {
+    const res = await taskAPI.getTasks(listId)
+    dispatch(setNumberOfTasks({listId, num: res.data.totalCount}));
+    return {listId, tasks: res.data.items}
+  } catch (e) {
+    handleServerNetworkError(e, dispatch)
+    return rejectWithValue(null)
+  }
 })
 
-export const addTaskTK = (listId: string, title: string, numberOfTasks: number | undefined) => (dispatch: Dispatch) => {
-  taskAPI.createTask(listId, title).then((res) => {
-    const number = numberOfTasks ? numberOfTasks + 1 : 1;
-    dispatch(addTask({listId, task: res.data.data.item}));
-    dispatch(setNumberOfTasks({listId, number}));
-  });
-};
+const addTask = createAppAsyncThunk<{ listId: string, task: TaskType }, {listId: string, title: string, num: number}>
+('tasks/addTask', async ({listId, title, num}, thunkAPI) => {
+  const {dispatch, rejectWithValue} = thunkAPI
+  try {
+    const res = await taskAPI.createTask(listId, title)
+    dispatch(setNumberOfTasks({listId, num: num + 1}));
+    return {listId, task: res.data.data.item}
+  } catch (e) {
+    handleServerNetworkError(e, dispatch)
+    return rejectWithValue(null)
+  }
+})
 
 const slice = createSlice({
   name: 'tasks',
@@ -27,9 +39,6 @@ const slice = createSlice({
     removeTask(state, action: PayloadAction<{ listId: string, id: string }>) {
       const index = state[action.payload.listId].findIndex((t) => t.id === action.payload.listId);
       index !== -1 && state[action.payload.listId].splice(index, 1)
-    },
-    addTask(state, action: PayloadAction<{ listId: string, task: TaskType }>) {
-      state[action.payload.listId].unshift(action.payload.task)
     },
     changeTaskStatus(state, action: PayloadAction<{ listId: string, id: string, isDone: boolean }>) {
       const task = state[action.payload.listId].find((t) => t.id === action.payload.id)
@@ -41,6 +50,9 @@ const slice = createSlice({
   },
   extraReducers: builder => {
     builder
+      .addCase(addTask.fulfilled, (state, action) => {
+        state[action.payload.listId].unshift(action.payload.task)
+      })
       .addCase(setTask.fulfilled, (state, action) => {
         state[action.payload.listId] = action.payload.tasks
       })
@@ -57,8 +69,8 @@ const slice = createSlice({
   }
 })
 export const tasks = slice.reducer
-export const {removeTask, addTask, renameTask, changeTaskStatus} = slice.actions
-export const taskThunk = {setTask}
+export const tasksActions = slice.actions
+export const taskThunk = {setTask, addTask}
 
 
 // const d = new Date()

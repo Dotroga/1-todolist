@@ -1,15 +1,15 @@
 import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import { SuperButton } from "../../Super/SuperButton/SuperButton";
-import { addTaskTK } from "redux/task.reducer";
 import { useAppDispatch } from "redux/store";
 import { SuperInput } from "../../Super/SuperInput/SuperInput";
 import { useFormik } from "formik";
 import { AddTaskButton } from "../AddTaskButton/AddTaskButton";
+import {taskThunk} from "redux/task.reducer";
 
 type AddNewTaskType = {
   listId: string;
-  numberOfTasks: number | undefined;
+  numberOfTasks: number
 };
 
 type FormType = {
@@ -37,7 +37,7 @@ export const AddNewTask = (props: AddNewTaskType) => {
       return errors;
     },
     onSubmit: (values) => {
-      dispatch(addTaskTK(props.listId, values.taskName, props.numberOfTasks));
+      dispatch(taskThunk.addTask({listId: props.listId, title:values.taskName, num:props.numberOfTasks}));
       formik.resetForm();
     },
   });

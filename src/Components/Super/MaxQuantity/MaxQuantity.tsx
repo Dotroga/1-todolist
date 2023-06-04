@@ -7,7 +7,6 @@ type MaxQuantityPropsType = {
 };
 
 export const MaxQuantity = memo((props: MaxQuantityPropsType) => {
-  console.log('max')
   const { maxNum, currentNum } = props;
   return <Wrapper>{`${currentNum} / ${maxNum}`}</Wrapper>;
 })

@@ -11,7 +11,7 @@ const rootReducer = combineReducers({auth, lists, tasks, app});
 
 export type AppRootStateType = ReturnType<typeof rootReducer>;
 export type ThunkDispatchType = ThunkDispatch<AppRootStateType, any, AnyAction>;
-
+export type AppDispatch = ThunkDispatch<AppRootStateType, unknown, AnyAction>
 export const useAppDispatch = () => useDispatch<ThunkDispatchType>();
 
 export const store = configureStore({
