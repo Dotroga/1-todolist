@@ -4,7 +4,7 @@ import { Loader } from "../Loader/Loader";
 
 interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "color"> {
   title: string;
-  loading?: boolean;
+  loading?: boolean | undefined;
   color?: string;
   type?: React.ButtonHTMLAttributes<HTMLButtonElement>["type"];
 }

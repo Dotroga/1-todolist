@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useAppDispatch } from "redux/store";
-import { ListType, removeListTK } from "redux/lists.reducer";
+import {listsThunks, ListType} from "redux/lists.reducer";
 import { DeleteButton } from "../DeleteButton/DeleteButton";
 import { Tasks } from "./Tasks/Tasks";
 import { AddNewTask } from "./AddNewTask/AddNewTask";
@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 export const List: React.FC<{ list: ListType }> = ({ list }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const deleteList = () => dispatch(removeListTK(list.id, navigate));
+  const deleteList = () => dispatch(listsThunks.removeList(list.id, navigate));
   return (
     <Wrapper>
       <ListTitle color={list.color!}>

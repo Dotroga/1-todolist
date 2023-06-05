@@ -5,15 +5,17 @@ import styled, {css} from "styled-components";
 import { SideBarIcon } from "./SideBarIcon/SideBarIcon";
 import { AddListButton } from "./AddNewList/AddListButton";
 import { AddListForm } from "./AddNewList/AddListForm/AddListForm";
-import { fetchDataTC} from "redux/lists.reducer";
 import { LogOut } from "./LogOut";
 import {SwitchThemeButton} from "Components/SideBar/SwitchThemeButton";
 import {selectIsCollapsedSB} from "redux/app.selectors";
 import {SideBarLists} from "Components/SideBar/SideBarLists/SideBarlists";
+import {listsThunks} from "redux/lists.reducer";
 
 export const SideBar = memo(() => {
   const dispatch = useAppDispatch();
-  useEffect(() => {dispatch(fetchDataTC()).then(r => r)}, [])
+  useEffect(() => {
+   dispatch(listsThunks.fetchData());
+  }, [])
   const isCollapsedSB = useAppSelector(selectIsCollapsedSB);
   return (
     <SideBarContainer isOpen={isCollapsedSB}>

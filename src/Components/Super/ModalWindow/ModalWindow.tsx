@@ -8,7 +8,7 @@ import editViolet from "../../../Icons/editViolet.svg";
 import arrowUpViolet from "../../../Icons/arrowUpViolet.svg";
 import arrowDownViolet from "../../../Icons/arrowDownViolet.svg";
 import deleteUrnViolet from "../../../Icons/deleteUrnViolet.svg";
-import {removeListTK, reorderUpListTK} from "redux/lists.reducer";
+import {listsThunks} from "redux/lists.reducer";
 import {useAppDispatch, useAppSelector} from "redux/store";
 import { useNavigate } from "react-router-dom";
 import {appActions} from "redux/app.reducer";
@@ -56,14 +56,14 @@ export const ModalWindow: React.FC<PropsType> = memo((props) => {
     onCloses(false);
   };
   const removeList = () => {
-    dispatch(removeListTK(listId!, navigate));
+    dispatch(listsThunks.removeList(listId!, navigate));
     onCloses(false);
   };
-  const reorderUpList = () => {
-   dispatch(reorderUpListTK(listId!, lists, 'up'))
+  const reorderList = () => {
+   dispatch(listsThunks.reorderList(listId!, lists, 'up'))
   };
   const reorderDownList = () => {
-    dispatch(reorderUpListTK(listId!, lists, 'down'))
+    dispatch(listsThunks.reorderList(listId!, lists, 'down'))
   };
 
   return (
@@ -73,7 +73,7 @@ export const ModalWindow: React.FC<PropsType> = memo((props) => {
           <img src={theme === 'dark' ? edit : editViolet} alt="" />
           <p>Edit</p>
         </button>
-        <button onClick={reorderUpList} disabled={isLoading!}>
+        <button onClick={reorderList} disabled={isLoading!}>
           <img src={theme === 'dark' ? arrowUp : arrowUpViolet} alt="" />
           <p>Move up</p>
         </button>

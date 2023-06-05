@@ -6,8 +6,112 @@ import { ThunkDispatchType } from "redux/store";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {taskThunk} from "redux/task.reducer";
 import {appActions} from "redux/app.reducer";
+import {createAppAsyncThunk} from "utils/createAppAsyncThunk";
+import {handleServerNetworkError} from "utils/errorUtils";
 
 const parse = (title: string) => [title.slice(7), title.substring(0, 7)];
+
+const fetchData = () => async (dispatch: ThunkDispatchType) => {
+  try {
+    const lists = await listAPI.getLists();
+    dispatch(listsActions.setLists({lists: lists.data}));
+    lists.data.map((l) => {
+      dispatch(taskThunk.setTask(l.id))
+    });
+  } catch (error) {
+    console.log('hello')
+  }
+};
+
+const addList = createAppAsyncThunk<{ id: string, title: string }, {navigate: NavigateFunction}>
+('lists/addList', async ({navigate}, thunkAPI) => {
+  const {dispatch, rejectWithValue, getState} = thunkAPI
+  const state = getState()
+  const color = state.app.addListForm.color ? state.app.addListForm.color.color : state.app.arrColor[3].color;
+  const title = state.app.addListForm.title.trim();
+  try {
+      if (title !== "") {
+        dispatch(appActions.setIsLoadingAddListForm(true));
+        const colorAndTitle = color + title
+        const res = await listAPI.createList(colorAndTitle)
+        dispatch(appActions.setIsLoadingAddListForm(false))
+        dispatch(appActions.toggleAddListForm(false));
+        navigate(`/${title}`);
+        return {id: res.data.data.item.id, title: colorAndTitle}
+      } else {
+        // handleServerAppError(res.data, dispatch)
+        dispatch(appActions.setIsLoadingAddListForm(false))
+        return rejectWithValue(null)
+      }
+    } catch (e) {
+      handleServerNetworkError(e, dispatch)
+      dispatch(appActions.setIsLoadingAddListForm(false))
+      return rejectWithValue(null)
+    }
+  }
+)
+
+const editingList = createAppAsyncThunk<{ listId: string, title: string }, {listId: string, navigate: NavigateFunction}>
+('lists/editingList', async ({navigate, listId}, thunkAPI) => {
+  const {dispatch, rejectWithValue, getState} = thunkAPI
+  const state = getState()
+  const color = state.app.addListForm.color ? state.app.addListForm.color.color : state.app.arrColor[3].color;
+  const title = state.app.addListForm.title.trim();
+  try {
+    if (title  !== "") {
+      dispatch(appActions.setIsLoadingAddListForm(true));
+      const colorAndTitle = color + title
+      const res = await listAPI.updateList(listId, colorAndTitle)
+      navigate(title);
+      dispatch(appActions.setIsLoadingAddListForm(false));
+      dispatch(appActions.toggleAddListForm(false));
+      return {listId, title: colorAndTitle}
+    }  else {
+      dispatch(listsActions.setIsLoading({listId, isLoading: false}));
+      dispatch(appActions.setError(true));
+      return rejectWithValue(null)
+    }
+  } catch (e) {
+    handleServerNetworkError(e, dispatch)
+    dispatch(listsActions.setIsLoading({listId, isLoading: false}));
+    return rejectWithValue(null)
+  }
+})
+
+// const _editingList =
+//   (listId: string, title: string, color: string, navigate: NavigateFunction) => (dispatch: Dispatch) => {
+//     const newTitle = title.trim();
+//
+//   };
+
+const removeList = (listId: string, navigate: NavigateFunction) => (dispatch: Dispatch) => {
+  dispatch(listsActions.setIsLoading({listId, isLoading: true}));
+  listAPI
+    .deleteList(listId)
+    .then(() => {
+      dispatch(listsActions.removeList({listId}));
+      navigate("/");
+    })
+    .catch((e) => {
+      dispatch(appActions.setErrorSnackbar(e.message));
+    });
+};
+
+const reorderList = (listId: string, lists: ListType[], change: 'up' | 'down') => (dispatch: Dispatch) => {
+  const index = lists.findIndex(l=>l.id===listId)
+  let afterListId: string | null
+  if (change === 'up') {
+    afterListId = index > 1 ? lists[index - 2].id : null
+  }  else {
+    afterListId = index === lists.length - 1 ? listId : lists[index + 1].id
+  }
+  listAPI.reorderList(listId, afterListId)
+    .then((res) => {
+      if (res.data.resultCode === 0) {
+        dispatch(listsActions.reorderList({index, change}))
+      }
+    })
+}
 
 const slice = createSlice({
   name: 'lists',
@@ -31,23 +135,7 @@ const slice = createSlice({
       const list = state.find((l) => action.payload.listId === l.id)
       if (list) {list.numberOfTasks = action.payload.num}
     },
-    addNewList(state, action: PayloadAction<{ id: string, title: string }>) {
-      const titleAndColor = parse(action.payload.title);
-      const newList: ListType = {
-        id: action.payload.id,
-        title: titleAndColor[0],
-        color: titleAndColor[1],
-        path: action.payload.title,
-        addedDate: "",
-        order: 0,
-        filter: "All",
-        numberOfTasks: 0,
-        isLoading: false,
-      };
-      state.unshift(newList)
-    },
     editingList(state, action: PayloadAction<{ listId: string, title: string }>) {
-      debugger
       const titleAndColor = parse(action.payload.title);
       const todo = state.find((l) => l.id === action.payload.listId);
       if (todo) {
@@ -74,91 +162,39 @@ const slice = createSlice({
       }
       return newLists
     }
+  },
+  extraReducers: builder => {
+    builder
+      .addCase(addList.fulfilled, (state,action)=>{
+        const titleAndColor = parse(action.payload.title);
+        const newList: ListType = {
+          id: action.payload.id,
+          title: titleAndColor[0],
+          color: titleAndColor[1],
+          path: action.payload.title,
+          addedDate: "",
+          order: 0,
+          filter: "All",
+          numberOfTasks: 0,
+          isLoading: false,
+        };
+        state.unshift(newList)
+      })
+      .addCase(editingList.fulfilled, (state, action)=> {
+        const titleAndColor = parse(action.payload.title);
+        const todo = state.find((l) => l.id === action.payload.listId);
+        if (todo) {
+          todo.title = titleAndColor[0]
+          todo.color = titleAndColor[1]
+        }
+      })
   }
 })
 
 export const lists = slice.reducer
-export  const {setLists, setNumberOfTasks, addNewList, editingList, removeList, setIsLoading, reorderList} = slice.actions
+export const listsActions = slice.actions
+export const listsThunks = {fetchData, addList, editingList, removeList, reorderList}
 
-export const fetchDataTC = () => async (dispatch: ThunkDispatchType) => {
-  try {
-    const lists = await listAPI.getLists();
-    dispatch(setLists({lists: lists.data}));
-    lists.data.map((l) => {
-      dispatch(taskThunk.setTask(l.id))
-    });
-  } catch (error) {}
-};
-
-export const addListTK = (title: string, navigate: NavigateFunction, color: string) => (dispatch: Dispatch) => {
-  const newTitle = title.trim();
-  if (newTitle !== "") {
-    dispatch(appActions.setIsLoadingAddListForm(true));
-    const colorAndTitle = color + newTitle;
-    listAPI
-      .createList(colorAndTitle)
-      .then((res) => {
-        dispatch(addNewList({id: res.data.data.item.id, title: colorAndTitle}));
-        navigate(`/${colorAndTitle}`);
-        dispatch(appActions.toggleAddListForm(false));
-        return res.data.data.item.id;
-      })
-      .finally(() => dispatch(appActions.setIsLoadingAddListForm(false)));
-  } else {
-    dispatch(appActions.setError(true));
-  }
-};
-export const editingListTK =
-  (listId: string, title: string, color: string, navigate: NavigateFunction) => (dispatch: Dispatch) => {
-    const newTitle = title.trim();
-    if (newTitle !== "") {
-      dispatch(appActions.setIsLoadingAddListForm(true));
-      dispatch(setIsLoading({listId, isLoading: true}));
-      const colorAndTitle = color + title;
-      listAPI
-        .updateList(listId, colorAndTitle)
-        .then(() => {
-          dispatch(editingList({listId, title: colorAndTitle}));
-          navigate(title);
-          dispatch(appActions.setIsLoadingAddListForm(false));
-        })
-        .finally(() => {
-          dispatch(appActions.toggleAddListForm(false));
-          dispatch(setIsLoading({listId, isLoading: false}));
-        });
-    }  else {
-  dispatch(appActions.setError(true));
-}
-  };
-
-export const removeListTK = (listId: string, navigate: NavigateFunction) => (dispatch: Dispatch) => {
-  dispatch(setIsLoading({listId, isLoading: true}));
-  listAPI
-    .deleteList(listId)
-    .then(() => {
-      dispatch(removeList({listId}));
-      navigate("/");
-    })
-    .catch((e) => {
-      dispatch(appActions.setErrorSnackbar(e.message));
-    });
-};
-
-export const reorderUpListTK = (listId: string, lists: ListType[], change: 'up' | 'down') => (dispatch: Dispatch) => {
-  const index = lists.findIndex(l=>l.id===listId)
-  let afterListId: string | null
-  if (change === 'up') {
-    afterListId = index > 1 ? lists[index - 2].id : null
-  }  else {
-    afterListId = index === lists.length - 1 ? listId : lists[index + 1].id
-  }
-  listAPI.reorderList(listId, afterListId)
-    .then((res) => {
-        if (res.data.resultCode === 0) {
-          dispatch(reorderList({index, change}))
-        }
-    })
-}
 
 export type ListType = {
   id: string;

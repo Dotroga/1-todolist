@@ -2,7 +2,7 @@ import React, { ChangeEvent, memo, useCallback } from "react";
 import styled from "styled-components";
 import { SuperButton } from "../../../Super/SuperButton/SuperButton";
 import { Select } from "../../../Super/Select/Select";
-import { addListTK, editingListTK } from "redux/lists.reducer";
+import {listsThunks} from "redux/lists.reducer";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "redux/store";
 import { MaxQuantity } from "../../../Super/MaxQuantity/MaxQuantity";
@@ -40,10 +40,9 @@ export const AddListForm: React.FC = memo(() => {
   }, []);
 
   const addList = useCallback(() => {
-    const color = addListForm.color ? addListForm.color.color : arrColor[3].color;
     addListForm.mode
-      ? dispatch(addListTK(addListForm.title, navigate, color))
-      : dispatch(editingListTK(addListForm.listId!, addListForm.title, color, navigate));
+      ? dispatch(listsThunks.addList({navigate}))
+      : dispatch(listsThunks.editingList({listId: addListForm.listId!, navigate}));
   }, [addListForm.title, addListForm.color]);
 
   const toggleAddListFormHandler = useCallback(() => {

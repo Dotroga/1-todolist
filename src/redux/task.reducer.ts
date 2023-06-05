@@ -1,9 +1,9 @@
 import {TasksType} from "redux/state";
-import {addNewList, removeList, setLists, setNumberOfTasks} from "redux/lists.reducer";
 import {taskAPI, TaskType} from "api/todoAPI";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {handleServerAppError, handleServerNetworkError} from "utils/errorUtils";
 import {createAppAsyncThunk} from "utils/createAppAsyncThunk";
+import {listsActions, listsThunks} from "redux/lists.reducer";
 
 
 const setTask = createAppAsyncThunk<{ listId: string, tasks: TaskType[] }, string>
@@ -11,7 +11,7 @@ const setTask = createAppAsyncThunk<{ listId: string, tasks: TaskType[] }, strin
   const {dispatch, rejectWithValue} = thunkAPI
   try {
     const res = await taskAPI.getTasks(listId)
-    dispatch(setNumberOfTasks({listId, num: res.data.totalCount}));
+    dispatch(listsActions.setNumberOfTasks({listId, num: res.data.totalCount}));
     return {listId, tasks: res.data.items}
   } catch (e) {
     handleServerNetworkError(e, dispatch)
@@ -25,7 +25,7 @@ const addTask = createAppAsyncThunk<{ listId: string, task: TaskType }, {listId:
   try {
     const res = await taskAPI.createTask(listId, title)
     if (res.data.resultCode === 0 ) {
-      dispatch(setNumberOfTasks({listId, num: num + 1}));
+      dispatch(listsActions.setNumberOfTasks({listId, num: num + 1}));
       return {listId, task: res.data.data.item}
     } else {
       handleServerAppError(res.data, dispatch)
@@ -61,13 +61,13 @@ const slice = createSlice({
       .addCase(setTask.fulfilled, (state, action) => {
         state[action.payload.listId] = action.payload.tasks
       })
-      .addCase(setLists, (state, action) => {
+      .addCase(listsActions.setLists, (state, action) => {
         action.payload.lists.forEach((l) => state[l.id] = [])
       })
-      .addCase(addNewList, (state, action) => {
+      .addCase(listsThunks.addList.fulfilled, (state, action) => {
         state[action.payload.id] = []
       })
-      .addCase(removeList, (state, action) => {
+      .addCase(listsActions.removeList, (state, action) => {
         delete state[action.payload.listId]
       })
 
