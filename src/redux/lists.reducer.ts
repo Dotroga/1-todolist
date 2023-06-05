@@ -31,21 +31,21 @@ const addList = createAppAsyncThunk<{ id: string, title: string }, {navigate: Na
   const title = state.app.addListForm.title.trim();
   try {
       if (title !== "") {
-        dispatch(appActions.setIsLoadingAddListForm(true));
+        dispatch(appActions.setIsLoadingAddListForm('loading'));
         const colorAndTitle = color + title
         const res = await listAPI.createList(colorAndTitle)
-        dispatch(appActions.setIsLoadingAddListForm(false))
+        dispatch(appActions.setIsLoadingAddListForm('normal' ));
         dispatch(appActions.toggleAddListForm(false));
         navigate(`/${title}`);
         return {id: res.data.data.item.id, title: colorAndTitle}
       } else {
         // handleServerAppError(res.data, dispatch)
-        dispatch(appActions.setIsLoadingAddListForm(false))
+        dispatch(appActions.setIsLoadingAddListForm('normal' ));
         return rejectWithValue(null)
       }
     } catch (e) {
       handleServerNetworkError(e, dispatch)
-      dispatch(appActions.setIsLoadingAddListForm(false))
+       dispatch(appActions.setIsLoadingAddListForm('normal' ));
       return rejectWithValue(null)
     }
   }
@@ -59,20 +59,22 @@ const editingList = createAppAsyncThunk<{ listId: string, title: string }, {list
   const title = state.app.addListForm.title.trim();
   try {
     if (title  !== "") {
-      dispatch(appActions.setIsLoadingAddListForm(true));
+      dispatch(appActions.setIsLoadingAddListForm('loading'));
       const colorAndTitle = color + title
       const res = await listAPI.updateList(listId, colorAndTitle)
       navigate(title);
-      dispatch(appActions.setIsLoadingAddListForm(false));
+      dispatch(appActions.setIsLoadingAddListForm('normal' ));
       dispatch(appActions.toggleAddListForm(false));
       return {listId, title: colorAndTitle}
     }  else {
       dispatch(listsActions.setIsLoading({listId, isLoading: false}));
       dispatch(appActions.setError(true));
+      dispatch(appActions.setIsLoadingAddListForm('normal' ));
       return rejectWithValue(null)
     }
   } catch (e) {
     handleServerNetworkError(e, dispatch)
+    dispatch(appActions.setIsLoadingAddListForm('normal' ));
     dispatch(listsActions.setIsLoading({listId, isLoading: false}));
     return rejectWithValue(null)
   }

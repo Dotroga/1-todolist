@@ -13,7 +13,7 @@ const initialState = {
     title: "",
     error: null as string | null,
     color: null  as ColorType | null,
-    isLoading: false,
+    isLoading: 'normal' as 'normal' | 'loading',
   },
   addTaskForm: {
     visibleForm: false,
@@ -81,7 +81,7 @@ const slice = createSlice({
     setErrorSnackbar(state, action: PayloadAction<{error: null | string}>) {
       state.errorSnackbar = action.payload.error
     },
-    setIsLoadingAddListForm(state, action: PayloadAction<boolean>) {
+    setIsLoadingAddListForm(state, action: PayloadAction<'normal' | 'loading'>) {
         state.addListForm.isLoading = action.payload
     },
   }

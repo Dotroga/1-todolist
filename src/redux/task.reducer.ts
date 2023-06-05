@@ -1,5 +1,5 @@
 import {TasksType} from "redux/state";
-import {taskAPI, TaskType} from "api/todoAPI";
+import {ResultCode, taskAPI, TaskType} from "api/todoAPI";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {handleServerAppError, handleServerNetworkError} from "utils/errorUtils";
 import {createAppAsyncThunk} from "utils/createAppAsyncThunk";
@@ -24,7 +24,7 @@ const addTask = createAppAsyncThunk<{ listId: string, task: TaskType }, {listId:
   const {dispatch, rejectWithValue} = thunkAPI
   try {
     const res = await taskAPI.createTask(listId, title)
-    if (res.data.resultCode === 0 ) {
+    if (res.data.resultCode === ResultCode.Success) {
       dispatch(listsActions.setNumberOfTasks({listId, num: num + 1}));
       return {listId, task: res.data.data.item}
     } else {

@@ -43,7 +43,7 @@ export const AddListForm: React.FC = memo(() => {
     addListForm.mode
       ? dispatch(listsThunks.addList({navigate}))
       : dispatch(listsThunks.editingList({listId: addListForm.listId!, navigate}));
-  }, [addListForm.title, addListForm.color]);
+  }, [addListForm.mode]);
 
   const toggleAddListFormHandler = useCallback(() => {
     dispatch(appActions.toggleAddListForm(false));
@@ -58,9 +58,9 @@ export const AddListForm: React.FC = memo(() => {
         <SuperButton title="Cancel" onClick={toggleAddListFormHandler}/>
         <SuperButton
           title={addListForm.mode ? "Add" : "Save"}
-          loading={isLoading ? isLoading : undefined}
+          loading={isLoading}
           onClick={addList}
-          disabled={isLoading}
+          disabled={isLoading === 'loading'}
         />
       </div>
     </Wrapper>

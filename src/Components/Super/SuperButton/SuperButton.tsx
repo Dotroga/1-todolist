@@ -4,7 +4,7 @@ import { Loader } from "../Loader/Loader";
 
 interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "color"> {
   title: string;
-  loading?: boolean | undefined;
+  loading?: 'normal' | 'loading',
   color?: string;
   type?: React.ButtonHTMLAttributes<HTMLButtonElement>["type"];
 }
@@ -12,7 +12,7 @@ interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>
 export const SuperButton: React.FC<ButtonProps> = memo(({ title, loading, color, ...restProps }) => {
   return (
     <Button title={title} loading={loading} color={color} {...restProps}>
-      {loading && <Loader />}
+      {loading === 'loading' && <Loader />}
       {title}
     </Button>
   );
@@ -37,7 +37,7 @@ const Button = styled.button<ButtonProps>`
   height: 37px;
   min-width: 60px;
   padding: 5px;
-  color: ${({ loading, theme}) => (loading ? theme.colors.color : "white")};
+  color: ${({ loading, theme}) => (loading === 'loading' ? theme.colors.color : "white")};
   background-color: ${({theme})=>theme.colors.color};
   border-radius: 8px;
   border: none;
