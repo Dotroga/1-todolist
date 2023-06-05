@@ -1,60 +1,35 @@
 import React, { memo, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "redux/store";
 import { SideBar } from "Components/SideBar/SideBar";
-import { Route, Routes, useNavigate } from "react-router-dom";
-import { List } from "Components/List/List";
+import { useNavigate } from "react-router-dom";
 import styled, {createGlobalStyle, ThemeProvider} from "styled-components";
-import { Login } from "Components/Login/Login";
 import { SpinnerLoader } from "Components/Super/Loader/SpinerLoader";
 import { ErrorSnackbar } from "Components/ErrorSnackbar/ErrorSnackbar";
 import {selectIsInitialized, selectIsLoggedIn} from "redux/auth/auth.selectors";
 import {selectTheme} from "redux/app.selectors";
-import {selectLists} from "redux/lists.selectors";
 import {authThunks} from "redux/auth/auth.reducer";
+import {Content} from "Components/ Content/Content";
 
 export const App = memo(() => {
-
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const isInitialized = useAppSelector(selectIsInitialized);
-  const lists = useAppSelector(selectLists);
   const theme = useAppSelector(selectTheme)
 
-  useEffect(() => {
-    dispatch(authThunks.initializeApp())
-  }, []);
-
-  useEffect(() => {
-    !isLoggedIn && navigate("/login");
-  }, [isLoggedIn]);
-
-  if (!isInitialized) return <SpinnerLoader/>;
+  useEffect(() => {dispatch(authThunks.initializeApp())}, []);
+  useEffect(() => {!isLoggedIn && navigate("/login");}, [isLoggedIn]);
 
   return (
     <ThemeProvider theme={theme}>
-      <GlobalStyled />
+      <GlobalStyled/>
       <WrapperApp>
-        {isLoggedIn && <SideBar/>}
-        <Content>
-          <Routes>
-            <Route
-              path={"/"}
-              element={lists.map((l, i) => (
-                <div key={l.id}>
-                  <List list={l}/>
-                  {i !== lists.length - 1 && <hr/>}
-                </div>
-              ))}
-            />
-            {lists.map((l) => (
-              <Route key={l.id} path={`/${l.title}`} element={<List list={l}/>}/>
-            ))}
-            <Route path="/login" element={<Login/>}/>
-            <Route path="*" element={<h1>404</h1>}/>
-          </Routes>
-        </Content>
+        {isInitialized
+          ? <>
+            {isLoggedIn && <SideBar/>}
+            <Content/>
+          </>
+          : <SpinnerLoader/>}
         <ErrorSnackbar/>
       </WrapperApp>
     </ThemeProvider>
@@ -68,33 +43,6 @@ const WrapperApp = styled.div`
   width: 100%;
   transition: 0.3s;
   background-color: ${({theme}) => theme.colors.mainBackground};
-`;
-
-const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  border-radius: 8px;
-  background-color: ${({theme})=>theme.colors.bg};
-  color: ${({theme})=>theme.colors.font};;
-  box-shadow: 0 0 15px 1px ${({theme})=>theme.colors.shadow};
-  margin: 40px 40px 40px 20px;
-  width: 100%;
-  overflow: auto;
-  transition: 0.2s;
-  ::-webkit-scrollbar {
-    width: 22px; /* ширина scrollbar */
-  }
-
-  ::-webkit-scrollbar-thumb {
-    border: 5px solid  ${({theme})=>theme.colors.bg};
-    background-color: ${({theme})=>theme.colors.color}; /* цвет плашки */
-    border-radius: 20px; /* закругления плашки */
-  }
-  hr {
-    margin: 0 30px;
-    border: none;
-    border-top: 1px solid #37445f;
-  }
 `;
 
 const GlobalStyled = createGlobalStyle`

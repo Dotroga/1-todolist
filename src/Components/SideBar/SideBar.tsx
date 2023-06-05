@@ -20,7 +20,7 @@ export const SideBar = memo(() => {
   return (
     <SideBarContainer isOpen={isCollapsedSB}>
       <MenuBurger />
-      <SideBarIcon title="All lists" color="red"/>
+      <SideBarIcon/>
       <AddNewList>
         <AddListButton />
         <AddListForm />

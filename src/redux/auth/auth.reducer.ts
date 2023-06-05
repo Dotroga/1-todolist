@@ -9,11 +9,9 @@ const initializeApp = createAppAsyncThunk<void, void>
   const {dispatch} = thunkAPI
   try {
     const res = await authAPI.me()
-    if (res.data.resultCode === ResultCode.Success) {
-      dispatch(authActions.setIsLoggedIn({isLoggedIn: true}));
-    } else {
-      handleServerAppError(res.data, dispatch)
-    }
+    res.data.resultCode === ResultCode.Success
+      ? dispatch(authActions.setIsLoggedIn({isLoggedIn: true}))
+      : handleServerAppError(res.data, dispatch)
   } catch (e) {
     handleServerNetworkError(e, dispatch)
   }
@@ -25,13 +23,11 @@ const login = createAppAsyncThunk<void, LoginType>
   const {dispatch} = thunkAPI
   try {
     const res = await authAPI.login(data)
-    if (res.data.resultCode === ResultCode.Success) {
-      dispatch(authActions.setIsLoggedIn({isLoggedIn: true}))
-    } else {
-      handleServerAppError(res.data, dispatch)
-    }
+    res.data.resultCode === ResultCode.Success
+    ? dispatch(authActions.setIsLoggedIn({isLoggedIn: true}))
+    : handleServerAppError(res.data, dispatch)
   } catch (e) {
-    handleServerNetworkError(e, dispatch)
+    handleServerNetworkError(e, dispatch )
   }
 })
 

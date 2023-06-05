@@ -2,10 +2,9 @@ import styled, { css } from "styled-components";
 
 type PropsType = {
   visible: string | null;
-  color: string;
-  hover: string;
-  onMouseOver: any;
-  onMouseOut: any;
+  color: string | undefined;
+  isOpenOptions: boolean
+  active: boolean
 };
 export const StyledNavLink = styled.div<PropsType>`
   display: flex;
@@ -16,26 +15,39 @@ export const StyledNavLink = styled.div<PropsType>`
   border-radius: 8px;
   text-decoration: none;
   cursor: pointer;
-  &.active {
-    font-weight: bold;
-    background-color: ${({theme})=>theme.colors.topColor};
-    color: ${({theme})=>theme.colors.font};;
-    box-shadow: 0 0 15px 1px ${({theme})=>theme.colors.shadow};
+  .number {
+    display: ${({isOpenOptions}) => !isOpenOptions ? 'flex' : 'none'};
+    position: relative;
+    margin-left: auto;
+    margin-right: 10px;
   }
+  &:hover {
+    .number {
+      opacity: 0;
+    }
+    .AdditionalOptions {
+      display: flex;
+    }
+  }
+${({active}) => active && css`
+  font-weight: bold;
+  background-color: ${({theme})=>theme.colors.topColor};
+  color: ${({theme})=>theme.colors.font};;
+  box-shadow: 0 0 15px 1px ${({theme})=>theme.colors.shadow};
+`}
   &:hover {
     background-color: ${({theme})=>theme.colors.topColor};
   }
   .AdditionalOptions {
+    display: ${({isOpenOptions})=> isOpenOptions ? 'flex' : 'none'};
     margin-left: auto;
-    display: flex;
     align-items: center;
     justify-content: center;
     width: 30px;
     color: #979ea6;
-    .number {
-      display: ${({ hover }) => hover === "true" && "none"};
-    }
+   
     .threePoints {
+      display: ${({isOpenOptions})=> isOpenOptions ? 'flex' : 'none'};
       opacity: 0.5;
       transition: 0.3s;
       &:hover {
@@ -43,18 +55,6 @@ export const StyledNavLink = styled.div<PropsType>`
         transform: scale(1.2);
       }
     }
-    ${({ hover }) =>
-      hover === "true"
-        ? css`
-            .number {
-              display: none;
-            }
-          `
-        : css`
-            .options {
-              display: none;
-            }
-          `}
   }
 
   ${({ visible }) =>

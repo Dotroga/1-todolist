@@ -8,8 +8,8 @@ import {useLocation, useNavigate} from "react-router-dom";
 
 type SideBarIconsPropsType = {
   listId?: string;
-  title: string;
-  color: string;
+  title?: string;
+  color?: string;
   numberOfTasks?: number;
   isLoading?: boolean;
 };
@@ -18,44 +18,41 @@ export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
   const { listId,  title, color, numberOfTasks, isLoading } = props;
   const navigate = useNavigate()
   const location = useLocation();
-  const [hover, setHover] = useState(false);
   const [isOpenOptions, setIsOpenOptions] = useState(false);
   const isOpen = useAppSelector<boolean>((state) => state.app.isCollapsedSB);
-  const onHover = useCallback(() => setHover(true),[hover])
-  const outHover = useCallback(() => !isOpenOptions && setHover(false),[isOpenOptions])
   const opened = () => setIsOpenOptions(!isOpenOptions)
   const closed = (v: boolean) => {
-      setIsOpenOptions(v);
-      setHover(false);
-    }
-
-  const navigateTo = () => {
-    const to = title === "All lists" ? '/' : `/${title}`
-    decodeURIComponent(location.pathname) !== to && navigate(to)
+    setIsOpenOptions(v);
   }
+  const activeList = decodeURIComponent(location.pathname)
+
+  const navigateTo = useCallback(() => {
+    const to = !title ?  '/' : `/${title}`
+    activeList !== to && navigate(to)
+  },[activeList])
+
   return (
     <StyledNavLink
       onClick={navigateTo}
+      isOpenOptions={isOpenOptions}
       visible={isOpen ? "" : null}
       color={color}
-      hover={hover.toString()}
-      onMouseOut={outHover}
-      onMouseOver={onHover}
+      active={activeList === `/${title}`}
     >
-      {title === "All lists" ? <img src={fourSquare} alt="square" /> : <style></style>}
-      <div>{title}</div>
-      {title !== "All lists" && (
+      {!title ? <img src={fourSquare} alt="square" /> : <style></style>}
+      <div>{title ? title : 'All lists'}</div>
+      {numberOfTasks! > 0 && <span className="number">{numberOfTasks}</span>}
+      {title && (
         <div className="AdditionalOptions">
-          {hover && <ThreeDotsButton onClick={opened} isOpen={isOpenOptions}/>}
+          <ThreeDotsButton onClick={opened} isOpen={isOpenOptions}/>
           <ModalWindow
             title={title}
-            color={color}
+            color={color!}
             listId={listId}
             isOpen={isOpenOptions}
             onCloses={closed}
             isLoading={isLoading}
           />
-          {numberOfTasks! > 0 && <span className="number">{numberOfTasks}</span>}
         </div>
       )}
     </StyledNavLink>
