@@ -1,5 +1,5 @@
 import React from "react";
-import cross from "./../../Icons/delete.svg";
+import cross from "Icons/delete.svg";
 import styled from "styled-components";
 
 export const DeleteButton = (props: { callBack: () => void }) => {

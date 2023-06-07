@@ -4,11 +4,12 @@ import { SideBar } from "Components/SideBar/SideBar";
 import { useNavigate } from "react-router-dom";
 import styled, {createGlobalStyle, ThemeProvider} from "styled-components";
 import { SpinnerLoader } from "Components/Super/Loader/SpinerLoader";
-import { ErrorSnackbar } from "Components/ErrorSnackbar/ErrorSnackbar";
+import { ErrorSnackbar } from "Components/Super/ErrorSnackbar/ErrorSnackbar";
 import {selectIsInitialized, selectIsLoggedIn} from "redux/auth/auth.selectors";
 import {selectTheme} from "redux/app.selectors";
 import {authThunks} from "redux/auth/auth.reducer";
-import {Content} from "Components/ Content/Content";
+import {Content} from "Components/Content/Content";
+
 
 export const App = memo(() => {
   const dispatch = useAppDispatch();
