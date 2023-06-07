@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LoginType } from "Components/Login/Login";
+import { LoginType } from "Components/ Content/Login/Login";
 const instance = axios.create({
   baseURL: "https://social-network.samuraijs.com/api/1.1/",
   withCredentials: true,

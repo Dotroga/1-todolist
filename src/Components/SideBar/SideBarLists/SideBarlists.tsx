@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useCallback} from 'react';
 import {useAppSelector} from "redux/store";
 import {selectLists} from "redux/lists.selectors";
 import {SideBarIcon} from "Components/SideBar/SideBarIcon/SideBarIcon";
@@ -7,7 +7,7 @@ export const SideBarLists = memo(() => {
 
   const lists = useAppSelector(selectLists);
 
-  return <> {lists.map((l) =>
+  return <> {lists.map(useCallback((l) =>
     <SideBarIcon
       key={l.id}
       listId={l.id}
@@ -15,7 +15,8 @@ export const SideBarLists = memo(() => {
       numberOfTasks={l.numberOfTasks}
       title={l.title}
       color={l.color}
-    />)}
+    />, [lists])
+  )}
   </>
 })
 

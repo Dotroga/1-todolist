@@ -1,9 +1,9 @@
 import React from "react";
 import { useFormik } from "formik";
-import { SuperInput } from "../Super/SuperInput/SuperInput";
+import { SuperInput } from "Components/Super/SuperInput/SuperInput";
 import styled from "styled-components";
-import { SuperButton } from "../Super/SuperButton/SuperButton";
-import { SuperCheckbox } from "../Super/SuperCheckbox/SuperCheckbox";
+import { SuperButton } from "Components/Super/SuperButton/SuperButton";
+import { SuperCheckbox } from "Components/Super/SuperCheckbox/SuperCheckbox";
 import { useAppDispatch, useAppSelector } from "redux/store";
 import { Navigate } from "react-router-dom";
 import {selectIsLoggedIn} from "redux/auth/auth.selectors";

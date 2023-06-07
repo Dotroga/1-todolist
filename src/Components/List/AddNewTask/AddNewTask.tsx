@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import styled from "styled-components";
 import { SuperButton } from "../../Super/SuperButton/SuperButton";
 import { useAppDispatch } from "redux/store";
@@ -6,6 +6,7 @@ import { SuperInput } from "../../Super/SuperInput/SuperInput";
 import { useFormik } from "formik";
 import { AddTaskButton } from "../AddTaskButton/AddTaskButton";
 import {taskThunk} from "redux/task.reducer";
+import {useOutsideClick} from "utils/useOutsideClick";
 
 type AddNewTaskType = {
   listId: string;
@@ -19,12 +20,14 @@ type FormType = {
 
 export const AddNewTask = (props: AddNewTaskType) => {
   const dispatch = useAppDispatch();
+  const ref = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const openForm = () => setIsOpen(true)
   const closeForm = () => {
     setIsOpen(false);
     formik.resetForm();
   };
+  useOutsideClick(ref, setIsOpen, isOpen);
   const formik = useFormik({
     initialValues: {
       taskName: "",
@@ -39,24 +42,24 @@ export const AddNewTask = (props: AddNewTaskType) => {
     onSubmit: (values) => {
       dispatch(taskThunk.addTask({listId: props.listId, title:values.taskName, num:props.numberOfTasks}));
       formik.resetForm();
+      closeForm()
     },
   });
-  useEffect(()=>{
-    return ()=> closeForm()
-  },[props.listId])
+  useEffect(()=>{return ()=> closeForm()},[props.listId])
   return (
     <form onSubmit={formik.handleSubmit}>
-      {!isOpen ? (
         <AddTaskButton onClick={openForm} />
-      ) : (
-        <Wrapper>
-          <SuperInput
-            {...formik.getFieldProps("taskName")}
-            error={formik.touched.taskName && formik.errors.taskName && formik.errors.taskName} />
-          <SuperInput {...formik.getFieldProps("description")} error={""} required={false}/>
-          <div className="button-container">
-            <SuperButton title="Cancel" onClick={closeForm} />
-            <SuperButton title="Add Task" type="submit" />
+      {isOpen && (
+        <Wrapper isOpen={isOpen} >
+          <div ref={ref} className='addTask'>
+            <SuperInput
+              {...formik.getFieldProps("taskName")}
+              error={formik.touched.taskName && formik.errors.taskName && formik.errors.taskName} />
+            <SuperInput {...formik.getFieldProps("description")} error={""} required={false}/>
+            <div className="button-container">
+              <SuperButton title="Cancel" onClick={closeForm} />
+              <SuperButton title="Add Task" type="submit" />
+            </div>
           </div>
         </Wrapper>
       )}
@@ -64,15 +67,32 @@ export const AddNewTask = (props: AddNewTaskType) => {
   );
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{isOpen: boolean}>`
+  position: fixed;
   display: flex;
-  gap: 10px;
-  flex-direction: column;
-  padding: 10px;
-  border-radius: 6px;
-  transition: 0.3s;
-  background-color: ${({theme})=>theme.colors.topColor};
-  box-shadow: 0 0 15px 1px ${({theme})=>theme.colors.shadow};
+  align-items: center;
+  justify-content: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(2px);
+  z-index: 2;
+
+  .addTask {
+    margin: 100px;
+    display: flex;
+    padding: 10px;
+    border-radius: 6px;
+    transition: 0.3s;
+    gap: 10px;
+    flex-direction: column;
+    width: 700px;
+    background-color: ${({theme}) => theme.colors.topColor};
+  }
+
   .button-container {
     justify-content: end;
     display: flex;

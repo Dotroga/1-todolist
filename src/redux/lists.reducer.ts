@@ -18,7 +18,7 @@ const fetchData = () => async (dispatch: ThunkDispatchType) => {
     lists.data.map((l) => {
       dispatch(taskThunk.setTask(l.id))
     });
-  } catch (error) {
+  } catch (e) {
     console.log('hello')
   }
 };
@@ -61,7 +61,7 @@ const editingList = createAppAsyncThunk<{ listId: string, title: string }, {list
     if (title  !== "") {
       dispatch(appActions.setIsLoadingAddListForm('loading'));
       const colorAndTitle = color + title
-      const res = await listAPI.updateList(listId, colorAndTitle)
+      await listAPI.updateList(listId, colorAndTitle)
       navigate(title);
       dispatch(appActions.setIsLoadingAddListForm('normal' ));
       dispatch(appActions.toggleAddListForm(false));

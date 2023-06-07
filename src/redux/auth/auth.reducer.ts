@@ -1,4 +1,4 @@
-import { LoginType } from "Components/Login/Login";
+import { LoginType } from "Components/ Content/Login/Login";
 import {authAPI, ResultCode} from "api/todoAPI";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {createAppAsyncThunk} from "utils/createAppAsyncThunk";

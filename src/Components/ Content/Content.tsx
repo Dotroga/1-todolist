@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {Route, Routes} from "react-router-dom";
 import {List} from "Components/List/List";
-import {Login} from "Components/Login/Login";
+import {Login} from "Components/ Content/Login/Login";
 import styled from "styled-components";
 import {useAppSelector} from "redux/store";
 import {selectLists} from "redux/lists.selectors";

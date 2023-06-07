@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useRef } from "react";
+import React, { memo,useRef } from "react";
 import styled from "styled-components";
 import edit from "../../../Icons/edit.svg";
 import arrowUp from "../../../Icons/arrowUp.svg";
@@ -12,6 +12,7 @@ import {listsThunks} from "redux/lists.reducer";
 import {useAppDispatch, useAppSelector} from "redux/store";
 import { useNavigate } from "react-router-dom";
 import {appActions} from "redux/app.reducer";
+import {useOutsideClick} from "utils/useOutsideClick";
 
 type PropsType = {
   listId?: string | undefined;
@@ -22,6 +23,8 @@ type PropsType = {
   isLoading: boolean | undefined;
 };
 
+
+
 export const ModalWindow: React.FC<PropsType> = memo((props) => {
   const { listId, title, color, isOpen, onCloses, isLoading } = props;
   const dispatch = useAppDispatch();
@@ -29,23 +32,7 @@ export const ModalWindow: React.FC<PropsType> = memo((props) => {
   const theme = useAppSelector((state)=>state.app.theme.type)
   const lists = useAppSelector((state)=>state.lists)
   const ref = useRef<HTMLDivElement>(null);
-  const useOutsideClick = (ref: React.RefObject<HTMLDivElement>, handler: (v: boolean) => void, attached = true) => {
-    useEffect(() => {
-      if (!attached) return;
-      const handleClick = (e: MouseEvent) => {
-        if (!ref.current) return;
-        if (!ref.current.contains(e.target as Node)) {
-          setTimeout(() => {
-            handler(false);
-          });
-        }
-      };
-      document.addEventListener("mousedown", handleClick);
-      return () => {
-        document.removeEventListener("mousedown", handleClick);
-      };
-    }, [ref, handler, attached]);
-  };
+
   useOutsideClick(ref, onCloses, isOpen);
 
   const editingModeList = () => {

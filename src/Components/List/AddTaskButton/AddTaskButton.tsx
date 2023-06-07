@@ -27,7 +27,7 @@ const Wrapper = styled.div`
   &:hover {
     opacity: 1;
     style {
-      background: #fbbd49;
+      background: ${({theme})=>theme.colors.color};
       opacity: 1;
     }
   }

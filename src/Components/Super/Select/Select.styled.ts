@@ -104,7 +104,7 @@ export const SelectWrapper = styled.div<SelectStyledType>`
 
     .title {
       position: absolute;
-      color: ${({theme}) => theme.colors.font};
+      color: #697594;
       pointer-events: none;
       font-size: 1em;
       transition: 0.5s;

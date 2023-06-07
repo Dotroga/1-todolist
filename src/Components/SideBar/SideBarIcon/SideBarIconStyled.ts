@@ -16,21 +16,20 @@ export const StyledNavLink = styled.div<PropsType>`
   text-decoration: none;
   cursor: pointer;
   .number {
-    display: ${({isOpenOptions}) => !isOpenOptions ? 'flex' : 'none'};
+    display: ${({isOpenOptions, visible}) => !isOpenOptions && visible == "" ? 'flex' : 'none'};
     position: relative;
     margin-left: auto;
     margin-right: 10px;
   }
   &:hover {
     .number {
-      opacity: 0;
+      display: none;
     }
     .AdditionalOptions {
-      display: flex;
+      display: ${({visible}) => visible == "" ? 'flex' : 'none'};
     }
   }
 ${({active}) => active && css`
-  font-weight: bold;
   background-color: ${({theme})=>theme.colors.topColor};
   color: ${({theme})=>theme.colors.font};;
   box-shadow: 0 0 15px 1px ${({theme})=>theme.colors.shadow};

@@ -1,7 +1,8 @@
-import React, { memo, useState } from "react";
+import React, {memo, useRef, useState} from "react";
 import styled from "styled-components";
 import { ColorType } from "redux/app.reducer";
 import {SelectWrapper} from "Components/Super/Select/Select.styled";
+import {useOutsideClick} from "utils/useOutsideClick";
 
 type PropsType = {
   title: string;
@@ -12,14 +13,17 @@ type PropsType = {
 
 export const Select: React.FC<PropsType> = memo((props) => {
   const { title, arr, item, callBack} = props;
+  const ref = useRef<HTMLDivElement>(null);
   const [visiblePopUp, setVisiblePopUp] = useState(false);
   const changeVisibility = () => setVisiblePopUp(!visiblePopUp);
+  useOutsideClick(ref, setVisiblePopUp, visiblePopUp);
   const selectingActive = (i: ColorType) => {
     callBack(i);
     setVisiblePopUp(false);
   };
   return (
     <SelectWrapper
+      ref={ref}
       visible={visiblePopUp}
       color={item && item!.color}
       onBlur={() => setVisiblePopUp(false)}
