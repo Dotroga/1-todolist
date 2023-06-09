@@ -5,14 +5,14 @@ type DefaultInputPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElem
 
 export const SuperCheckbox: React.FC<Omit<DefaultInputPropsType, "type">> = ({ children, ...restProps }) => {
   return (
-    <Wrapper className="grid">
+    <Wrapper>
       <input type="checkbox" {...restProps} />
       <span>{children}</span>
     </Wrapper>
   );
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled.span`
    display: flex;
    gap: 5px;
  }

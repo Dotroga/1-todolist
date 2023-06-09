@@ -15,7 +15,6 @@ export const Content = memo(() => {
           element={lists.map((l, i) => (
             <div key={l.id}>
               <List list={l}/>
-              {i !== lists.length - 1 && <hr/>}
             </div>
           ))}
         />
@@ -47,10 +46,5 @@ const Wrapper = styled.div`
     border: 5px solid  ${({theme})=>theme.colors.bg};
     background-color: ${({theme})=>theme.colors.color}; /* цвет плашки */
     border-radius: 20px; /* закругления плашки */
-  }
-  hr {
-    margin: 0 30px;
-    border: none;
-    border-top: 1px solid #37445f;
   }
 `;

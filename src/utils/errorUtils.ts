@@ -1,7 +1,7 @@
 
 import { Dispatch } from 'redux'
 import {appActions} from "redux/app.reducer";
-import {ResponseType} from "api/todoAPI";
+import {ResponseType} from 'api/instanse'
 import axios, {AxiosError} from "axios";
 
 

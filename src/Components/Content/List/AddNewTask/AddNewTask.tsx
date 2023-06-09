@@ -40,7 +40,11 @@ export const AddNewTask = (props: AddNewTaskType) => {
       return errors;
     },
     onSubmit: (values) => {
-      dispatch(taskThunk.addTask({listId: props.listId, title:values.taskName, num:props.numberOfTasks}));
+      const task = {
+        title: values.taskName,
+        description: values.description
+      }
+      dispatch(taskThunk.addTask({listId: props.listId, task, num:props.numberOfTasks}));
       formik.resetForm();
       closeForm()
     },
@@ -78,9 +82,8 @@ const Wrapper = styled.div<{isOpen: boolean}>`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(5px);
   z-index: 2;
-
   .addTask {
     margin: 100px;
     display: flex;
@@ -90,6 +93,7 @@ const Wrapper = styled.div<{isOpen: boolean}>`
     gap: 10px;
     flex-direction: column;
     width: 700px;
+    z-index: 3;
     background-color: ${({theme}) => theme.colors.topColor};
   }
 

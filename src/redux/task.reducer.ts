@@ -1,9 +1,10 @@
-import {TasksType} from "redux/state";
-import {ResultCode, taskAPI, TaskType} from "api/todoAPI";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {handleServerAppError, handleServerNetworkError} from "utils/errorUtils";
 import {createAppAsyncThunk} from "utils/createAppAsyncThunk";
 import {listsActions, listsThunks} from "redux/lists.reducer";
+import {taskAPI, TaskRequestType, TaskType} from "api/taskAPI";
+import {ResultCode} from "api/listsAPI";
+import {TasksType} from "Types";
 
 
 const setTask = createAppAsyncThunk<{ listId: string, tasks: TaskType[] }, string>
@@ -19,11 +20,11 @@ const setTask = createAppAsyncThunk<{ listId: string, tasks: TaskType[] }, strin
   }
 })
 
-const addTask = createAppAsyncThunk<{ listId: string, task: TaskType }, {listId: string, title: string, num: number}>
-('tasks/addTask', async ({listId, title, num}, thunkAPI) => {
+const addTask = createAppAsyncThunk<{ listId: string, task: TaskType }, {listId: string, task: TaskRequestType, num: number}>
+('tasks/addTask', async ({listId, task, num}, thunkAPI) => {
   const {dispatch, rejectWithValue} = thunkAPI
   try {
-    const res = await taskAPI.createTask(listId, title)
+    const res = await taskAPI.createTask(listId, task)
     if (res.data.resultCode === ResultCode.Success) {
       dispatch(listsActions.setNumberOfTasks({listId, num: num + 1}));
       return {listId, task: res.data.data.item}
@@ -56,6 +57,7 @@ const slice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(addTask.fulfilled, (state, action) => {
+        debugger
         state[action.payload.listId].unshift(action.payload.task)
       })
       .addCase(setTask.fulfilled, (state, action) => {

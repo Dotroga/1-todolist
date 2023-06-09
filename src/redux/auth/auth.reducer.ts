@@ -1,9 +1,9 @@
-
-import {authAPI, ResultCode} from "api/todoAPI";
+import {ResultCode} from "api/listsAPI";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {createAppAsyncThunk} from "utils/createAppAsyncThunk";
 import {handleServerAppError, handleServerNetworkError} from "utils/errorUtils";
 import {LoginType} from "Components/Content/Login/Login";
+import {authAPI} from "api/authAPI";
 
 const initializeApp = createAppAsyncThunk<void, void>
 ('auth/initializeApp', async (arg, thunkAPI) => {
