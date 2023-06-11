@@ -2,7 +2,7 @@ import {baseTheme, lightTheme} from "theme";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 
-export type ArrType = [string, string]
+export type ArrType = [string, string, number?]
 
 const initialState = {
   theme: baseTheme,
@@ -44,6 +44,13 @@ const initialState = {
     ["#b7b7b7", "Grey" ],
     ["#caab92", "Taupe" ],
   ] as ArrType[],
+  prioritiesArr: [
+    ["#b6b6b6", 'Low', 0],
+    ["#3f71fb", 'Middle', 1],
+    ["#f6cc00", 'High', 2],
+    ["#d73f35", 'Urgently', 3],
+    ["#299238", 'Later', 4]
+  ]  as ArrType[],
   errorSnackbar: null as string | null,
 };
 

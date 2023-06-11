@@ -7,5 +7,6 @@ export const selectAddListForm = (state: AppRootStateType) => state.app.addListF
 export const selectArrColor = (state: AppRootStateType) => state.app.arrColor
 export const selectIsLoading = (state: AppRootStateType) => state.app.addListForm.isLoading
 export const selectCollapsedSB = (state: AppRootStateType) => state.app.isCollapsedSB
+export const selectPrioritiesArr = (state: AppRootStateType) => state.app.prioritiesArr
 
 // export const select = (state: AppRootStateType) =>

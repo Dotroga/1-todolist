@@ -7,6 +7,7 @@ import {taskThunk} from "redux/task.reducer";
 import {useOutsideClick} from "utils/useOutsideClick";
 import {SuperButton} from "Components/Super/SuperButton/SuperButton";
 import {SuperInput} from "Components/Super/SuperInput/SuperInput";
+import {Priority} from "Components/Super/Priority/Priority";
 
 type AddNewTaskType = {
   listId: string;
@@ -61,6 +62,7 @@ export const AddNewTask = (props: AddNewTaskType) => {
               error={formik.touched.taskName && formik.errors.taskName && formik.errors.taskName} />
             <SuperInput {...formik.getFieldProps("description")} error={""} required={false}/>
             <div className="button-container">
+              <Priority item={null}/>
               <SuperButton title="Cancel" onClick={closeForm} />
               <SuperButton title="Add Task" type="submit" />
             </div>

@@ -71,7 +71,7 @@ const Wrapper = styled.div`
   display: flex;
   font-size: 16px;
   align-items: center;
-  padding: 0 10px;
+  padding: 2px 10px;
   position: relative;
   white-space: nowrap;
 `
