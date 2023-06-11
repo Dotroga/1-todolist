@@ -9,15 +9,18 @@ export const SuperCheckbox: React.FC<Omit<DefaultInputPropsType, "type">> = ({ch
     <Wrapper checked={checked!}>
       <div className='checkbox'>
         <input type="checkbox" {...restProps}/>
-        <svg viewBox="0 0 24 24" fill="none">
+        <svg viewBox="0 0 24 24">
           <path d="M6 12L10.2426 16.2426L18.727 7.75732"/>
         </svg>
       </div>
+      {children}
     </Wrapper>
   )
 };
 
 const Wrapper = styled.label<{ checked: boolean }>`
+  display: flex;
+  gap: 5px;
   .checkbox {
     display: flex;
     align-items: center;

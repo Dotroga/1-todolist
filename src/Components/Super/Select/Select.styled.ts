@@ -2,7 +2,6 @@ import styled, {css} from "styled-components";
 
 type SelectStyledType = {
   visible?: boolean;
-  color?: string;
   item: boolean
 };
 
@@ -11,14 +10,12 @@ export const SelectWrapper = styled.div<SelectStyledType>`
   cursor: pointer;
   font-family: "Montserrat", sans-serif;
   z-index: 2;
-
   .visible {
     display: flex;
     justify-content: space-between;
     padding: 10px 12px;
     color: ${({theme}) => theme.colors.font};
     border: 1px solid ${({theme}) => theme.colors.color};
-
     .arrow-icon {
       height: 22px;
       display: flex;
@@ -28,13 +25,11 @@ export const SelectWrapper = styled.div<SelectStyledType>`
       right: 20px;
       cursor: pointer;
     }
-
     .left-bar {
       position: absolute;
       background-color: transparent;
       transform: rotate(35deg);
       right: -15px;
-
       &:after {
         transition: 0.3s;
         content: "";
@@ -45,7 +40,6 @@ export const SelectWrapper = styled.div<SelectStyledType>`
         float: left;
       }
     }
-
     .right-bar {
       position: absolute;
       background-color: transparent;
@@ -61,7 +55,6 @@ export const SelectWrapper = styled.div<SelectStyledType>`
         float: right;
       }
     }
-
     ${({visible}) =>
   visible
     ? css`
@@ -128,6 +121,8 @@ export const SelectWrapper = styled.div<SelectStyledType>`
     color: ${({theme}) => theme.colors.font};
   }
   .icon {
-    
+    &:hover {
+      background-color: ${({theme}) => theme.colors.bg};
+    };
   }
 `

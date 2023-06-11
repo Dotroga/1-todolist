@@ -1,79 +1,91 @@
 import React, {memo, useRef, useState} from "react";
 import styled from "styled-components";
-import { ColorType } from "redux/app.reducer";
 import {SelectWrapper} from "Components/Super/Select/Select.styled";
 import {useOutsideClick} from "utils/useOutsideClick";
+import {ArrType} from "redux/app.reducer";
 
-type PropsType = {
+
+type SelectPropsType = {
   title: string;
-  arr: ColorType[];
-  item: ColorType | null;
-  callBack: (color: ColorType) => void;
+  arr: ArrType[];
+  item: ArrType | null
+  callBack?: (item: ArrType) => void;
+  icon: React.ComponentType<{color: string}>
 };
 
-export const Select: React.FC<PropsType> = memo((props) => {
-  const { title, arr, item, callBack} = props;
+export const Select: React.FC<SelectPropsType> = memo((props) => {
+  const { title, arr, item, callBack, icon: IconComponent} = props;
   const ref = useRef<HTMLDivElement>(null);
   const [visiblePopUp, setVisiblePopUp] = useState(false);
   const changeVisibility = () => setVisiblePopUp(!visiblePopUp);
+
   useOutsideClick(ref, setVisiblePopUp, visiblePopUp);
-  const selectingActive = (i: ColorType) => {
-    callBack(i);
+
+  const selectingActive = (i: ArrType) => {
+    callBack!(i);
     setVisiblePopUp(false);
   };
+
   return (
-    <SelectWrapper
-      ref={ref}
-      visible={visiblePopUp}
-      color={item && item!.color}
+    <SelectWrapper ref={ref} visible={visiblePopUp}
       onBlur={() => setVisiblePopUp(false)}
       item={!!item || visiblePopUp}>
       <div className='visible' onClick={changeVisibility}>
-        <div>
-          {item && <Item item={item}/>}
-          <div className='title'>{title}</div>
-        </div>
+        <Item item={item} icon={IconComponent}/>
+        <div className='title'>{title}</div>
         <div className='arrow-icon'>
           <span className="left-bar"></span>
           <span className="right-bar"></span>
         </div>
       </div>
-      {visiblePopUp && (
-        <div className='popup'>
-          {arr.map((i, index) => (
-            <Icon key={index} onClick={() => selectingActive(i)} color={i.color}>
-              <span></span>
-              {i.title}
-            </Icon>
-          ))}
-        </div>
-      )}
+      {visiblePopUp &&
+          <Items icon={IconComponent} arr={arr} callBack={selectingActive}/>
+      }
     </SelectWrapper>
   );
 });
 
-const Item = memo((props: any) => (
-  <>
-    <span></span>
-    {props.item.title}
-  </>
-))
 
+const Items: React.FC<Omit<SelectPropsType, 'title' | 'item'>> = (props) => {
+  const {icon: IconComponent, callBack, arr} = props
+  return <div className='popup'>
+    {arr.map((i, index) =>
+      <div className='icon'>
+        <Item key={index} item={i} icon={IconComponent} callBack={callBack}/>
+      </div>
+    )}
+  </div>
+}
 
+const Item: React.FC<Omit<SelectPropsType, 'title' | 'arr'>> = (props) => {
+  const {item, icon: IconComponent, callBack} = props
+  return <Wrapper onClick={() => callBack!(item!)}>
+    {item && <>
+        <IconComponent color={item[0]}/>
+        <div className='text'>{item[1]}</div>
+    </>}
+  </Wrapper>
+}
 
-const Icon = memo(styled.div<{color: string}>`
+const Wrapper = styled.div`
   display: flex;
   font-size: 16px;
-  padding: 2px 10px;
-  &:hover {
-    background-color: ${({theme})=>theme.colors.bg};
-  }
-  span {
-    display: inline-block;
-    width: 18px;
-    height: 18px;
-    margin-right: 10px;
-    border-radius: 5px;
-    background-color: ${({ color }) => color};
-  }
-`)
+  align-items: center;
+  padding: 0 10px;
+  position: relative;
+  white-space: nowrap;
+`
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -2,6 +2,7 @@ import React from 'react';
 import {SuperCheckbox} from "Components/Super/SuperCheckbox/SuperCheckbox";
 import styled from "styled-components";
 import {TaskType} from "api/taskAPI";
+import {PriorityIcon} from "Components/Super/Priority/PriorityIcon";
 
 type TaskPropsType = {
   id: string,
@@ -13,6 +14,7 @@ export const Task: React.FC<TaskPropsType> = (props) => {
   return (
     <Wrapper>
       <SuperCheckbox/>
+      <PriorityIcon/>
       <div className='oneLine'>
         <p className='title'>{task.title}</p>
         <p className='description'>{task.description}</p>

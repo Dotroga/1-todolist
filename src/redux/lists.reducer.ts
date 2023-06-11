@@ -27,7 +27,7 @@ const addList = createAppAsyncThunk<{ id: string, title: string }, {navigate: Na
 ('lists/addList', async ({navigate}, thunkAPI) => {
   const {dispatch, rejectWithValue, getState} = thunkAPI
   const state = getState()
-  const color = state.app.addListForm.color ? state.app.addListForm.color.color : state.app.arrColor[3].color;
+  const color = state.app.addListForm.color ? state.app.addListForm.color[0] : state.app.arrColor[3][0];
   const title = state.app.addListForm.title.trim();
   try {
       if (title !== "") {
@@ -55,7 +55,7 @@ const editingList = createAppAsyncThunk<{ listId: string, title: string }, {list
 ('lists/editingList', async ({navigate, listId}, thunkAPI) => {
   const {dispatch, rejectWithValue, getState} = thunkAPI
   const state = getState()
-  const color = state.app.addListForm.color ? state.app.addListForm.color.color : state.app.arrColor[3].color;
+  const color = state.app.addListForm.color ? state.app.addListForm.color[0] : state.app.arrColor[3][0];
   const title = state.app.addListForm.title.trim();
   try {
     if (title  !== "") {

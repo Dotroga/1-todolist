@@ -15,7 +15,7 @@ import {
   selectIsVisibleALF
 } from "redux/app.selectors";
 import {selectListsLength} from "redux/lists.selectors";
-import {appActions, ColorType} from "redux/app.reducer";
+import {appActions, ArrType} from "redux/app.reducer";
 
 
 export const AddListForm: React.FC = memo(() => {
@@ -35,8 +35,8 @@ export const AddListForm: React.FC = memo(() => {
       dispatch(appActions.setError(false));
     }, []);
 
-  const changeColorHandler = useCallback((color: ColorType) => {
-    dispatch(appActions.changeColor(color.color));
+  const changeColorHandler = useCallback(( item: ArrType) => {
+    dispatch(appActions.changeColor(item[0]));
   }, []);
 
   const addList = useCallback(() => {
@@ -52,7 +52,7 @@ export const AddListForm: React.FC = memo(() => {
   return (
     <Wrapper isVisibleAL={isVisibleALF} isOpen={isCollapsedSB}>
       <SuperInput onChange={changeTitle} name={"Title"} value={addListForm.title} error={addListForm.error!}/>
-      <Select title="Color" arr={arrColor} item={addListForm.color} callBack={changeColorHandler}/>
+      <Select icon={ColorItem} title="Color" arr={arrColor} item={addListForm.color} callBack={changeColorHandler}/>
       <div className='buttonContainer'>
         <MaxQuantity maxNum={10} currentNum={length}/>
         <SuperButton title="Cancel" onClick={toggleAddListFormHandler}/>
@@ -66,6 +66,24 @@ export const AddListForm: React.FC = memo(() => {
     </Wrapper>
   );
 });
+
+const ColorItem = (props: { color: string }) =>
+  <Icon color={props.color}/>
+
+const Icon = memo(styled.span<{ color: string }>`
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+  border-radius: 5px;
+  background-color: ${({color}) => color};
+
+  &:hover {
+    background-color: ${({theme}) => theme.colors.bg};
+  }
+`)
+
+
 
 type WrapperPropsType = { isVisibleAL: boolean; isOpen: boolean };
 
