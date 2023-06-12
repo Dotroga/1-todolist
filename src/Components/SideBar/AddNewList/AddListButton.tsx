@@ -1,5 +1,4 @@
 import React, {memo, useCallback, useState} from "react";
-import plus from "Icons/plus.svg";
 import styled, { css } from "styled-components";
 import { useDispatch } from "react-redux";
 import { MaxQuantity } from "../../Super/MaxQuantity/MaxQuantity";
@@ -30,9 +29,12 @@ export const AddListButton = memo(() => {
     >
       <p>Lists</p>
       <MaxQuantity maxNum={10} currentNum={length} />
-      <SvgSquare>
-        <SvgPlus src={plus} alt="plus" onClick={toggle} isVisibleALF={isVisibleALF} />
-      </SvgSquare>
+      <Square isVisibleALF={isVisibleALF} onClick={toggle}>
+        <svg viewBox="-3.12 -3.12 30.24 30.24">
+          <path d="M5 12H19"/>
+          <path d="M12 5L12 19"/>
+        </svg>
+      </Square>
     </Wrapper>
   );
 });
@@ -73,7 +75,7 @@ const Wrapper = styled.div<WrapperType>`
   }
 `;
 
-const SvgSquare = styled.style`
+const Square = styled.style<{isVisibleALF: boolean}>`
   width: 28px;
   height: 28px;
   cursor: pointer;
@@ -86,17 +88,17 @@ const SvgSquare = styled.style`
   &:hover {
     transform: scale(1.1);
   }
+  svg {
+    z-index: 2;
+    width: 32px;
+    cursor: pointer;
+    transition: all 0.2s ease-in;
+    fill: none;
+    stroke: #fcfcfc;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    ${({isVisibleALF}) => isVisibleALF && css`transform: rotate(45deg);`};
+  }
 `;
 
-const SvgPlus = styled.img<{ isVisibleALF: boolean }>`
-  z-index: 2;
-  width: 32px;
-  cursor: pointer;
-  transition: all 0.2s ease-in;
-
-  ${({ isVisibleALF }) =>
-          isVisibleALF &&
-          css`
-            transform: rotate(45deg);
-          `};
-`;

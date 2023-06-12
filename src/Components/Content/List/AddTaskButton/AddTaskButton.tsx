@@ -1,5 +1,4 @@
 import React from "react";
-import plus from "Icons/plus.svg";
 import styled from "styled-components";
 
 type AddTaskButtonType = {
@@ -11,7 +10,10 @@ export const AddTaskButton = (props: AddTaskButtonType) => {
     <Wrapper onClick={() => props.onClick(true)}>
       Add new task
       <Plus>
-        <img src={plus} alt="plus" />
+        <svg viewBox="-3.12 -3.12 30.24 30.24">
+          <path d="M5 12H19"/>
+          <path d="M12 5L12 19"/>
+        </svg>
       </Plus>
     </Wrapper>
   );
@@ -44,8 +46,15 @@ const Plus = styled.style`
   &:hover {
     transform: scale(1.1);
   }
-  img {
+  svg{
     z-index: 2;
     width: 32px;
+    cursor: pointer;
+    transition: all 0.2s ease-in;
+    fill: none;
+    stroke: #fcfcfc;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 `;
