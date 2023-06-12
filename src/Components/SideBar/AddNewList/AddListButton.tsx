@@ -1,5 +1,5 @@
 import React, {memo, useCallback, useState} from "react";
-import plus from "../../../Icons/plus.svg";
+import plus from "Icons/plus.svg";
 import styled, { css } from "styled-components";
 import { useDispatch } from "react-redux";
 import { MaxQuantity } from "../../Super/MaxQuantity/MaxQuantity";
