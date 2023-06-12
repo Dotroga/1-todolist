@@ -4,17 +4,19 @@ import { ModalWindow } from "../../Super/ModalWindow/ModalWindow";
 import { ThreeDotsButton } from "../../Super/ThreeDotsButton/ThreeDotsButton";
 import {useAppSelector} from "redux/store";
 import {useLocation, useNavigate} from "react-router-dom";
+import {AllListsIcon} from "Components/SideBar/AllListsIcon";
 
 type SideBarIconsPropsType = {
   listId?: string;
   title?: string;
   color?: string;
+  index?: number
   numberOfTasks?: number;
   isLoading?: boolean;
 };
 
 export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
-  const { listId,  title, color, numberOfTasks, isLoading } = props;
+  const { listId,  title, color, numberOfTasks, isLoading, index} = props;
   const navigate = useNavigate()
   const location = useLocation();
   const [isOpenOptions, setIsOpenOptions] = useState(false);
@@ -38,7 +40,7 @@ export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
       color={color}
       active={activeList === `/${title}`}
     >
-      {!title ? <span>-</span> : <style></style>}
+      {!title ? <AllListsIcon/> : <style></style>}
       <div>{title ? title : 'All lists'}</div>
       {numberOfTasks! > 0 && <span className="number">{numberOfTasks}</span>}
       {title && (
@@ -47,6 +49,7 @@ export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
           <ModalWindow
             title={title}
             color={color!}
+            index={index!}
             listId={listId}
             isOpen={isOpenOptions}
             onCloses={closed}

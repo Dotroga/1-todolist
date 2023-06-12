@@ -13,10 +13,10 @@ export const Tasks = (props: TaskPropsType) => {
   return <Wrapper>
     {tasks.length
       ? tasks.map((t, i) =>
-        <>
-          <Task key={t.id} id={t.id} task={t}/>
+        <div key={t.id}>
+          <Task id={t.id} task={t}/>
           {i !== tasks.length - 1 && <hr/>}
-        </>
+        </div>
      )
       : "Tasks list is empty"}
   </Wrapper>;

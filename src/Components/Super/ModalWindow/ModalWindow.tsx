@@ -10,6 +10,7 @@ type PropsType = {
   listId?: string | undefined;
   title: string;
   color: string;
+  index: number
   isOpen: boolean;
   onCloses: (v: boolean) => void;
   isLoading: boolean | undefined;
@@ -17,7 +18,7 @@ type PropsType = {
 
 
 export const ModalWindow: React.FC<PropsType> = memo((props) => {
-  const { listId, title, color, isOpen, onCloses, isLoading } = props;
+  const { listId, title, color, isOpen, onCloses, isLoading, index} = props;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const lists = useAppSelector((state)=>state.lists)
@@ -53,7 +54,7 @@ export const ModalWindow: React.FC<PropsType> = memo((props) => {
           </svg>
           <p>Edit</p>
         </button>
-        <button onClick={reorderList} disabled={isLoading!}>
+        {index !== 0 && <button onClick={reorderList} disabled={isLoading!}>
           <svg viewBox="0 0 24 24" transform="rotate(0)">
             <path
               d="M4 2C3.44772 2 3 2.44772 3 3C3 3.55228 3.44772 4 4 4H20C20.5523 4 21 3.55228 21 3C21 2.44772 20.5523 2 20 2H4Z"/>
@@ -61,8 +62,8 @@ export const ModalWindow: React.FC<PropsType> = memo((props) => {
               d="M6.29289 13.7071C6.68342 14.0976 7.31658 14.0976 7.70711 13.7071L11 10.4142L11 21C11 21.5523 11.4477 22 12 22C12.5523 22 13 21.5523 13 21L13 10.4142L16.2929 13.7071C16.6834 14.0976 17.3166 14.0976 17.7071 13.7071C18.0976 13.3166 18.0976 12.6834 17.7071 12.2929L12.7071 7.29289C12.3166 6.90237 11.6834 6.90237 11.2929 7.29289L6.29289 12.2929C5.90237 12.6834 5.90237 13.3166 6.29289 13.7071Z"/>
           </svg>
           <p>Move up</p>
-        </button>
-        <button onClick={reorderDownList} disabled={isLoading!}>
+        </button>}
+        {index !== lists.length - 1 && <button onClick={reorderDownList} disabled={isLoading!}>
           <svg viewBox="0 0 24 24" fill="none">
             <path
               d="M7.70711 10.2929L11 13.5858L11 3C11 2.44771 11.4477 2 12 2C12.5523 2 13 2.44771 13 3L13 13.5858L16.2929 10.2929C16.6834 9.90237 17.3166 9.90237 17.7071 10.2929C18.0976 10.6834 18.0976 11.3166 17.7071 11.7071L12.7071 16.7071C12.3166 17.0976 11.6834 17.0976 11.2929 16.7071L6.29289 11.7071C5.90237 11.3166 5.90237 10.6834 6.29289 10.2929C6.68342 9.90237 7.31658 9.90237 7.70711 10.2929Z"/>
@@ -70,7 +71,7 @@ export const ModalWindow: React.FC<PropsType> = memo((props) => {
               d="M4 22C3.44772 22 3 21.5523 3 21C3 20.4477 3.44772 20 4 20H20C20.5523 20 21 20.4477 21 21C21 21.5523 20.5523 22 20 22H4Z"/>
           </svg>
           <p>Move down</p>
-        </button>
+        </button>}
         <button onClick={removeList} disabled={isLoading!}>
           <svg viewBox="0 0 24 24">
               <path d="M17,4V5H15V4H9V5H7V4A2,2,0,0,1,9,2h6A2,2,0,0,1,17,4Z"/>

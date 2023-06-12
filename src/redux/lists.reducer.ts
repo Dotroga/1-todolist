@@ -158,7 +158,7 @@ const slice = createSlice({
       if (action.payload.change === 'up') {
         newLists[action.payload.index] = state[action.payload.index - 1];
         newLists[action.payload.index - 1] = state[action.payload.index];
-      } else {
+      } else  {
         newLists[action.payload.index] = state[action.payload.index + 1];
         newLists[action.payload.index + 1] = state[action.payload.index];
       }

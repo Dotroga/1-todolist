@@ -7,9 +7,10 @@ export const SideBarLists = memo(() => {
 
   const lists = useAppSelector(selectLists);
 
-  return <> {lists.map(useCallback((l) =>
+  return <> {lists.map(useCallback((l,i) =>
     <SideBarIcon
       key={l.id}
+      index={i}
       listId={l.id}
       isLoading={l.isLoading}
       numberOfTasks={l.numberOfTasks}
