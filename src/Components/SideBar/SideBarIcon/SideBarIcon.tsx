@@ -5,7 +5,6 @@ import { ThreeDotsButton } from "../../Super/ThreeDotsButton/ThreeDotsButton";
 import {useAppSelector} from "redux/store";
 import {useLocation, useNavigate} from "react-router-dom";
 
-
 type SideBarIconsPropsType = {
   listId?: string;
   title?: string;
@@ -39,7 +38,7 @@ export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
       color={color}
       active={activeList === `/${title}`}
     >
-      {!title ? <span>+</span> : <style></style>}
+      {!title ? <span>-</span> : <style></style>}
       <div>{title ? title : 'All lists'}</div>
       {numberOfTasks! > 0 && <span className="number">{numberOfTasks}</span>}
       {title && (
