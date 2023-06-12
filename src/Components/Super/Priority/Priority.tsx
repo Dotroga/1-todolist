@@ -14,7 +14,7 @@ export const Priority:React.FC<PriorityPropsType> = (props) => {
   const {item} = props
   const prioritiesArr = useAppSelector(selectPrioritiesArr)
   return <Wrapper>
-    <Select title='Priorities' arr={prioritiesArr} item={item} icon={PriorityIcon}/>
+    <Select title='Priority' arr={prioritiesArr} item={item} icon={PriorityIcon}/>
   </Wrapper>
 };
 

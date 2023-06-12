@@ -51,24 +51,24 @@ const Wrapper = styled.div<WrapperType>`
   margin: 4px 0;
   height: 32px;
   ${({ hovered, isVisibleALF, length }) =>
-    (hovered || isVisibleALF) && length < 10
-      ? css`
-          div {
-            display: none;
-            position: absolute;
-          }
-        `
-      : css`
-          style {
-            display: none;
-          }
-        `}
+          (hovered || isVisibleALF) && length < 10
+                  ? css`
+                    div {
+                      display: none;
+                      position: absolute;
+                    }
+                  `
+                  : css`
+                    style {
+                      display: none;
+                    }
+                  `}
   div, span, p {
     ${({ isVisibleSB }) =>
-      !isVisibleSB &&
-      css`
-        display: none;
-      `};
+            !isVisibleSB &&
+            css`
+              display: none;
+            `};
     user-select: none;
   }
 `;
@@ -95,8 +95,8 @@ const SvgPlus = styled.img<{ isVisibleALF: boolean }>`
   transition: all 0.2s ease-in;
 
   ${({ isVisibleALF }) =>
-    isVisibleALF &&
-    css`
-      transform: rotate(45deg);
-    `};
+          isVisibleALF &&
+          css`
+            transform: rotate(45deg);
+          `};
 `;

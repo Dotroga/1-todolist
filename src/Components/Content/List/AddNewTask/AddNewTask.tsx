@@ -83,9 +83,9 @@ const Wrapper = styled.div<{isOpen: boolean}>`
   transform: translate(-50%, -50%);
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(5px);
+  background-color: rgba(0, 0, 0, 0.48);
   z-index: 2;
+
   .addTask {
     margin: 100px;
     display: flex;
@@ -102,6 +102,7 @@ const Wrapper = styled.div<{isOpen: boolean}>`
   .button-container {
     justify-content: end;
     display: flex;
+    align-items: center;
     gap: 10px;
   }
 `;
