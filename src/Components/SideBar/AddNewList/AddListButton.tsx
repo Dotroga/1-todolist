@@ -2,10 +2,11 @@ import React, {memo, useCallback, useState} from "react";
 import styled, { css } from "styled-components";
 import { useDispatch } from "react-redux";
 import { MaxQuantity } from "../../Super/MaxQuantity/MaxQuantity";
-import {useAppSelector} from "redux/store";
-import {selectListsLength} from "redux/lists.selectors";
-import {selectIsCollapsedSB, selectIsVisibleALF} from "redux/app.selectors";
-import {appActions} from "redux/app.reducer";
+import {selectIsCollapsedSB, selectIsVisibleALF} from "../../../redux/app.selectors";
+import {useAppSelector} from "../../../redux/store";
+import {appActions} from "../../../redux/app.reducer";
+import {selectListsLength} from "../../../redux/lists.selectors";
+
 
 
 export const AddListButton = memo(() => {

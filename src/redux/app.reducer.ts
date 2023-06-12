@@ -1,5 +1,6 @@
-import {baseTheme, lightTheme} from "theme";
+
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {baseTheme, lightTheme} from "../theme";
 
 
 export type ArrType = [string, string, number?]

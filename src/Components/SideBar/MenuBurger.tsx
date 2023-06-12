@@ -1,10 +1,10 @@
 import React, {memo} from "react";
 import styled, {css} from "styled-components";
-import {useAppSelector} from "redux/store";
 import {useDispatch} from "react-redux";
+import {useAppSelector} from "../../redux/store";
+import {selectCollapsedSB} from "../../redux/app.selectors";
+import {appActions} from "../../redux/app.reducer";
 
-import {selectCollapsedSB} from "redux/app.selectors";
-import {appActions} from "redux/app.reducer";
 
 export const MenuBurger = memo(() => {
   const dispatch = useDispatch();

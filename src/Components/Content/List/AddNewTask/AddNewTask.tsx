@@ -1,13 +1,14 @@
 import React, {useEffect, useRef, useState} from "react";
 import styled from "styled-components";
-import { useAppDispatch } from "redux/store";
-import { useFormik } from "formik";
-import { AddTaskButton } from "../AddTaskButton/AddTaskButton";
-import {taskThunk} from "redux/task.reducer";
-import {useOutsideClick} from "utils/useOutsideClick";
-import {SuperButton} from "Components/Super/SuperButton/SuperButton";
-import {SuperInput} from "Components/Super/SuperInput/SuperInput";
-import {Priority} from "Components/Super/Priority/Priority";
+import {taskThunk} from "../../../../redux/task.reducer";
+import {useAppDispatch} from "../../../../redux/store";
+import {useOutsideClick} from "../../../../utils/useOutsideClick";
+import {useFormik} from "formik";
+import {Priority} from "../../../Super/Priority/Priority";
+import {SuperButton} from "../../../Super/SuperButton/SuperButton";
+import {AddTaskButton} from "../AddTaskButton/AddTaskButton";
+import {SuperInput} from "../../../Super/SuperInput/SuperInput";
+
 
 type AddNewTaskType = {
   listId: string;

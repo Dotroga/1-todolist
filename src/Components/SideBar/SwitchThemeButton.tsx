@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from "styled-components";
-import {useAppDispatch} from "redux/store";
-import {appActions} from "redux/app.reducer";
+import {useAppDispatch} from "../../redux/store";
+import {appActions} from "../../redux/app.reducer";
+
 
 export const SwitchThemeButton = () => {
   const dispatch = useAppDispatch();

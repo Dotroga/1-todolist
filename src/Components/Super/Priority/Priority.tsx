@@ -1,10 +1,10 @@
 import React from 'react';
-import {Select} from "Components/Super/Select/Select";
-import {selectPrioritiesArr} from "redux/app.selectors";
-import {useAppSelector} from "redux/store";
-import {PriorityIcon} from "Components/Super/Priority/PriorityIcon";
-import {ArrType} from "redux/app.reducer";
 import styled from "styled-components";
+import {ArrType} from "../../../redux/app.reducer";
+import {selectPrioritiesArr} from "../../../redux/app.selectors";
+import {PriorityIcon} from "./PriorityIcon";
+import {Select} from "../Select/Select";
+import {useAppSelector} from "../../../redux/store";
 
 type PriorityPropsType = {
   item: ArrType | null

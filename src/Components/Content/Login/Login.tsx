@@ -1,13 +1,14 @@
 import React from "react";
 import { useFormik } from "formik";
-import { SuperInput } from "Components/Super/SuperInput/SuperInput";
+import {useAppDispatch, useAppSelector} from "../../../redux/store";
+import {selectIsLoggedIn} from "../../../redux/auth/auth.selectors";
+import {SuperButton} from "../../Super/SuperButton/SuperButton";
+import {Navigate} from "react-router-dom";
 import styled from "styled-components";
-import { SuperButton } from "Components/Super/SuperButton/SuperButton";
-import { SuperCheckbox } from "Components/Super/SuperCheckbox/SuperCheckbox";
-import { useAppDispatch, useAppSelector } from "redux/store";
-import { Navigate } from "react-router-dom";
-import {selectIsLoggedIn} from "redux/auth/auth.selectors";
-import {authThunks} from "redux/auth/auth.reducer";
+import {SuperCheckbox} from "../../Super/SuperCheckbox/SuperCheckbox";
+import {authThunks} from "../../../redux/auth/auth.reducer";
+import {SuperInput} from "../../Super/SuperInput/SuperInput";
+
 
 export type LoginType = {
   email: string;

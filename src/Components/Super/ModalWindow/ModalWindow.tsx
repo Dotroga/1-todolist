@@ -1,10 +1,11 @@
 import React, { memo,useRef } from "react";
 import styled from "styled-components";
-import {listsThunks} from "redux/lists.reducer";
-import {useAppDispatch, useAppSelector} from "redux/store";
-import { useNavigate } from "react-router-dom";
-import {appActions} from "redux/app.reducer";
-import {useOutsideClick} from "utils/useOutsideClick";
+import {useAppDispatch, useAppSelector} from "../../../redux/store";
+import {useOutsideClick} from "../../../utils/useOutsideClick";
+import {useNavigate} from "react-router-dom";
+import {appActions} from "../../../redux/app.reducer";
+import {listsThunks} from "../../../redux/lists.reducer";
+
 
 type PropsType = {
   listId?: string | undefined;

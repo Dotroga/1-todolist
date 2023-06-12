@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { useAppSelector } from "redux/store";
-import {Task} from "Components/Content/List/Tasks/Task/Task";
-import {TaskType} from "api/taskAPI";
+import {Task} from "./Task/Task";
+import {TaskType} from "../../../../api/taskAPI";
+import {useAppSelector} from "../../../../redux/store";
+
 
 type TaskPropsType = {
   listId: string;

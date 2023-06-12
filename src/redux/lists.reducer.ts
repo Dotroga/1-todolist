@@ -1,13 +1,16 @@
-import {listAPI, ResponseListType} from "api/listsAPI";
+
 import { Dispatch } from "redux";
 import { NavigateFunction } from "react-router/dist/lib/hooks";
-import { ThunkDispatchType } from "redux/store";
+
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {taskThunk} from "redux/task.reducer";
-import {appActions} from "redux/app.reducer";
-import {createAppAsyncThunk} from "utils/createAppAsyncThunk";
-import {handleServerNetworkError} from "utils/errorUtils";
-import {FilterType} from "Types";
+import {taskThunk} from "./task.reducer";
+import {handleServerNetworkError} from "../utils/errorUtils";
+import {FilterType} from "../Types";
+import {listAPI, ResponseListType} from "../api/listsAPI";
+import {ThunkDispatchType} from "./store";
+import {createAppAsyncThunk} from "../utils/createAppAsyncThunk";
+import {appActions} from "./app.reducer";
+
 
 const parse = (title: string) => [title.slice(7), title.substring(0, 7)];
 

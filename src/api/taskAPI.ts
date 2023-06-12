@@ -1,5 +1,4 @@
-import {ResponseType} from 'api/instanse'
-import {instance} from "api/instanse";
+import {instance, ResponseType} from './instanse'
 
 
 export const taskAPI = {

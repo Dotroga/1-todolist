@@ -1,4 +1,5 @@
-import {AppRootStateType} from "redux/store";
+import {AppRootStateType} from "./store";
+
 
 export const selectTheme = (state: AppRootStateType) => state.app.theme
 export const selectIsCollapsedSB = (state: AppRootStateType) => state.app.isCollapsedSB

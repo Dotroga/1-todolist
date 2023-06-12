@@ -1,6 +1,6 @@
-import {LoginType} from "Components/Content/Login/Login";
-import {instance} from "api/instanse";
-import {ResponseType} from 'api/instanse'
+import {LoginType} from "../Components/Content/Login/Login";
+import {instance, ResponseType} from './instanse'
+
 
 export const authAPI = {
   login: (data: LoginType) => instance.post<ResponseType<{ userId: number }>>("auth/login", data),

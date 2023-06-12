@@ -1,8 +1,10 @@
 import React, {memo, useRef, useState} from "react";
 import styled from "styled-components";
-import {SelectWrapper} from "Components/Super/Select/Select.styled";
-import {useOutsideClick} from "utils/useOutsideClick";
-import {ArrType} from "redux/app.reducer";
+import {ArrType} from "../../../redux/app.reducer";
+import {useOutsideClick} from "../../../utils/useOutsideClick";
+import { SelectWrapper } from "./Select.styled";
+
+
 
 
 type SelectPropsType = {
@@ -12,6 +14,7 @@ type SelectPropsType = {
   callBack?: (item: ArrType) => void;
   icon: React.ComponentType<{color: string}>
 };
+
 
 export const Select: React.FC<SelectPropsType> = memo((props) => {
   const { title, arr, item, callBack, icon: IconComponent} = props;
@@ -50,8 +53,8 @@ const Items: React.FC<Omit<SelectPropsType, 'title' | 'item'>> = (props) => {
   const {icon: IconComponent, callBack, arr} = props
   return <div className='popup'>
     {arr.map((i, index) =>
-      <div className='icon'>
-        <Item key={index} item={i} icon={IconComponent} callBack={callBack}/>
+      <div key={index} className='icon'>
+        <Item  item={i} icon={IconComponent} callBack={callBack}/>
       </div>
     )}
   </div>

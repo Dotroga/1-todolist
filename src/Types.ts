@@ -1,4 +1,5 @@
-import {TaskType} from "api/taskAPI";
+import {TaskType} from "./api/taskAPI";
+
 
 export type ListColorType = { color: string; listId: string };
 

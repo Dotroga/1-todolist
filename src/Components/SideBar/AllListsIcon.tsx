@@ -11,7 +11,7 @@ import styled from "styled-components";
     </Wrapper>
   );
 };
-const Wrapper = styled.div`
+const Wrapper = styled.span`
   display: grid;
   grid-template-areas: 
   "a b"

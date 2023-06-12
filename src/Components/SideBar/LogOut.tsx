@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import {useAppDispatch, useAppSelector} from "redux/store";
-import {selectIsCollapsedSB} from "redux/app.selectors";
-import {authThunks} from "redux/auth/auth.reducer";
+import {selectIsCollapsedSB} from "../../redux/app.selectors";
+import {useAppDispatch, useAppSelector} from "../../redux/store";
+import {authThunks} from "../../redux/auth/auth.reducer";
+
 
 export const LogOut: React.FC = () => {
 

@@ -1,8 +1,7 @@
-
 import { Dispatch } from 'redux'
-import {appActions} from "redux/app.reducer";
-import {ResponseType} from 'api/instanse'
 import axios, {AxiosError} from "axios";
+import {appActions} from "../redux/app.reducer";
+import {ResponseType} from '../api/instanse'
 
 
 export const handleServerAppError = <D>(data: ResponseType<D>, dispatch: Dispatch) => {
