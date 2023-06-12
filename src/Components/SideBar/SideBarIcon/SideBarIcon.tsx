@@ -1,5 +1,4 @@
 import React, { memo, useCallback, useState } from "react";
-import fourSquare from "../../../Icons/fourSquare.png";
 import { StyledNavLink } from "./SideBarIconStyled";
 import { ModalWindow } from "../../Super/ModalWindow/ModalWindow";
 import { ThreeDotsButton } from "../../Super/ThreeDotsButton/ThreeDotsButton";
@@ -40,7 +39,7 @@ export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
       color={color}
       active={activeList === `/${title}`}
     >
-      {!title ? <img src={fourSquare} alt="square" /> : <style></style>}
+      {!title ? <span>+</span> : <style></style>}
       <div>{title ? title : 'All lists'}</div>
       {numberOfTasks! > 0 && <span className="number">{numberOfTasks}</span>}
       {title && (

@@ -16,7 +16,6 @@ type PropsType = {
 };
 
 
-
 export const ModalWindow: React.FC<PropsType> = memo((props) => {
   const { listId, title, color, isOpen, onCloses, isLoading } = props;
   const dispatch = useAppDispatch();
