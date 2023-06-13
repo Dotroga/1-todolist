@@ -3,10 +3,13 @@ import styled, {css} from "styled-components";
 
 type DefaultInputPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
 
-export const SuperCheckbox: React.FC<Omit<DefaultInputPropsType, "type">> = ({children, ...restProps}) => {
+type SuperCheckboxPropsType = Omit<DefaultInputPropsType, "type"> & {
+  color?: string;
+}
+export const SuperCheckbox: React.FC<SuperCheckboxPropsType> = ({children,color, ...restProps}) => {
   const {checked} = restProps
   return (
-    <Wrapper checked={checked!}>
+    <Wrapper checked={checked!} color={color}>
       <div className='checkbox'>
         <input type="checkbox" {...restProps}/>
         <svg viewBox="0 0 24 24">
@@ -18,9 +21,10 @@ export const SuperCheckbox: React.FC<Omit<DefaultInputPropsType, "type">> = ({ch
   )
 };
 
-const Wrapper = styled.label<{ checked: boolean }>`
+const Wrapper = styled.label<{ checked: boolean , color: string | undefined}>`
   display: flex;
   gap: 5px;
+
   .checkbox {
     display: flex;
     align-items: center;
@@ -28,13 +32,13 @@ const Wrapper = styled.label<{ checked: boolean }>`
     height: 22px;
     width: 22px;
     min-width: 22px;
-    border: 1px solid red;
+    border: 1px solid ${({theme, color}) => color ? color : theme.colors.color};
     border-radius: 4px;
     position: relative;
     cursor: pointer;
     transition: .2s;
     &:hover {
-      box-shadow: 0 0 1px 1px red;
+      box-shadow: 0 0 1px 1px ${({theme, color}) => color ? color : theme.colors.color};
     }
   }
   input {
@@ -53,14 +57,14 @@ const Wrapper = styled.label<{ checked: boolean }>`
     transition: .3s;
   }
 
-  ${({checked}) => checked && css`
+  ${({checked}) => checked && css<{color: string | undefined}>`
     svg {
       opacity: 1;
       width: 22px;
       height: 22px;
     }
     .checkbox {
-      background-color: red;
+      background-color:${({theme, color}) => color ? color : theme.colors.color};
     }
   `}
  

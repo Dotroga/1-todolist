@@ -52,7 +52,7 @@ export const Login = () => {
       <h1>Login</h1>
       <SuperInput
         {...formik.getFieldProps("email")}
-        // type='email'
+        type='email'
         error={formik.touched.email && formik.errors.email && formik.errors.email}
         color="#2e384c"
       />
@@ -66,6 +66,11 @@ export const Login = () => {
         Remember me
       </SuperCheckbox>
       <SuperButton title="Login" type="submit" />
+      <div className='test'>
+        <p>Test Email and Password</p>
+        <p>Email: free@samuraijs.com</p>
+        <p>Password: free</p>
+      </div>
     </Form>
   );
 };
@@ -82,4 +87,11 @@ const Form = styled.form`
   flex-direction: column;
   padding: 0 150px 100px 150px;
   gap: 10px;
+  .test {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    margin: 40px 0;
+  }
 `;
