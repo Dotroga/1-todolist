@@ -2,8 +2,7 @@ import React from "react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { Select } from "./Select";
-import {ArrType} from "../../../redux/app.reducer";
-
+import {ArrType} from "redux/app.reducer";
 
 export default {
   title: "Components/Select",

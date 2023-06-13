@@ -1,17 +1,15 @@
 import React, { memo, useEffect } from "react";
-
+import { useAppDispatch, useAppSelector } from "redux/store";
 import { MenuBurger } from "./MenuBurger";
 import styled, {css} from "styled-components";
 import { SideBarIcon } from "./SideBarIcon/SideBarIcon";
 import { AddListButton } from "./AddNewList/AddListButton";
 import { AddListForm } from "./AddNewList/AddListForm/AddListForm";
 import { LogOut } from "./LogOut";
-import {selectIsCollapsedSB} from "../../redux/app.selectors";
-import {SideBarLists} from "./SideBarLists/SideBarlists";
-import {useAppDispatch, useAppSelector} from "../../redux/store";
-import {SwitchThemeButton} from "./SwitchThemeButton";
-import {listsThunks} from "../../redux/lists.reducer";
-
+import {SwitchThemeButton} from "Components/SideBar/SwitchThemeButton";
+import {selectIsCollapsedSB} from "redux/app.selectors";
+import {SideBarLists} from "Components/SideBar/SideBarLists/SideBarlists";
+import {listsThunks} from "redux/lists.reducer";
 
 export const SideBar = memo(() => {
   const dispatch = useAppDispatch();

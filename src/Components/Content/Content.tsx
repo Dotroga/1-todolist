@@ -1,11 +1,10 @@
 import React, {memo} from 'react';
 import {Route, Routes} from "react-router-dom";
 import styled from "styled-components";
-import {useAppSelector} from "../../redux/store";
-import {Login} from "./Login/Login";
-import {selectLists} from "../../redux/lists.selectors";
-import {List} from "./List/List";
-
+import {useAppSelector} from "redux/store";
+import {selectLists} from "redux/lists.selectors";
+import {Login} from "Components/Content/Login/Login";
+import {List} from "Components/Content/List/List";
 
 export const Content = memo(() => {
   const lists = useAppSelector(selectLists);
@@ -13,7 +12,7 @@ export const Content = memo(() => {
       <Routes>
         <Route
           path={"/"}
-          element={lists.map((l) => (
+          element={lists.map((l, i) => (
             <div key={l.id}>
               <List list={l}/>
             </div>

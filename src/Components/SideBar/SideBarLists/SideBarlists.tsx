@@ -1,8 +1,7 @@
 import React, {memo, useCallback} from 'react';
-import {SideBarIcon} from "../SideBarIcon/SideBarIcon";
-import {useAppSelector} from "../../../redux/store";
-import {selectLists} from "../../../redux/lists.selectors";
-
+import {useAppSelector} from "redux/store";
+import {selectLists} from "redux/lists.selectors";
+import {SideBarIcon} from "Components/SideBar/SideBarIcon/SideBarIcon";
 
 export const SideBarLists = memo(() => {
 

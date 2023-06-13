@@ -2,22 +2,20 @@ import React, { ChangeEvent, memo, useCallback } from "react";
 import styled from "styled-components";
 import { SuperButton } from "../../../Super/SuperButton/SuperButton";
 import { Select } from "../../../Super/Select/Select";
-
+import {listsThunks} from "redux/lists.reducer";
 import { useNavigate } from "react-router-dom";
-
+import { useAppDispatch, useAppSelector } from "redux/store";
 import { MaxQuantity } from "../../../Super/MaxQuantity/MaxQuantity";
 import { SuperInput } from "../../../Super/SuperInput/SuperInput";
-import {appActions, ArrType} from "../../../../redux/app.reducer";
 import {
   selectAddListForm,
   selectArrColor,
-  selectIsCollapsedSB, selectIsLoading,
+  selectIsCollapsedSB,
+  selectIsLoading,
   selectIsVisibleALF
-} from "../../../../redux/app.selectors";
-import {useAppDispatch, useAppSelector} from "../../../../redux/store";
-import {selectListsLength} from "../../../../redux/lists.selectors";
-import {listsThunks} from "../../../../redux/lists.reducer";
-
+} from "redux/app.selectors";
+import {selectListsLength} from "redux/lists.selectors";
+import {appActions, ArrType} from "redux/app.reducer";
 
 
 export const AddListForm: React.FC = memo(() => {

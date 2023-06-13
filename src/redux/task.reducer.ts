@@ -1,11 +1,10 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {handleServerAppError, handleServerNetworkError} from "../utils/errorUtils";
-import {taskAPI, TaskRequestType, TaskType} from "../api/taskAPI";
-import {listsActions, listsThunks} from "./lists.reducer";
-import {createAppAsyncThunk} from "../utils/createAppAsyncThunk";
-import {ResultCode} from "../api/listsAPI";
-import {TasksType} from "../Types";
-
+import {handleServerAppError, handleServerNetworkError} from "utils/errorUtils";
+import {createAppAsyncThunk} from "utils/createAppAsyncThunk";
+import {listsActions, listsThunks} from "redux/lists.reducer";
+import {taskAPI, TaskRequestType, TaskType} from "api/taskAPI";
+import {ResultCode} from "api/listsAPI";
+import {TasksType} from "Types";
 
 
 const setTask = createAppAsyncThunk<{ listId: string, tasks: TaskType[] }, string>

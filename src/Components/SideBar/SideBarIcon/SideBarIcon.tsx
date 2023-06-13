@@ -2,11 +2,9 @@ import React, { memo, useCallback, useState } from "react";
 import { StyledNavLink } from "./SideBarIconStyled";
 import { ModalWindow } from "../../Super/ModalWindow/ModalWindow";
 import { ThreeDotsButton } from "../../Super/ThreeDotsButton/ThreeDotsButton";
-
+import {useAppSelector} from "redux/store";
 import {useLocation, useNavigate} from "react-router-dom";
-import {AllListsIcon} from "../AllListsIcon";
-import {useAppSelector} from "../../../redux/store";
-
+import {AllListsIcon} from "Components/SideBar/AllListsIcon";
 
 type SideBarIconsPropsType = {
   listId?: string;
@@ -28,6 +26,7 @@ export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
     setIsOpenOptions(v);
   },[])
   const activeList = decodeURIComponent(location.pathname)
+
   const navigateTo = useCallback(() => {
     const to = !title ?  '/' : `/${title}`
     activeList !== to && navigate(to)
@@ -39,7 +38,7 @@ export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
       isOpenOptions={isOpenOptions}
       visible={isOpen ? "" : null}
       color={color}
-      active={activeList === `/${title ? title : ''}` }
+      active={activeList === `/${title ? title : ''}`}
     >
       {!title ? <AllListsIcon/> : <style></style>}
       <div>{title ? title : 'All lists'}</div>

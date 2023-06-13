@@ -1,15 +1,14 @@
-import React, {memo, useEffect} from "react";
-import {useNavigate} from "react-router-dom";
+import React, { memo, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "redux/store";
+import { SideBar } from "Components/SideBar/SideBar";
+import { useNavigate } from "react-router-dom";
 import styled, {createGlobalStyle, ThemeProvider} from "styled-components";
-import {SpinnerLoader} from "./Components/Super/Loader/SpinerLoader";
-import {useAppDispatch, useAppSelector} from "./redux/store";
-import {ErrorSnackbar} from "./Components/Super/ErrorSnackbar/ErrorSnackbar";
-import {selectIsInitialized, selectIsLoggedIn} from "./redux/auth/auth.selectors";
-import {Content} from "./Components/Content/Content";
-import {selectTheme} from "./redux/app.selectors";
-import {SideBar} from "./Components/SideBar/SideBar";
-import {authThunks} from "./redux/auth/auth.reducer";
-
+import { SpinnerLoader } from "Components/Super/Loader/SpinerLoader";
+import { ErrorSnackbar } from "Components/Super/ErrorSnackbar/ErrorSnackbar";
+import {selectIsInitialized, selectIsLoggedIn} from "redux/auth/auth.selectors";
+import {selectTheme} from "redux/app.selectors";
+import {authThunks} from "redux/auth/auth.reducer";
+import {Content} from "Components/Content/Content";
 
 
 export const App = memo(() => {

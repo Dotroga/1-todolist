@@ -1,13 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-
+import { useAppDispatch } from "redux/store";
+import {listsThunks, ListType} from "redux/lists.reducer";
 import { Tasks } from "./Tasks/Tasks";
 import { AddNewTask } from "./AddNewTask/AddNewTask";
 import { useNavigate } from "react-router-dom";
-import {useAppDispatch} from "../../../redux/store";
-import {listsThunks, ListType} from "../../../redux/lists.reducer";
-import {DeleteButton} from "../../Super/DeleteButton/DeleteButton";
-
+import {DeleteButton} from "Components/Super/DeleteButton/DeleteButton";
 
 export const List: React.FC<{ list: ListType }> = ({ list }) => {
   const dispatch = useAppDispatch();

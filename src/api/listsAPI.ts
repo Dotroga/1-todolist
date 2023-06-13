@@ -1,5 +1,5 @@
-import {instance, ResponseType} from './instanse'
-
+import {ResponseType} from 'api/instanse'
+import {instance} from "api/instanse";
 
 export const listAPI = {
   getLists: () =>

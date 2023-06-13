@@ -1,9 +1,7 @@
 import React from 'react';
-
+import {SuperCheckbox} from "Components/Super/SuperCheckbox/SuperCheckbox";
 import styled from "styled-components";
-import {TaskType} from "../../../../../api/taskAPI";
-import {SuperCheckbox} from "../../../../Super/SuperCheckbox/SuperCheckbox";
-
+import {TaskType} from "api/taskAPI";
 
 type TaskPropsType = {
   id: string,
