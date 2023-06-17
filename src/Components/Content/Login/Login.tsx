@@ -81,12 +81,16 @@ const Form = styled.form`
     padding: 20px;
   }
   height: 100%;
-  min-width: 300px;
+  width: 500px;
+  min-width: 250px;
+  max-width: 100%;
+  padding: 20px;
+  margin: 0 auto;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  padding: 0 150px 100px 150px;
   gap: 10px;
+  box-sizing: border-box;
   .test {
     display: flex;
     flex-direction: column;
@@ -94,4 +98,5 @@ const Form = styled.form`
     gap: 5px;
     margin: 40px 0;
   }
+  overflow: auto;
 `;

@@ -9,7 +9,17 @@ import {createAppAsyncThunk} from "utils/createAppAsyncThunk";
 import {handleServerNetworkError} from "utils/errorUtils";
 import {FilterType} from "Types";
 
-const parse = (title: string) => [title.slice(7), title.substring(0, 7)];
+const parse = (text: string) => {
+  const colorRegex = /#([\da-f]{6})/i;
+  const match = text.match(colorRegex);
+  debugger
+  if (match) {
+    return [text.slice(0,-7),  match[0]]
+  } else {
+    return [text,"#f8ce00"]
+  }
+}
+
 
 const fetchData = () => async (dispatch: ThunkDispatchType) => {
   try {
@@ -32,7 +42,7 @@ const addList = createAppAsyncThunk<{ id: string, title: string }, {navigate: Na
   try {
       if (title !== "") {
         dispatch(appActions.setIsLoadingAddListForm('loading'));
-        const colorAndTitle = color + title
+        const colorAndTitle = title + color
         const res = await listAPI.createList(colorAndTitle)
         dispatch(appActions.setIsLoadingAddListForm('normal' ));
         dispatch(appActions.toggleAddListForm(false));
@@ -60,7 +70,7 @@ const editingList = createAppAsyncThunk<{ listId: string, title: string }, {list
   try {
     if (title  !== "") {
       dispatch(appActions.setIsLoadingAddListForm('loading'));
-      const colorAndTitle = color + title
+      const colorAndTitle = title + color
       await listAPI.updateList(listId, colorAndTitle)
       navigate(title);
       dispatch(appActions.setIsLoadingAddListForm('normal' ));
