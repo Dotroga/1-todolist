@@ -12,7 +12,6 @@ import {FilterType} from "Types";
 const parse = (text: string) => {
   const colorRegex = /#([\da-f]{6})/i;
   const match = text.match(colorRegex);
-  debugger
   if (match) {
     return [text.slice(0,-7),  match[0]]
   } else {

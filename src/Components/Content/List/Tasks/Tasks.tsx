@@ -2,14 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import { useAppSelector } from "redux/store";
 import {Task} from "Components/Content/List/Tasks/Task/Task";
-import {TaskType} from "api/taskAPI";
+import {TaskAppType} from "api/taskAPI";
 
 type TaskPropsType = {
   listId: string;
 };
 
 export const Tasks = (props: TaskPropsType) => {
-  const tasks = useAppSelector<TaskType[]>((state) => state.tasks[props.listId]);
+  const tasks = useAppSelector<TaskAppType[]>((state) => state.tasks[props.listId]);
   return <Wrapper>
     {tasks.length
       ? tasks.map((t, i) =>

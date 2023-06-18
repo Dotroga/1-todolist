@@ -1,12 +1,13 @@
 import {ResponseType} from 'api/instanse'
 import {instance} from "api/instanse";
+import {ArrType} from "redux/app.reducer";
 
 
 export const taskAPI = {
   getTasks: (listId: string) =>
-    instance.get<GetTasksResponse>(`todo-lists/${listId}/tasks`),
+    instance.get<GetTasksResponse<TaskResponseType[]>>(`todo-lists/${listId}/tasks`),
   createTask: (listId: string, task: TaskRequestType) =>
-    instance.post<ResponseType<{ item: TaskType }>>(`todo-lists/${listId}/tasks`, task),
+    instance.post<ResponseType<{ item: TaskResponseType }>>(`todo-lists/${listId}/tasks`, task),
 }
 
 type GetTasksResponse<T = []> = {
@@ -29,7 +30,7 @@ export enum TaskPriorities {
   Later = 4
 }
 
-export type TaskType = {
+export type TaskResponseType = {
   description: string
   title: string
   status: TaskStatuses
@@ -40,7 +41,18 @@ export type TaskType = {
   todoListId: string
   order: number
   addedDate: string
-  completed: boolean
+}
+export type TaskAppType = {
+  description: string
+  title: string
+  status: TaskStatuses
+  priority: ArrType
+  startDate: string | null
+  deadline: string | null
+  id: string
+  todoListId: string
+  order: number
+  addedDate: string
 }
 
 export type TaskRequestType = {

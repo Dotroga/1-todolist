@@ -6,15 +6,15 @@ import {ArrType} from "redux/app.reducer";
 
 
 type SelectPropsType = {
-  title: string;
+  name: string;
   arr: ArrType[];
-  item: ArrType | null
-  callBack?: (item: ArrType) => void;
+  value: ArrType | null
+  onChange?: (item: ArrType) => void;
   icon: React.ComponentType<{color: string}>
 };
 
 export const Select: React.FC<SelectPropsType> = memo((props) => {
-  const { title, arr, item, callBack, icon: IconComponent} = props;
+  const {name, arr, value, onChange, icon: IconComponent} = props;
   const ref = useRef<HTMLDivElement>(null);
   const [visiblePopUp, setVisiblePopUp] = useState(false);
   const changeVisibility = () => setVisiblePopUp(!visiblePopUp);
@@ -22,47 +22,50 @@ export const Select: React.FC<SelectPropsType> = memo((props) => {
   useOutsideClick(ref, setVisiblePopUp, visiblePopUp);
 
   const selectingActive = (i: ArrType) => {
-    callBack!(i);
+    onChange!(i);
     setVisiblePopUp(false);
   };
 
   return (
-    <SelectWrapper ref={ref} visible={visiblePopUp}
+    <SelectWrapper className='select' ref={ref} visible={visiblePopUp}
       onBlur={() => setVisiblePopUp(false)}
-      item={!!item || visiblePopUp}>
+      item={!!value || visiblePopUp}>
       <div className='visible' onClick={changeVisibility}>
-        <Item item={item} icon={IconComponent}/>
-        <div className='title'>{title}</div>
+        <Item value={value} icon={IconComponent}/>
+        <div className='title'>{name}</div>
         <div className='arrow-icon'>
           <span className="left-bar"></span>
           <span className="right-bar"></span>
         </div>
       </div>
       {visiblePopUp &&
-          <Items icon={IconComponent} arr={arr} callBack={selectingActive}/>
+          <Items icon={IconComponent} arr={arr} onChange={selectingActive}/>
       }
     </SelectWrapper>
   );
 });
 
 
-const Items: React.FC<Omit<SelectPropsType, 'title' | 'item'>> = (props) => {
-  const {icon: IconComponent, callBack, arr} = props
+const Items: React.FC<Omit<SelectPropsType, 'name' | 'value'>> = (props) => {
+  const {icon: IconComponent, onChange, arr} = props
   return <div className='popup'>
     {arr.map((i, index) =>
-      <div className='icon'>
-        <Item key={index} item={i} icon={IconComponent} callBack={callBack}/>
+      <div className='icon' key={index}>
+        <Item  value={i} icon={IconComponent} onChange={onChange}/>
       </div>
     )}
   </div>
 }
 
-const Item: React.FC<Omit<SelectPropsType, 'title' | 'arr'>> = (props) => {
-  const {item, icon: IconComponent, callBack} = props
-  return <Wrapper onClick={() => callBack!(item!)}>
-    {item && <>
-        <IconComponent color={item[0]}/>
-        <div className='text'>{item[1]}</div>
+const Item: React.FC<Omit<SelectPropsType, 'name' | 'arr' >> = (props) => {
+  const {value, icon: IconComponent, onChange} = props
+
+  return <Wrapper onClick={() => {
+    onChange!(value!)
+  }}>
+    {value && <>
+        <IconComponent color={value[0]}/>
+        <div className='text'>{value[1]}</div>
     </>}
   </Wrapper>
 }

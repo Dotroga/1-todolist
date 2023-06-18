@@ -52,7 +52,7 @@ export const AddListForm: React.FC = memo(() => {
   return (
     <Wrapper isVisibleAL={isVisibleALF} isOpen={isCollapsedSB}>
       <SuperInput onChange={changeTitle} name={"Title"} value={addListForm.title} error={addListForm.error!}/>
-      <Select icon={ColorItem} title="Color" arr={arrColor} item={addListForm.color} callBack={changeColorHandler}/>
+      <Select icon={ColorItem} name="Color" arr={arrColor} value={addListForm.color} onChange={changeColorHandler}/>
       <div className='buttonContainer'>
         <MaxQuantity maxNum={10} currentNum={length}/>
         <SuperButton title="Cancel" onClick={toggleAddListFormHandler}/>

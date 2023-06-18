@@ -1,18 +1,19 @@
 import React from 'react';
 import {SuperCheckbox} from "Components/Super/SuperCheckbox/SuperCheckbox";
 import styled from "styled-components";
-import {TaskType} from "api/taskAPI";
+import {TaskAppType} from "api/taskAPI";
 
 type TaskPropsType = {
   id: string,
-  task: TaskType
+  task: TaskAppType
 }
 
 export const Task: React.FC<TaskPropsType> = (props) => {
   const {id, task} = props
+  console.log(task.priority[0])
   return (
     <Wrapper>
-      <SuperCheckbox/>
+      <SuperCheckbox color={task.priority[0]}/>
       <div className='oneLine'>
         <p className='title'>{task.title}</p>
         <p className='description'>{task.description}</p>

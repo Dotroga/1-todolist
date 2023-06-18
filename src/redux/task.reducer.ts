@@ -2,32 +2,42 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {handleServerAppError, handleServerNetworkError} from "utils/errorUtils";
 import {createAppAsyncThunk} from "utils/createAppAsyncThunk";
 import {listsActions, listsThunks} from "redux/lists.reducer";
-import {taskAPI, TaskRequestType, TaskType} from "api/taskAPI";
+import {taskAPI, TaskAppType, TaskRequestType} from "api/taskAPI";
 import {ResultCode} from "api/listsAPI";
 import {TasksType} from "Types";
 
 
-const setTask = createAppAsyncThunk<{ listId: string, tasks: TaskType[] }, string>
+const setTask = createAppAsyncThunk<{ listId: string, tasks: TaskAppType[] }, string>
 ('tasks/setTask', async (listId, thunkAPI) => {
-  const {dispatch, rejectWithValue} = thunkAPI
+  const {dispatch, rejectWithValue, getState} = thunkAPI
   try {
     const res = await taskAPI.getTasks(listId)
+    const colorArr = getState().app.prioritiesArr
+    const tasks =  res.data.items.map((i)=>{
+      return {...i, priority: colorArr.filter((p)=> {
+          return p[2] === i.priority
+        })[0]}
+    })
     dispatch(listsActions.setNumberOfTasks({listId, num: res.data.totalCount}));
-    return {listId, tasks: res.data.items}
+    return {listId, tasks: tasks}
   } catch (e) {
     handleServerNetworkError(e, dispatch)
     return rejectWithValue(null)
   }
 })
 
-const addTask = createAppAsyncThunk<{ listId: string, task: TaskType }, {listId: string, task: TaskRequestType, num: number}>
+const addTask = createAppAsyncThunk<{ listId: string, task: TaskAppType }, {listId: string, task: TaskRequestType, num: number}>
 ('tasks/addTask', async ({listId, task, num}, thunkAPI) => {
-  const {dispatch, rejectWithValue} = thunkAPI
+  const {dispatch, rejectWithValue, getState} = thunkAPI
+  const colorArr = getState().app.prioritiesArr
   try {
     const res = await taskAPI.createTask(listId, task)
     if (res.data.resultCode === ResultCode.Success) {
       dispatch(listsActions.setNumberOfTasks({listId, num: num + 1}));
-      return {listId, task: res.data.data.item}
+      const task = {...res.data.data.item,
+        priority: colorArr.filter(i => i[2] === res.data.data.item.priority)[0]
+      }
+      return {listId, task}
     } else {
       handleServerAppError(res.data, dispatch)
       return rejectWithValue(null)
@@ -57,7 +67,6 @@ const slice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(addTask.fulfilled, (state, action) => {
-        debugger
         state[action.payload.listId].unshift(action.payload.task)
       })
       .addCase(setTask.fulfilled, (state, action) => {

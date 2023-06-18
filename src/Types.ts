@@ -1,4 +1,4 @@
-import {TaskType} from "api/taskAPI";
+import {TaskAppType} from "api/taskAPI";
 
 export type ListColorType = { color: string; listId: string };
 
@@ -18,4 +18,4 @@ export type ListThunkType = {
 
 export type FilterType = "All" | "Active" | "Completed";
 
-export type TasksType = { [key: string]: TaskType[] };
+export type TasksType = { [key: string]: TaskAppType[] };

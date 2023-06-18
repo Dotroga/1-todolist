@@ -1,13 +1,16 @@
 import React, {useEffect, useRef, useState} from "react";
 import styled from "styled-components";
-import { useAppDispatch } from "redux/store";
-import { useFormik } from "formik";
+import {useAppDispatch, useAppSelector} from "redux/store";
+import {useFormik} from "formik";
 import { AddTaskButton } from "../AddTaskButton/AddTaskButton";
 import {taskThunk} from "redux/task.reducer";
 import {useOutsideClick} from "utils/useOutsideClick";
 import {SuperButton} from "Components/Super/SuperButton/SuperButton";
 import {SuperInput} from "Components/Super/SuperInput/SuperInput";
-import {Priority} from "Components/Super/Priority/Priority";
+import {ArrType} from "redux/app.reducer";
+import {Select} from "Components/Super/Select/Select";
+import {selectPrioritiesArr} from "redux/app.selectors";
+import {PriorityIcon} from "Components/Content/List/AddNewTask/PriorityIcon";
 
 type AddNewTaskType = {
   listId: string;
@@ -22,6 +25,7 @@ type FormType = {
 export const AddNewTask = (props: AddNewTaskType) => {
   const dispatch = useAppDispatch();
   const ref = useRef<HTMLDivElement>(null);
+  const prioritiesArr = useAppSelector(selectPrioritiesArr)
   const [isOpen, setIsOpen] = useState(false);
   const openForm = () => setIsOpen(true)
   const closeForm = () => {
@@ -33,6 +37,7 @@ export const AddNewTask = (props: AddNewTaskType) => {
     initialValues: {
       taskName: "",
       description: "",
+      priority: null as ArrType | null,
       visibleForm: false,
     },
     validate: (values) => {
@@ -41,9 +46,11 @@ export const AddNewTask = (props: AddNewTaskType) => {
       return errors;
     },
     onSubmit: (values) => {
+      debugger
       const task = {
         title: values.taskName,
-        description: values.description
+        description: values.description,
+        priority: values.priority ? values.priority[2] : 0
       }
       dispatch(taskThunk.addTask({listId: props.listId, task, num:props.numberOfTasks}));
       formik.resetForm();
@@ -62,7 +69,10 @@ export const AddNewTask = (props: AddNewTaskType) => {
               error={formik.touched.taskName && formik.errors.taskName && formik.errors.taskName} />
             <SuperInput {...formik.getFieldProps("description")} error={""} required={false}/>
             <div className="button-container">
-              <Priority item={null}/>
+              <Select arr={prioritiesArr} icon={PriorityIcon} name="Priority"
+                onChange={(value: ArrType) => formik.setFieldValue('priority', value)}
+                value={formik.values.priority}
+               />
               <SuperButton title="Cancel" onClick={closeForm} />
               <SuperButton title="Add Task" type="submit" />
             </div>
@@ -100,6 +110,9 @@ const Wrapper = styled.div<{isOpen: boolean}>`
   }
 
   .button-container {
+    .select {
+      width: 180px;
+    }
     justify-content: end;
     display: flex;
     align-items: center;
