@@ -8,6 +8,8 @@ export const taskAPI = {
     instance.get<GetTasksResponse<TaskResponseType[]>>(`todo-lists/${listId}/tasks`),
   createTask: (listId: string, task: TaskRequestType) =>
     instance.post<ResponseType<{ item: TaskResponseType }>>(`todo-lists/${listId}/tasks`, task),
+  changeTask: (listId: string, todoId: string, task: TaskRequestType) =>
+    instance.put<ResponseType<{ item : TaskResponseType }>>(`/todo-lists/${listId}/tasks/${todoId}`, task)
 }
 
 type GetTasksResponse<T = []> = {
@@ -56,7 +58,7 @@ export type TaskAppType = {
 }
 
 export type TaskRequestType = {
-  title: string
+  title?: string
   description?: string
   completed?: boolean
   status?: TaskStatuses
