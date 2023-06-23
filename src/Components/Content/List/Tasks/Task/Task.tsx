@@ -13,15 +13,15 @@ type TaskPropsType = {
 export const Task: React.FC<TaskPropsType> = (props) => {
   const {id, task} = props
   const dispatch = useAppDispatch()
-  const editStatus = () => dispatch(taskThunk.editTaskStatus({...task, status: 2}))
-
+  const editStatus = () => dispatch(taskThunk.editTaskStatus(task))
+  console.log(task.status)
   return (
     <Wrapper>
       <SuperCheckbox checked={task.status === 2} onChange={editStatus} color={task.priority[0]}/>
       <div className='oneLine'>
         <p className='title'>{task.title}</p>
         <p className='description'>{task.description}</p>
-        <div>date completed</div>
+        <div>date</div>
       </div>
     </Wrapper>
   );

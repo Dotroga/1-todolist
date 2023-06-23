@@ -52,10 +52,11 @@ const editTaskStatus = createAppAsyncThunk<TaskAppType, TaskAppType>
 ('tasks/editTask', async (task, thunkAPI) => {
   const {dispatch, rejectWithValue} = thunkAPI
   const {todoListId, id, status ,title, priority} = task
-  const res = await taskAPI.editTask(todoListId, id, {status, title, priority: priority[2]})
+  const newStatus = status === 0 ? 2 : 0
+  const res = await taskAPI.editTask(todoListId, id, {status: newStatus, title, priority: priority[2]})
   try {
     if (res.data.resultCode === ResultCode.Success) {
-        return task
+        return {...task, status : newStatus}
     } else {
       handleServerAppError(res.data, dispatch)
       return rejectWithValue(null)
