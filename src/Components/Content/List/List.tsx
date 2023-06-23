@@ -1,21 +1,28 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
-import { useAppDispatch } from "redux/store";
-import {listsThunks, ListType} from "redux/lists.reducer";
+import {ListType} from "redux/lists.reducer";
 import { Tasks } from "./Tasks/Tasks";
 import { AddNewTask } from "./AddNewTask/AddNewTask";
-import { useNavigate } from "react-router-dom";
-import {DeleteButton} from "Components/Super/DeleteButton/DeleteButton";
 
-export const List: React.FC<{ list: ListType }> = ({ list }) => {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const deleteList = () => dispatch(listsThunks.removeList(list.id, navigate));
+import {AdditionalOptionsLists} from "Components/Super/AdditionalOptionsList/AdditionalOptionsLists";
+
+export const List: React.FC<{ list: ListType , index: number}> = ({ list, index }) => {
+  const [isOpen, setIsOpen] = useState(false)
+  const changeOpened = () => setIsOpen(prevState => !prevState)
   return (
     <Wrapper>
-      <ListTitle color={list.color!}>
+      <ListTitle color={list.color!} isOpen={isOpen}>
         {list.title}
-        <DeleteButton callBack={deleteList} />
+        <AdditionalOptionsLists
+          listId={list.id}
+          opened={changeOpened}
+          isOpen={isOpen}
+          title={list.title}
+          color={list.color!}
+          index={index}
+          onCloses={changeOpened}
+          isLoading={undefined}
+          />
       </ListTitle>
       <Tasks listId={list.id} />
       <AddNewTask listId={list.id} numberOfTasks={list.numberOfTasks} />
@@ -27,12 +34,24 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 20px;
+ 
 `;
 
-const ListTitle = styled.div<{ color: string }>`
+const ListTitle = styled.div<{ color: string, isOpen: boolean}>`
   display: flex;
   align-items: center;
   color: ${({ color }) => color};
   font-size: 40px;
   margin: 0 70px;
+  .AdditionalOptions{
+    margin: 0 20px;
+  }
+  .AdditionalOptions, .threePoints {
+    display: ${({isOpen})=> isOpen ? 'flex' : 'none'};
+  }
+  &:hover {
+    .AdditionalOptions, .threePoints {
+      display: flex;
+    }
+  }
 `;

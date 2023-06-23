@@ -21,11 +21,17 @@ export const StyledNavLink = styled.div<PropsType>`
     margin-left: auto;
     margin-right: 10px;
   }
+  .AdditionalOptions{
+    margin-left: auto;
+  }
+  .AdditionalOptions, .threePoints {
+    display: ${({isOpenOptions})=> isOpenOptions ? 'flex' : 'none'};
+  }
   &:hover {
     .number {
       display: none;
     }
-    .AdditionalOptions {
+    .AdditionalOptions, .threePoints{
       display: ${({visible}) => visible == "" ? 'flex' : 'none'};
     }
   }
@@ -37,25 +43,7 @@ ${({active}) => active && css`
   &:hover {
     background-color: ${({theme})=>theme.colors.topColor};
   }
-  .AdditionalOptions {
-    display: ${({isOpenOptions})=> isOpenOptions ? 'flex' : 'none'};
-    margin-left: auto;
-    align-items: center;
-    justify-content: center;
-    width: 30px;
-    color: #979ea6;
-   
-    .threePoints {
-      display: ${({isOpenOptions})=> isOpenOptions ? 'flex' : 'none'};
-      opacity: 0.5;
-      transition: 0.3s;
-      &:hover {
-        opacity: 1;
-        transform: scale(1.2);
-      }
-    }
-  }
-
+  
   ${({ visible }) =>
     visible != "" &&
     css`

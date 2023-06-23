@@ -1,10 +1,9 @@
 import React, { memo, useCallback, useState } from "react";
 import { StyledNavLink } from "./SideBarIconStyled";
-import { ModalWindow } from "../../Super/ModalWindow/ModalWindow";
-import { ThreeDotsButton } from "../../Super/ThreeDotsButton/ThreeDotsButton";
 import {useAppSelector} from "redux/store";
 import {useLocation, useNavigate} from "react-router-dom";
 import {AllListsIcon} from "Components/SideBar/AllListsIcon";
+import {AdditionalOptionsLists} from "Components/Super/AdditionalOptionsList/AdditionalOptionsLists";
 
 type SideBarIconsPropsType = {
   listId?: string;
@@ -16,21 +15,21 @@ type SideBarIconsPropsType = {
 };
 
 export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
-  const { listId,  title, color, numberOfTasks, isLoading, index} = props;
+  const {listId, title, color, numberOfTasks, isLoading, index} = props;
   const navigate = useNavigate()
   const location = useLocation();
   const [isOpenOptions, setIsOpenOptions] = useState(false);
   const isOpen = useAppSelector<boolean>((state) => state.app.isCollapsedSB);
-  const opened = useCallback(() => setIsOpenOptions(!isOpenOptions),[])
+  const opened = useCallback(() => setIsOpenOptions(!isOpenOptions), [])
   const closed = useCallback((v: boolean) => {
     setIsOpenOptions(v);
-  },[])
+  }, [])
   const activeList = decodeURIComponent(location.pathname)
 
   const navigateTo = useCallback(() => {
-    const to = !title ?  '/' : `/${title}`
+    const to = !title ? '/' : `/${title}`
     activeList !== to && navigate(to)
-  },[activeList])
+  }, [activeList])
 
   return (
     <StyledNavLink
@@ -43,19 +42,16 @@ export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
       {!title ? <AllListsIcon/> : <style></style>}
       <div>{title ? title : 'All lists'}</div>
       {numberOfTasks! > 0 && <span className="number">{numberOfTasks}</span>}
-      {title && (
-        <div className="AdditionalOptions">
-          <ThreeDotsButton onClick={opened} isOpen={isOpenOptions}/>
-          <ModalWindow
-            title={title}
-            color={color!}
-            index={index!}
-            listId={listId}
-            isOpen={isOpenOptions}
-            onCloses={closed}
-            isLoading={isLoading}
-          />
-        </div>
+      {title && (<AdditionalOptionsLists
+          title={title}
+          opened={opened}
+          color={color!}
+          index={index!}
+          listId={listId!}
+          isOpen={isOpenOptions}
+          onCloses={closed}
+          isLoading={isLoading}
+        />
       )}
     </StyledNavLink>
   );

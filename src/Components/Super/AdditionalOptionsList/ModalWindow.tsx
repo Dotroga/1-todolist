@@ -7,7 +7,7 @@ import {appActions} from "redux/app.reducer";
 import {useOutsideClick} from "utils/useOutsideClick";
 
 type PropsType = {
-  listId?: string | undefined;
+  listId: string
   title: string;
   color: string;
   index: number

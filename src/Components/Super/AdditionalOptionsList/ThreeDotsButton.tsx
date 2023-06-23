@@ -2,12 +2,12 @@ import React from "react";
 import styled, {css} from "styled-components";
 
 type PropsType = {
-  onClick: () => void
+  opened: () => void
   isOpen: boolean
 };
 export const ThreeDotsButton: React.FC<PropsType> = (props) => {
   return (
-    <Button onClick={props.onClick} isOpen={props.isOpen}>
+    <Button onClick={props.opened} isOpen={props.isOpen} className='threePoints'>
       <span></span>
       <span></span>
       <span></span>
