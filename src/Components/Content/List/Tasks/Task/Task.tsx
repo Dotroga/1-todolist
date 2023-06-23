@@ -2,6 +2,8 @@ import React from 'react';
 import {SuperCheckbox} from "Components/Super/SuperCheckbox/SuperCheckbox";
 import styled from "styled-components";
 import {TaskAppType} from "api/taskAPI";
+import {useAppDispatch} from "redux/store";
+import {taskThunk} from "redux/task.reducer";
 
 type TaskPropsType = {
   id: string,
@@ -10,10 +12,12 @@ type TaskPropsType = {
 
 export const Task: React.FC<TaskPropsType> = (props) => {
   const {id, task} = props
-  console.log(task.priority[0])
+  const dispatch = useAppDispatch()
+  const editStatus = () => dispatch(taskThunk.editTaskStatus({...task, status: 2}))
+
   return (
     <Wrapper>
-      <SuperCheckbox color={task.priority[0]}/>
+      <SuperCheckbox checked={task.status === 2} onChange={editStatus} color={task.priority[0]}/>
       <div className='oneLine'>
         <p className='title'>{task.title}</p>
         <p className='description'>{task.description}</p>

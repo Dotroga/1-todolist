@@ -48,6 +48,24 @@ const addTask = createAppAsyncThunk<{ listId: string, task: TaskAppType }, {list
   }
 })
 
+const editTaskStatus = createAppAsyncThunk<TaskAppType, TaskAppType>
+('tasks/editTask', async (task, thunkAPI) => {
+  const {dispatch, rejectWithValue} = thunkAPI
+  const {todoListId, id, status ,title, priority} = task
+  const res = await taskAPI.editTask(todoListId, id, {status, title, priority: priority[2]})
+  try {
+    if (res.data.resultCode === ResultCode.Success) {
+        return task
+    } else {
+      handleServerAppError(res.data, dispatch)
+      return rejectWithValue(null)
+    }
+  } catch (e) {
+    handleServerNetworkError(e, dispatch)
+    return rejectWithValue(null)
+  }
+})
+
 const slice = createSlice({
   name: 'tasks',
   initialState: {} as TasksType,
@@ -72,6 +90,14 @@ const slice = createSlice({
       .addCase(setTask.fulfilled, (state, action) => {
         state[action.payload.listId] = action.payload.tasks
       })
+      .addCase(editTaskStatus.fulfilled, (state, action)=> {
+        const index = state[action.payload.todoListId].findIndex((t) => t.id === action.payload.id);
+        state[action.payload.todoListId] = [
+          ...state[action.payload.todoListId].slice(0,index),
+          action.payload,
+          ...state[action.payload.todoListId].slice(index + 1)
+        ]
+      })
       .addCase(listsActions.setLists, (state, action) => {
         action.payload.lists.forEach((l) => state[l.id] = [])
       })
@@ -86,7 +112,7 @@ const slice = createSlice({
 })
 export const tasks = slice.reducer
 export const tasksActions = slice.actions
-export const taskThunk = {setTask, addTask}
+export const taskThunk = {setTask, addTask, editTaskStatus}
 
 
 // const d = new Date()
