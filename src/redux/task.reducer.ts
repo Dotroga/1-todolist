@@ -13,10 +13,12 @@ const setTask = createAppAsyncThunk<{ listId: string, tasks: TaskAppType[] }, st
   try {
     const res = await taskAPI.getTasks(listId)
     const colorArr = getState().app.prioritiesArr
-    const tasks =  res.data.items.map((i)=>{
-      return {...i, priority: colorArr.filter((p)=> {
+    const tasks = res.data.items.map((i) => {
+      return {
+        ...i, priority: colorArr.filter((p) => {
           return p[2] === i.priority
-        })[0]}
+        })[0]
+      }
     })
     dispatch(listsActions.setNumberOfTasks({listId, num: res.data.totalCount}));
     return {listId, tasks: tasks}
@@ -26,18 +28,19 @@ const setTask = createAppAsyncThunk<{ listId: string, tasks: TaskAppType[] }, st
   }
 })
 
-const addTask = createAppAsyncThunk<{ listId: string, task: TaskAppType }, {listId: string, task: TaskRequestType, num: number}>
+const addTask = createAppAsyncThunk<TaskAppType, { listId: string, task: TaskRequestType, num: number }>
 ('tasks/addTask', async ({listId, task, num}, thunkAPI) => {
   const {dispatch, rejectWithValue, getState} = thunkAPI
   const colorArr = getState().app.prioritiesArr
   try {
-    const res = await taskAPI.createTask(listId, task)
+    const startDate = `${date.getFullYear()} ${date.getMonth() + 1} ${date.getDate()} ${date.toTimeString().slice(0, 8)}`
+    const res = await taskAPI.createTask(listId, {...task, startDate})
     if (res.data.resultCode === ResultCode.Success) {
       dispatch(listsActions.setNumberOfTasks({listId, num: num + 1}));
-      const task = {...res.data.data.item,
+      return {
+        ...res.data.data.item,
         priority: colorArr.filter(i => i[2] === res.data.data.item.priority)[0]
       }
-      return {listId, task}
     } else {
       handleServerAppError(res.data, dispatch)
       return rejectWithValue(null)
@@ -51,12 +54,12 @@ const addTask = createAppAsyncThunk<{ listId: string, task: TaskAppType }, {list
 const editTaskStatus = createAppAsyncThunk<TaskAppType, TaskAppType>
 ('tasks/editTask', async (task, thunkAPI) => {
   const {dispatch, rejectWithValue} = thunkAPI
-  const {todoListId, id, status ,title, priority} = task
+  const {todoListId, id, status, title, priority} = task
   const newStatus = status === 0 ? 2 : 0
   const res = await taskAPI.editTask(todoListId, id, {status: newStatus, title, priority: priority[2]})
   try {
     if (res.data.resultCode === ResultCode.Success) {
-        return {...task, status : newStatus}
+      return {...task, status: newStatus}
     } else {
       handleServerAppError(res.data, dispatch)
       return rejectWithValue(null)
@@ -86,15 +89,15 @@ const slice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(addTask.fulfilled, (state, action) => {
-        state[action.payload.listId].unshift(action.payload.task)
+        state[action.payload.todoListId].unshift(action.payload)
       })
       .addCase(setTask.fulfilled, (state, action) => {
         state[action.payload.listId] = action.payload.tasks
       })
-      .addCase(editTaskStatus.fulfilled, (state, action)=> {
+      .addCase(editTaskStatus.fulfilled, (state, action) => {
         const index = state[action.payload.todoListId].findIndex((t) => t.id === action.payload.id);
         state[action.payload.todoListId] = [
-          ...state[action.payload.todoListId].slice(0,index),
+          ...state[action.payload.todoListId].slice(0, index),
           action.payload,
           ...state[action.payload.todoListId].slice(index + 1)
         ]
@@ -116,9 +119,8 @@ export const tasksActions = slice.actions
 export const taskThunk = {setTask, addTask, editTaskStatus}
 
 
-// const d = new Date()
-// const monthNames = ["January", "February", "March", "April", "May", "June",
-//   "July", "August", "September", "October", "November", "December"]
-// const startDate = `${d.getMonth() + 1} ${monthNames[d.getMonth()]} ${d.toTimeString().slice(0,5)}`
-// let task: TaskType = {description: '', id: v1(), title: action.title, completed: false, startDate,
-//   status: '', priority: '', deadline: '', todoListId: '', order: 1, addedDate: ''};
+const date = new Date()
+const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"]
+const startDate = `${date.getMonth() + 1} ${monthNames[date.getMonth()]} ${date.toTimeString().slice(0, 5)}`
+

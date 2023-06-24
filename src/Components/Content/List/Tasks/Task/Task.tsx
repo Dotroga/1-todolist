@@ -6,15 +6,14 @@ import {useAppDispatch} from "redux/store";
 import {taskThunk} from "redux/task.reducer";
 
 type TaskPropsType = {
-  id: string,
   task: TaskAppType
 }
 
 export const Task: React.FC<TaskPropsType> = (props) => {
-  const {id, task} = props
+  const {task} = props
   const dispatch = useAppDispatch()
   const editStatus = () => dispatch(taskThunk.editTaskStatus(task))
-  console.log(task.status)
+
   return (
     <Wrapper>
       <SuperCheckbox checked={task.status === 2} onChange={editStatus} color={task.priority[0]}/>

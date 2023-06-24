@@ -46,7 +46,6 @@ export const AddNewTask = (props: AddNewTaskType) => {
       return errors;
     },
     onSubmit: (values) => {
-      debugger
       const task = {
         title: values.taskName,
         description: values.description,
