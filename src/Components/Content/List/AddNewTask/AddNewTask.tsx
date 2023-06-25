@@ -11,6 +11,7 @@ import {ArrType} from "redux/app.reducer";
 import {Select} from "Components/Super/Select/Select";
 import {selectPrioritiesArr} from "redux/app.selectors";
 import {PriorityIcon} from "Components/Content/List/AddNewTask/PriorityIcon";
+import {DateTask} from "Components/Content/List/AddNewTask/DateTask";
 
 type AddNewTaskType = {
   listId: string;
@@ -66,14 +67,20 @@ export const AddNewTask = (props: AddNewTaskType) => {
             <SuperInput
               {...formik.getFieldProps("taskName")}
               error={formik.touched.taskName && formik.errors.taskName && formik.errors.taskName} />
+
             <SuperInput {...formik.getFieldProps("description")} error={""} required={false}/>
-            <div className="button-container">
-              <Select arr={prioritiesArr} icon={PriorityIcon} name="Priority"
-                onChange={(value: ArrType) => formik.setFieldValue('priority', value)}
-                value={formik.values.priority}
-               />
-              <SuperButton title="Cancel" onClick={closeForm} />
-              <SuperButton title="Add Task" type="submit" />
+            <div className="container">
+              <div className="options">
+                <DateTask/>
+                <Select arr={prioritiesArr} icon={PriorityIcon} name="Priority"
+                        onChange={(value: ArrType) => formik.setFieldValue('priority', value)}
+                        value={formik.values.priority}
+                />
+              </div>
+              <div className="buttons">
+                <SuperButton title="Cancel" onClick={closeForm} />
+                <SuperButton title="Add Task" type="submit" />
+              </div>
             </div>
           </div>
         </Wrapper>
@@ -107,11 +114,21 @@ const Wrapper = styled.div<{isOpen: boolean}>`
     z-index: 3;
     background-color: ${({theme}) => theme.colors.topColor};
   }
-
-  .button-container {
+  .container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  };
+  .options {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
     .select {
       width: 180px;
     }
+  }
+
+  .buttons {
     justify-content: end;
     display: flex;
     align-items: center;
