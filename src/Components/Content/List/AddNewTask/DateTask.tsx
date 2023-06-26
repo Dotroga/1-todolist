@@ -2,25 +2,29 @@ import React, {useState} from 'react';
 import {Calendar} from "Components/Super/Calendar/Calendar";
 import styled, {css} from "styled-components";
 
-export const DateTask = () => {
+type PropsType = {
+  value: Date | undefined
+  onChange: (value: Date) => void
+}
+
+export const DateTask:React.FC<PropsType> = ({value, onChange}) => {
   const [isOpen, setIsOpen] = useState(false)
-  const [selectedDate, setSelectedDay] = useState<Date | string>('Date')
   const opened = () => setIsOpen(!isOpen)
-  const onChange = (date: Date) => {
-    setSelectedDay(date)
+  const handler = (date: Date) => {
+    onChange(date)
     setIsOpen(false)
   }
   return (
     <Wrapper
-      blackout={selectedDate instanceof Date}
+      blackout={value instanceof Date}
       isOpen={isOpen}
     >
       {isOpen && <Calendar
-          selectedDate={selectedDate instanceof Date ? selectedDate : new Date()}
-          selectDate={onChange}
+          selectedDate={value instanceof Date ? value : new Date()}
+          selectDate={handler}
       />}
       <span onClick={opened}>
-        {selectedDate instanceof Date ? selectedDate.toLocaleDateString() : selectedDate}
+        {value instanceof Date ? value.toLocaleDateString() : 'Date'}
       </span>
     </Wrapper>
   );

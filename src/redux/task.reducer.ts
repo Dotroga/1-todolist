@@ -5,6 +5,7 @@ import {listsActions, listsThunks} from "redux/lists.reducer";
 import {taskAPI, TaskAppType, TaskRequestType} from "api/taskAPI";
 import {ResultCode} from "api/listsAPI";
 import {TasksType} from "Types";
+import {makeAppDate} from "utils/makeAppDate";
 
 
 const setTask = createAppAsyncThunk<{ listId: string, tasks: TaskAppType[] }, string>
@@ -14,8 +15,11 @@ const setTask = createAppAsyncThunk<{ listId: string, tasks: TaskAppType[] }, st
     const res = await taskAPI.getTasks(listId)
     const colorArr = getState().app.prioritiesArr
     const tasks = res.data.items.map((i) => {
+
       return {
-        ...i, priority: colorArr.filter((p) => {
+        ...i,
+        deadline: makeAppDate(i.deadline),
+        priority: colorArr.filter((p) => {
           return p[2] === i.priority
         })[0]
       }
@@ -33,13 +37,15 @@ const addTask = createAppAsyncThunk<TaskAppType, { listId: string, task: TaskReq
   const {dispatch, rejectWithValue, getState} = thunkAPI
   const colorArr = getState().app.prioritiesArr
   try {
-    const startDate = `${date.getFullYear()} ${date.getMonth() + 1} ${date.getDate()} ${date.toTimeString().slice(0, 8)}`
-    const res = await taskAPI.createTask(listId, {...task, startDate})
+    const date = new Date
+    const res = await taskAPI.createTask(listId, {...task, startDate: date.toISOString()})
     if (res.data.resultCode === ResultCode.Success) {
       dispatch(listsActions.setNumberOfTasks({listId, num: num + 1}));
+
       return {
         ...res.data.data.item,
-        priority: colorArr.filter(i => i[2] === res.data.data.item.priority)[0]
+        priority: colorArr.filter(i => i[2] === res.data.data.item.priority)[0],
+        deadline: makeAppDate(res.data.data.item.deadline)
       }
     } else {
       handleServerAppError(res.data, dispatch)
@@ -119,8 +125,8 @@ export const tasksActions = slice.actions
 export const taskThunk = {setTask, addTask, editTaskStatus}
 
 
-const date = new Date()
-const monthNames = ["January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"]
-const startDate = `${date.getMonth() + 1} ${monthNames[date.getMonth()]} ${date.toTimeString().slice(0, 5)}`
+//
+// const monthNames = ["January", "February", "March", "April", "May", "June",
+//   "July", "August", "September", "October", "November", "December"]
+// const startDate = `${date.getMonth() + 1} ${monthNames[date.getMonth()]} ${date.toTimeString().slice(0, 5)}`
 

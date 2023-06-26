@@ -20,7 +20,7 @@ export const Task: React.FC<TaskPropsType> = (props) => {
       <div className='oneLine'>
         <p className='title'>{task.title}</p>
         <p className='description'>{task.description}</p>
-        <div>date</div>
+        <div>{task.deadline}</div>
       </div>
     </Wrapper>
   );

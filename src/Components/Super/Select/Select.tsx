@@ -51,7 +51,7 @@ const Items: React.FC<Omit<SelectPropsType, 'name' | 'value'>> = (props) => {
   return <div className='popup'>
     {arr.map((i, index) =>
       <div className='icon' key={index}>
-        <Item  value={i} icon={IconComponent} onChange={onChange}/>
+        <Item value={i} icon={IconComponent} onChange={onChange}/>
       </div>
     )}
   </div>
@@ -59,10 +59,8 @@ const Items: React.FC<Omit<SelectPropsType, 'name' | 'value'>> = (props) => {
 
 const Item: React.FC<Omit<SelectPropsType, 'name' | 'arr' >> = (props) => {
   const {value, icon: IconComponent, onChange} = props
-
-  return <Wrapper onClick={() => {
-    onChange!(value!)
-  }}>
+  const handler = () => onChange && onChange(value!)
+  return <Wrapper onClick={handler}>
     {value && <>
         <IconComponent color={value[0]}/>
         <div className='text'>{value[1]}</div>

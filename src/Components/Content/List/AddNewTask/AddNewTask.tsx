@@ -39,6 +39,7 @@ export const AddNewTask = (props: AddNewTaskType) => {
       taskName: "",
       description: "",
       priority: null as ArrType | null,
+      deadline: undefined as Date | undefined ,
       visibleForm: false,
     },
     validate: (values) => {
@@ -50,7 +51,8 @@ export const AddNewTask = (props: AddNewTaskType) => {
       const task = {
         title: values.taskName,
         description: values.description,
-        priority: values.priority ? values.priority[2] : 0
+        priority: values.priority ? values.priority[2] : 0,
+        deadline: values.deadline && values.deadline.toISOString()
       }
       dispatch(taskThunk.addTask({listId: props.listId, task, num:props.numberOfTasks}));
       formik.resetForm();
@@ -71,7 +73,10 @@ export const AddNewTask = (props: AddNewTaskType) => {
             <SuperInput {...formik.getFieldProps("description")} error={""} required={false}/>
             <div className="container">
               <div className="options">
-                <DateTask/>
+                <DateTask
+                  value={formik.values.deadline}
+                  onChange={(value: Date) => formik.setFieldValue('deadline', value)}
+                />
                 <Select arr={prioritiesArr} icon={PriorityIcon} name="Priority"
                         onChange={(value: ArrType) => formik.setFieldValue('priority', value)}
                         value={formik.values.priority}
