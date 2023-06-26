@@ -6,6 +6,7 @@ export interface ITheme {
     bg: string,
     mainBackground: string
     font: string,
+    secondFont: string,
     color: string,
     topColor: string,
     shadow: string
@@ -17,6 +18,7 @@ export const baseTheme: DefaultTheme = {
   colors: {
     bg: '#2e384c',
     font: '#cacdd2',
+    secondFont: '#7b828e',
     mainBackground: '#232d41',
     color: "#fbbd49",
     topColor: '#414c6a',
@@ -32,6 +34,7 @@ export const lightTheme: DefaultTheme  = {
     mainBackground: '#bab2de',
     bg: '#e8ecf5',
     font: '#4e465a',
+    secondFont: '#7b828e',
     color: "#8a49fb",
     topColor: '#ffffff',
     shadow: '#bdc6d0',

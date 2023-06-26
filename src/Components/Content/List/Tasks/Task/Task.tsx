@@ -20,7 +20,7 @@ export const Task: React.FC<TaskPropsType> = (props) => {
       <div className='oneLine'>
         <p className='title'>{task.title}</p>
         <p className='description'>{task.description}</p>
-        <div>{task.deadline}</div>
+        <div className='deadline'>{task.deadline?.date}</div>
       </div>
     </Wrapper>
   );
@@ -30,15 +30,24 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   gap: 5px;
+  .oneLine {
+    width: 100%;
+  }
 
   .title {
     font-size: 20px;
   }
-
   .description {
     font-style: oblique;
     font-size: 16px;
-    color: rgba(111, 111, 111, 0.72);
+    color: ${({theme}) => theme.colors.secondFont};
+    overflow-wrap: break-word;
+  }
+  
+  .deadline {
+    font-size: 15px;
+    float: right;
+    margin: 0 30px;
   }
 `
 

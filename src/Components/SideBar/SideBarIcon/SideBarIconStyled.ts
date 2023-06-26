@@ -20,6 +20,7 @@ export const StyledNavLink = styled.div<PropsType>`
     position: relative;
     margin-left: auto;
     margin-right: 10px;
+    color: ${({theme}) => theme.colors.secondFont};
   }
   .AdditionalOptions{
     margin-left: auto;

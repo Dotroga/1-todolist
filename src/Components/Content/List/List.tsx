@@ -12,7 +12,7 @@ export const List: React.FC<{ list: ListType , index: number}> = ({ list, index 
   return (
     <Wrapper>
       <ListTitle color={list.color!} isOpen={isOpen}>
-        {list.title}
+        <div className='listTitle'>{list.title}</div>
         <AdditionalOptionsLists
           listId={list.id}
           opened={changeOpened}
@@ -41,11 +41,12 @@ const ListTitle = styled.div<{ color: string, isOpen: boolean}>`
   display: flex;
   align-items: center;
   color: ${({ color }) => color};
-  font-size: 40px;
-  margin: 0 70px;
-  .AdditionalOptions{
-    margin: 0 20px;
+  .listTitle {
+    font-size: 40px;
+    padding-left: 70px;
+    padding-right: 20px;
   }
+  
   .AdditionalOptions, .threePoints {
     display: ${({isOpen})=> isOpen ? 'flex' : 'none'};
   }

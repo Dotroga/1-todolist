@@ -1,6 +1,7 @@
 import {ResponseType} from 'api/instanse'
 import {instance} from "api/instanse";
 import {ArrType} from "redux/app.reducer";
+import {createDate} from "Components/Super/Calendar/utils";
 
 
 export const taskAPI = {
@@ -49,8 +50,8 @@ export type TaskAppType = {
   title: string
   status: TaskStatuses
   priority: ArrType
-  startDate: string | undefined
-  deadline: string | undefined
+  startDate: AppDate | undefined
+  deadline: AppDate | undefined
   id: string
   todoListId: string
   order: number
@@ -74,3 +75,9 @@ export type UpdateTaskModelType = {
   startDate: string
   deadline: string
 }
+
+export type AppDate = {
+  date: string
+  timestamp: number
+}
+

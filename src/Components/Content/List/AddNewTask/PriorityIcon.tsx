@@ -11,6 +11,6 @@ export const PriorityIcon = (props:{color: string}) => {
 
 const SVG = styled.svg`
     fill: ${({color})=>color};
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
 `

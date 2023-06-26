@@ -60,7 +60,7 @@ const Items: React.FC<Omit<SelectPropsType, 'name' | 'value'>> = (props) => {
 const Item: React.FC<Omit<SelectPropsType, 'name' | 'arr' >> = (props) => {
   const {value, icon: IconComponent, onChange} = props
   const handler = () => onChange && onChange(value!)
-  return <Wrapper onClick={handler}>
+  return <Wrapper className='iconSelect' onClick={handler}>
     {value && <>
         <IconComponent color={value[0]}/>
         <div className='text'>{value[1]}</div>

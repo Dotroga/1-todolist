@@ -15,9 +15,9 @@ const setTask = createAppAsyncThunk<{ listId: string, tasks: TaskAppType[] }, st
     const res = await taskAPI.getTasks(listId)
     const colorArr = getState().app.prioritiesArr
     const tasks = res.data.items.map((i) => {
-
       return {
         ...i,
+        startDate: makeAppDate(i.startDate),
         deadline: makeAppDate(i.deadline),
         priority: colorArr.filter((p) => {
           return p[2] === i.priority
@@ -41,11 +41,12 @@ const addTask = createAppAsyncThunk<TaskAppType, { listId: string, task: TaskReq
     const res = await taskAPI.createTask(listId, {...task, startDate: date.toISOString()})
     if (res.data.resultCode === ResultCode.Success) {
       dispatch(listsActions.setNumberOfTasks({listId, num: num + 1}));
-
+      const task = res.data.data.item
       return {
-        ...res.data.data.item,
-        priority: colorArr.filter(i => i[2] === res.data.data.item.priority)[0],
-        deadline: makeAppDate(res.data.data.item.deadline)
+        ...task,
+        priority: colorArr.filter(i => i[2] === task.priority)[0],
+        startDate: makeAppDate(task.startDate),
+        deadline: makeAppDate(task.deadline)
       }
     } else {
       handleServerAppError(res.data, dispatch)

@@ -112,6 +112,11 @@ export const SelectWrapper = styled.div<SelectStyledType>`
               `}
     }
   }
+  .iconSelect {
+    ${({item}) => item && css`
+      padding: 0 10px;
+    `}
+  }
   .popup {
     background-color: ${({theme}) => theme.colors.topColor};
     padding: 4px 0;

@@ -1,8 +1,12 @@
 import {createDate} from "Components/Super/Calendar/utils";
+import {AppDate} from "api/taskAPI";
 
-export const makeAppDate = (date: string | undefined) => {
+export const makeAppDate = (date: string | undefined): AppDate | undefined => {
   if (date) {
     const d = createDate({date: new  Date(date)})
-    return `${d.dayNumber} ${d.month} ${d.year} ${d.day}`
+    return {
+      date: `${d.day} ${d.dayNumber} ${d.month}`,
+      timestamp: d.timestamp
+    }
   }
 }

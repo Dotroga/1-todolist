@@ -11,4 +11,6 @@ export const MaxQuantity = memo((props: MaxQuantityPropsType) => {
   return <Wrapper>{`${currentNum} / ${maxNum}`}</Wrapper>;
 })
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  color: ${({theme}) => theme.colors.secondFont};
+`;
