@@ -2,7 +2,6 @@ import React, {useEffect, useRef} from "react";
 import styled from "styled-components";
 import {useAppDispatch, useAppSelector} from "redux/store";
 import {useFormik} from "formik";
-import { AddTaskButton } from "../AddTaskButton/AddTaskButton";
 import {taskThunk} from "redux/task.reducer";
 import {useOutsideClick} from "utils/useOutsideClick";
 import {SuperButton} from "Components/Super/SuperButton/SuperButton";
@@ -18,10 +17,11 @@ type AddNewTaskType = {
   listId: string
   numberOfTasks: number
   task?: TaskAppType
+  onClose: () => void
+  isOpen: boolean
 };
 
 type FormType = {
-  isOpen: boolean,
   taskName: string
   description: string
   priority: ArrType | null,
@@ -30,18 +30,17 @@ type FormType = {
 }
 
 export const AddNewTask = (props: AddNewTaskType) => {
-  const {listId, numberOfTasks, task} = props
+  const {listId, numberOfTasks, task, isOpen,  onClose} = props
+  const {title, deadline, description, priority, id, todoListId} = task ?? {}
   const dispatch = useAppDispatch();
   const ref = useRef<HTMLDivElement>(null);
   const prioritiesArr = useAppSelector(selectPrioritiesArr)
   const formik = useFormik({
     initialValues:  {
-      isOpen: false,
-      taskName: "",
-      description: "",
-      priority: null,
-      deadline: undefined,
-      visibleForm: false,
+      taskName: title ?? "",
+      description: description ?? "",
+      priority: priority ?? null,
+      deadline: deadline && new Date(deadline.timestamp)
     } as FormType,
     validate: (values) => {
       let errors: Partial<FormType> = {}
@@ -62,21 +61,19 @@ export const AddNewTask = (props: AddNewTaskType) => {
   });
   const {values, errors, setFieldValue, resetForm, getFieldProps} = formik
 
-  const openForm = () => setFieldValue('isOpen', true)
-
   const closeForm = () => {
     setFieldValue('isOpen',  false)
     resetForm();
+    onClose()
   };
 
-  useOutsideClick(ref, closeForm, values.isOpen);
+  useOutsideClick(ref, closeForm, isOpen);
   useEffect(()=>{return () => closeForm()},[listId])
 
   return (
     <form onSubmit={formik.handleSubmit}>
-        <AddTaskButton onClick={openForm} />
-      {values.isOpen && (
-        <Wrapper isOpen={values.isOpen} >
+      {isOpen && (
+        <Wrapper isOpen={isOpen} >
           <div ref={ref} className='addTask'>
             <SuperInput
               {...getFieldProps("taskName")}

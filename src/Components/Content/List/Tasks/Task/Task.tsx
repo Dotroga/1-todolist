@@ -4,6 +4,7 @@ import styled from "styled-components";
 import {TaskAppType} from "api/taskAPI";
 import {useAppDispatch} from "redux/store";
 import {taskThunk} from "redux/task.reducer";
+import {AdditionalOptionsTask} from "Components/Super/AdditionalOptions/AdditionalOptionsTask";
 
 type TaskPropsType = {
   task: TaskAppType
@@ -22,6 +23,7 @@ export const Task: React.FC<TaskPropsType> = (props) => {
         <p className='description'>{task.description}</p>
         <div className='deadline'>{task.deadline?.date}</div>
       </div>
+      <AdditionalOptionsTask {...props}/>
     </Wrapper>
   );
 };

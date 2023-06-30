@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from "styled-components";
-import {ThreeDotsButton} from "Components/Super/AdditionalOptionsList/ThreeDotsButton";
-import {ModalWindow} from "Components/Super/AdditionalOptionsList/ModalWindow";
+import {ThreeDotsButton} from "Components/Super/AdditionalOptions/ThreeDotsButton";
+import {ModalWindow} from "Components/Super/AdditionalOptions/ModalWindow";
 import {appActions} from "redux/app.reducer";
 import {listsThunks} from "redux/lists.reducer";
 import {useAppDispatch, useAppSelector} from "redux/store";

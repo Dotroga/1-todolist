@@ -3,7 +3,7 @@ import { StyledNavLink } from "./SideBarIconStyled";
 import {useAppSelector} from "redux/store";
 import {useLocation, useNavigate} from "react-router-dom";
 import {AllListsIcon} from "Components/SideBar/AllListsIcon";
-import {AdditionalOptionsLists} from "Components/Super/AdditionalOptionsList/AdditionalOptionsLists";
+import {AdditionalOptionsLists} from "Components/Super/AdditionalOptions/AdditionalOptionsLists";
 
 type SideBarIconsPropsType = {
   listId?: string;

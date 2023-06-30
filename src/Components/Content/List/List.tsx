@@ -4,10 +4,14 @@ import {ListType} from "redux/lists.reducer";
 import { Tasks } from "./Tasks/Tasks";
 import { AddNewTask } from "./AddNewTask/AddNewTask";
 
-import {AdditionalOptionsLists} from "Components/Super/AdditionalOptionsList/AdditionalOptionsLists";
+import {AdditionalOptionsLists} from "Components/Super/AdditionalOptions/AdditionalOptionsLists";
+import {AddTaskButton} from "Components/Content/List/AddTaskButton/AddTaskButton";
 
 export const List: React.FC<{ list: ListType , index: number}> = ({ list, index }) => {
   const [isOpen, setIsOpen] = useState(false)
+  const [isOpenAddFrom, setOpenAddFrom] = useState(false)
+  const openAddFrom = () => setOpenAddFrom(true)
+  const closeAddFrom = () => setOpenAddFrom(false)
   const changeOpened = () => setIsOpen(prevState => !prevState)
   return (
     <Wrapper>
@@ -25,7 +29,13 @@ export const List: React.FC<{ list: ListType , index: number}> = ({ list, index 
           />
       </ListTitle>
       <Tasks listId={list.id} />
-      <AddNewTask listId={list.id} numberOfTasks={list.numberOfTasks} />
+      <AddTaskButton onClick={openAddFrom} />
+      {isOpenAddFrom &&
+        <AddNewTask onClose={closeAddFrom}
+                    isOpen={isOpenAddFrom}
+                    listId={list.id}
+                    numberOfTasks={list.numberOfTasks} />
+      }
     </Wrapper>
   );
 };
