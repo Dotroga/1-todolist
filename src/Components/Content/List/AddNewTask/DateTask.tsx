@@ -19,10 +19,12 @@ export const DateTask:React.FC<PropsType> = ({value, onChange}) => {
       blackout={value instanceof Date}
       isOpen={isOpen}
     >
-      {isOpen && <Calendar
-          selectedDate={value instanceof Date ? value : new Date()}
-          selectDate={handler}
-      />}
+      {isOpen && <div>
+          <Calendar
+              selectedDate={value instanceof Date ? value : new Date()}
+              selectDate={handler}
+          />
+      </div>}
       <span onClick={opened}>
         {value instanceof Date ? value.toLocaleDateString() : 'Date'}
       </span>

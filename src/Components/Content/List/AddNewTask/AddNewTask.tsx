@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef} from "react";
 import styled from "styled-components";
 import {useAppDispatch, useAppSelector} from "redux/store";
 import {useFormik} from "formik";
@@ -12,36 +12,37 @@ import {Select} from "Components/Super/Select/Select";
 import {selectPrioritiesArr} from "redux/app.selectors";
 import {PriorityIcon} from "Components/Content/List/AddNewTask/PriorityIcon";
 import {DateTask} from "Components/Content/List/AddNewTask/DateTask";
+import {TaskAppType} from "api/taskAPI";
 
 type AddNewTaskType = {
-  listId: string;
+  listId: string
   numberOfTasks: number
+  task?: TaskAppType
 };
 
 type FormType = {
+  isOpen: boolean,
   taskName: string
   description: string
+  priority: ArrType | null,
+  deadline: Date | undefined
+  visibleForm: boolean
 }
 
 export const AddNewTask = (props: AddNewTaskType) => {
+  const {listId, numberOfTasks, task} = props
   const dispatch = useAppDispatch();
   const ref = useRef<HTMLDivElement>(null);
   const prioritiesArr = useAppSelector(selectPrioritiesArr)
-  const [isOpen, setIsOpen] = useState(false);
-  const openForm = () => setIsOpen(true)
-  const closeForm = () => {
-    setIsOpen(false);
-    formik.resetForm();
-  };
-  useOutsideClick(ref, setIsOpen, isOpen);
   const formik = useFormik({
-    initialValues: {
+    initialValues:  {
+      isOpen: false,
       taskName: "",
       description: "",
-      priority: null as ArrType | null,
-      deadline: undefined as Date | undefined ,
+      priority: null,
+      deadline: undefined,
       visibleForm: false,
-    },
+    } as FormType,
     validate: (values) => {
       let errors: Partial<FormType> = {}
       if (!values.taskName) errors.taskName = "Task name required"
@@ -54,32 +55,43 @@ export const AddNewTask = (props: AddNewTaskType) => {
         priority: values.priority ? values.priority[2] : 0,
         deadline: values.deadline && values.deadline.toISOString()
       }
-      dispatch(taskThunk.addTask({listId: props.listId, task, num:props.numberOfTasks}));
+      dispatch(taskThunk.addTask({listId, task, num: numberOfTasks}));
       formik.resetForm();
       closeForm()
     },
   });
-  useEffect(()=>{return ()=> closeForm()},[props.listId])
+  const {values, errors, setFieldValue, resetForm, getFieldProps} = formik
+
+  const openForm = () => setFieldValue('isOpen', true)
+
+  const closeForm = () => {
+    setFieldValue('isOpen',  false)
+    resetForm();
+  };
+
+  useOutsideClick(ref, closeForm, values.isOpen);
+  useEffect(()=>{return () => closeForm()},[listId])
+
   return (
     <form onSubmit={formik.handleSubmit}>
         <AddTaskButton onClick={openForm} />
-      {isOpen && (
-        <Wrapper isOpen={isOpen} >
+      {values.isOpen && (
+        <Wrapper isOpen={values.isOpen} >
           <div ref={ref} className='addTask'>
             <SuperInput
-              {...formik.getFieldProps("taskName")}
-              error={formik.touched.taskName && formik.errors.taskName && formik.errors.taskName} />
+              {...getFieldProps("taskName")}
+              error={formik.touched.taskName && errors.taskName && errors.taskName} />
 
-            <SuperInput {...formik.getFieldProps("description")} error={""} required={false}/>
+            <SuperInput {...getFieldProps("description")} error={""} required={false}/>
             <div className="container">
               <div className="options">
                 <DateTask
-                  value={formik.values.deadline}
-                  onChange={(value: Date) => formik.setFieldValue('deadline', value)}
+                  value={values.deadline}
+                  onChange={(value: Date) => setFieldValue('deadline', value)}
                 />
                 <Select arr={prioritiesArr} icon={PriorityIcon} name="Priority"
-                        onChange={(value: ArrType) => formik.setFieldValue('priority', value)}
-                        value={formik.values.priority}
+                        onChange={(value: ArrType) => setFieldValue('priority', value)}
+                        value={values.priority}
                 />
               </div>
               <div className="buttons">

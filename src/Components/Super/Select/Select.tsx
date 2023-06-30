@@ -19,7 +19,7 @@ export const Select: React.FC<SelectPropsType> = memo((props) => {
   const [visiblePopUp, setVisiblePopUp] = useState(false);
   const changeVisibility = () => setVisiblePopUp(!visiblePopUp);
 
-  useOutsideClick(ref, setVisiblePopUp, visiblePopUp);
+  useOutsideClick(ref, changeVisibility, visiblePopUp);
 
   const selectingActive = (i: ArrType) => {
     onChange!(i);

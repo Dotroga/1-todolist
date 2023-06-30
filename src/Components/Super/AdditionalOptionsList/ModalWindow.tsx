@@ -23,8 +23,10 @@ export const ModalWindow: React.FC<PropsType> = memo((props) => {
   const navigate = useNavigate();
   const lists = useAppSelector((state)=>state.lists)
   const ref = useRef<HTMLDivElement>(null);
+  const closeHandler = () => onCloses(false)
 
-  useOutsideClick(ref, onCloses, isOpen);
+
+  useOutsideClick(ref, closeHandler, isOpen);
 
   const editingModeList = () => {
     dispatch(appActions.toggleAddListForm(true));
