@@ -61,11 +61,15 @@ export const AdditionalOptionsLists:React.FC<PropsType> = (props) => {
 };
 const Wrapper = styled.div<{isOpen: boolean}>`
   display: none;
+  position: relative;
     align-items: center;
     justify-content: center;
     width: 30px;
     color: #979ea6;
-
+  .modal {
+    float: bottom;
+    left: 60px;
+  }
   .threePoints {
     display: ${({isOpen})=> isOpen ? 'flex' : 'none'};
     opacity: 0.5;

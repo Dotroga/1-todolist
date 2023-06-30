@@ -14,7 +14,7 @@ export const Tasks = (props: TaskPropsType) => {
     {tasks.length
       ? tasks.map((t, i) =>
         <div key={t.id}>
-          <Task task={t}/>
+          <Task task={t} index={i}/>
           {i !== tasks.length - 1 && <hr/>}
         </div>
      )

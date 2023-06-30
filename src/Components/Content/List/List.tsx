@@ -58,6 +58,7 @@ const ListTitle = styled.div<{ color: string, isOpen: boolean}>`
   }
   
   .AdditionalOptions, .threePoints {
+    z-index: 10;
     display: ${({isOpen})=> isOpen ? 'flex' : 'none'};
   }
   &:hover {

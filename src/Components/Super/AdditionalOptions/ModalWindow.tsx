@@ -22,7 +22,7 @@ export const ModalWindow: React.FC<PropsType> = memo((props) => {
   useOutsideClick(ref, close, isOpen);
 
   return (
-    <Wrapper ref={ref}>
+    <Wrapper className='modal' ref={ref}>
       <div className={`options ${isOpen ? "active" : "inActive"}`}>
         <button onClick={editing} disabled={isLoading!}>
           <svg viewBox="0 0 24 24" >
@@ -63,8 +63,7 @@ export const ModalWindow: React.FC<PropsType> = memo((props) => {
 
 const Wrapper = styled.div`
   position: absolute;
-  z-index: 99;
-  margin-left: 13em;
+  z-index: 10;
   .options {
     background-color: ${({theme})=>theme.colors.bg};
     box-shadow: 0 0 15px 1px ${({theme})=>theme.colors.shadow};
@@ -74,6 +73,7 @@ const Wrapper = styled.div`
     gap: 2px;
     padding: 6px;
     top: -5px;
+    white-space: nowrap;
     button {
       border: none;
       display: flex;

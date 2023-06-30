@@ -22,6 +22,7 @@ const initialState = {
     description: null,
     error: null,
   },
+  taskLoading: false,
   arrColor: [
     ["#b7256e", "Berry Red" ],
     ["#d93f35", "Red" ],

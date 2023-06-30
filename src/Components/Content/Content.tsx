@@ -19,7 +19,7 @@ export const Content = memo(() => {
           ))}
         />
         {lists.map((l, i) => (
-          <Route key={l.id} path={`/${l.title}`} element={<List list={l} index={i}/>}/>
+            <Route key={l.id} path={`/${l.title}`} element={<List list={l} index={i}/>}/>
         ))}
         <Route path="/login" element={<Login/>}/>
         <Route path="*" element={<h1>404</h1>}/>

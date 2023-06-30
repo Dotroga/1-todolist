@@ -5,32 +5,50 @@ import {useAppSelector} from "redux/store";
 import {selectTaskLength} from "redux/task.selector";
 import {ThreeDotsButton} from "Components/Super/AdditionalOptions/ThreeDotsButton";
 import {ModalWindow} from "Components/Super/AdditionalOptions/ModalWindow";
+import {selectTasksIsLoading} from "redux/app.selectors";
+import styled from "styled-components";
 
 
 type PropsType = {
   task: TaskAppType
+  index: number
+  isOpen: boolean
+  opened: () => void
+  closes: () => void
 }
 
 export const AdditionalOptionsTask: React.FC<PropsType> = (props) => {
-  const  {task} = props
-  const [isOpen, setOpen] = useState(false)
+  const  {task, index, isOpen, opened, closes} = props
   const [isOpenEditTask, setEditTask] = useState(false)
-  const opened = () => setOpen(true)
+  const isLoading = useAppSelector(selectTasksIsLoading)
   const length = useAppSelector(selectTaskLength(task.todoListId))
+  const editing = () => {
+    closes()
+    setEditTask(true)
+  }
+  const remove = () => {
+
+  }
+  const reorderDown = () => {
+
+  }
+  const reorderUp = () => {
+
+  }
   return (
-    <div>
+    <Wrapper className='AdditionalOptions' isOpen={isOpen}>
       <ThreeDotsButton opened={opened} isOpen={isOpen}/>
-      {/*<ModalWindow*/}
-      {/*  isOpen={isOpen}*/}
-      {/*  close={onCloses}*/}
-      {/*  index={index}*/}
-      {/*  length={length}*/}
-      {/*  isLoading={isLoading}*/}
-      {/*  editing={editing}*/}
-      {/*  remove={remove}*/}
-      {/*  reorderDown={reorderDown}*/}
-      {/*  reorderUp={reorderUp}*/}
-      {/*/>*/}
+      <ModalWindow
+        isOpen={isOpen}
+        close={closes}
+        index={index}
+        length={length}
+        isLoading={isLoading}
+        editing={editing}
+        remove={remove}
+        reorderDown={reorderDown}
+        reorderUp={reorderUp}
+      />
       {isOpenEditTask &&
         <AddNewTask
             isOpen={isOpenEditTask}
@@ -39,7 +57,18 @@ export const AdditionalOptionsTask: React.FC<PropsType> = (props) => {
             numberOfTasks={length}
             onClose={()=>setEditTask(false)}/>
       }
-    </div>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.div<{isOpen: boolean}>`
+  display: flex;
+  align-items: center;
+  position: relative;
+  .modal {
+    z-index: 99;
+    right: 40px;
+    position: absolute;
+  }
+`
 

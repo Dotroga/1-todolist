@@ -77,6 +77,7 @@ const editTaskStatus = createAppAsyncThunk<TaskAppType, TaskAppType>
   }
 })
 
+
 const slice = createSlice({
   name: 'tasks',
   initialState: {} as TasksType,
@@ -84,13 +85,6 @@ const slice = createSlice({
     removeTask(state, action: PayloadAction<{ listId: string, id: string }>) {
       const index = state[action.payload.listId].findIndex((t) => t.id === action.payload.listId);
       index !== -1 && state[action.payload.listId].splice(index, 1)
-    },
-    changeTaskStatus(state, action: PayloadAction<{ listId: string, id: string, isDone: boolean }>) {
-      const task = state[action.payload.listId].find((t) => t.id === action.payload.id)
-      // task!.status = action.payload.isDone
-    },
-    renameTask(state, action: PayloadAction<{ listId: string, id: string, title: string }>) {
-
     },
   },
   extraReducers: builder => {
