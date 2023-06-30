@@ -2,6 +2,11 @@ import React from 'react';
 import styled from "styled-components";
 import {ThreeDotsButton} from "Components/Super/AdditionalOptionsList/ThreeDotsButton";
 import {ModalWindow} from "Components/Super/AdditionalOptionsList/ModalWindow";
+import {appActions} from "redux/app.reducer";
+import {listsThunks} from "redux/lists.reducer";
+import {useAppDispatch, useAppSelector} from "redux/store";
+import {useNavigate} from "react-router-dom";
+import {selectLists, selectListsLength} from "redux/lists.selectors";
 
 type  PropsType = {
   opened: () => void
@@ -10,15 +15,47 @@ type  PropsType = {
   title: string;
   color: string;
   index: number
-  onCloses: (v: boolean) => void;
+  onCloses: () => void;
   isLoading: boolean | undefined;
 }
 
-export const AdditionalOptionsLists:React.FC<PropsType> = ({opened, ...restProps}) => {
+export const AdditionalOptionsLists:React.FC<PropsType> = (props) => {
+  const {opened, listId, title, color, isOpen, onCloses, isLoading, index} = props
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const lists = useAppSelector(selectLists)
+  const length = useAppSelector(selectListsLength)
+  const editing = () => {
+    dispatch(appActions.toggleAddListForm(true));
+    dispatch(appActions.changeTitleNewList(title));
+    dispatch(appActions.changeColor(color));
+    dispatch(appActions.changeModeAddList({listId: listId!, mode:false}));
+    onCloses();
+  };
+  const remove = () => {
+    dispatch(listsThunks.removeList(listId!, navigate));
+    onCloses();
+  };
+  const reorderUp = () => {
+    dispatch(listsThunks.reorderList(listId!, lists, 'up'))
+  };
+  const reorderDown = () => {
+    dispatch(listsThunks.reorderList(listId!, lists, 'down'))
+  };
   return (
-    <Wrapper className='AdditionalOptions'  isOpen={restProps.isOpen}>
-        <ThreeDotsButton opened={opened} isOpen={restProps.isOpen}/>
-        <ModalWindow{...restProps}/>
+    <Wrapper className='AdditionalOptions'  isOpen={isOpen}>
+        <ThreeDotsButton opened={opened} isOpen={isOpen}/>
+        <ModalWindow
+          isOpen={isOpen}
+          close={onCloses}
+          index={index}
+          length={length}
+          isLoading={isLoading}
+          editing={editing}
+          remove={remove}
+          reorderDown={reorderDown}
+          reorderUp={reorderUp}
+        />
     </Wrapper>
   );
 };

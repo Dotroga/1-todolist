@@ -21,9 +21,7 @@ export const SideBarIcon: React.FC<SideBarIconsPropsType> = memo((props) => {
   const [isOpenOptions, setIsOpenOptions] = useState(false);
   const isOpen = useAppSelector<boolean>((state) => state.app.isCollapsedSB);
   const opened = useCallback(() => setIsOpenOptions(!isOpenOptions), [])
-  const closed = useCallback((v: boolean) => {
-    setIsOpenOptions(v);
-  }, [])
+  const closed = useCallback(() => setIsOpenOptions(false), [])
   const activeList = decodeURIComponent(location.pathname)
 
   const navigateTo = useCallback(() => {
