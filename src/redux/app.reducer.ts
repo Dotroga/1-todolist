@@ -64,8 +64,8 @@ const slice = createSlice({
         ? state.theme = lightTheme
         : state.theme = baseTheme
     },
-    toggleSideBar(state) {
-      state.isCollapsedSB = !state.isCollapsedSB
+    toggleSideBar(state, action: PayloadAction<boolean>) {
+      state.isCollapsedSB = action.payload
       state.isVisibleALF = false
     },
     toggleAddListForm(state, action: PayloadAction<boolean>) {

@@ -1,7 +1,6 @@
 import {ResponseType} from 'api/instanse'
 import {instance} from "api/instanse";
 import {ArrType} from "redux/app.reducer";
-import {createDate} from "Components/Super/Calendar/utils";
 
 
 export const taskAPI = {
@@ -9,8 +8,10 @@ export const taskAPI = {
     instance.get<GetTasksResponse<TaskResponseType[]>>(`todo-lists/${listId}/tasks`),
   createTask: (listId: string, task: TaskRequestType) =>
     instance.post<ResponseType<{ item: TaskResponseType }>>(`todo-lists/${listId}/tasks`, task),
-  editTask: (listId: string, todoId: string, task: TaskRequestType) =>
-    instance.put<ResponseType<{ item : TaskResponseType }>>(`/todo-lists/${listId}/tasks/${todoId}`, task)
+  editTask: (listId: string, taskId: string, task: TaskRequestType) =>
+    instance.put<ResponseType<{ item : TaskResponseType }>>(`/todo-lists/${listId}/tasks/${taskId}`, task),
+  removeTask: (listId: string, taskId: string) =>
+    instance.delete<ResponseType>(`/todo-lists/${listId}/tasks/${taskId}`)
 }
 
 type GetTasksResponse<T = []> = {
@@ -56,6 +57,7 @@ export type TaskAppType = {
   todoListId: string
   order: number
   addedDate: string
+  loading: boolean
 }
 
 export type TaskRequestType = {

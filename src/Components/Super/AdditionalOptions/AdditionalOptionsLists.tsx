@@ -26,6 +26,7 @@ export const AdditionalOptionsLists:React.FC<PropsType> = (props) => {
   const lists = useAppSelector(selectLists)
   const length = useAppSelector(selectListsLength)
   const editing = () => {
+    dispatch(appActions.toggleSideBar(true))
     dispatch(appActions.toggleAddListForm(true));
     dispatch(appActions.changeTitleNewList(title));
     dispatch(appActions.changeColor(color));

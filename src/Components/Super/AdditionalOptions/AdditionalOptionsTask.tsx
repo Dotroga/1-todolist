@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
 import {TaskAppType} from "api/taskAPI";
 import {AddNewTask} from "Components/Content/List/AddNewTask/AddNewTask";
-import {useAppSelector} from "redux/store";
+import {useAppDispatch, useAppSelector} from "redux/store";
 import {selectTaskLength} from "redux/task.selector";
 import {ThreeDotsButton} from "Components/Super/AdditionalOptions/ThreeDotsButton";
 import {ModalWindow} from "Components/Super/AdditionalOptions/ModalWindow";
 import {selectTasksIsLoading} from "redux/app.selectors";
 import styled from "styled-components";
+import {taskThunk} from "redux/task.reducer";
 
 
 type PropsType = {
@@ -18,7 +19,8 @@ type PropsType = {
 }
 
 export const AdditionalOptionsTask: React.FC<PropsType> = (props) => {
-  const  {task, index, isOpen, opened, closes} = props
+  const {task, index, isOpen, opened, closes} = props
+  const dispatch = useAppDispatch()
   const [isOpenEditTask, setEditTask] = useState(false)
   const isLoading = useAppSelector(selectTasksIsLoading)
   const length = useAppSelector(selectTaskLength(task.todoListId))
@@ -27,7 +29,8 @@ export const AdditionalOptionsTask: React.FC<PropsType> = (props) => {
     setEditTask(true)
   }
   const remove = () => {
-
+    closes()
+    dispatch(taskThunk.removeTask({todoListId: task.todoListId, id: task.id}))
   }
   const reorderDown = () => {
 

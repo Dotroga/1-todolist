@@ -66,6 +66,7 @@ const editingList = createAppAsyncThunk<{ listId: string, title: string }, {list
   const state = getState()
   const color = state.app.addListForm.color ? state.app.addListForm.color[0] : state.app.arrColor[3][0];
   const title = state.app.addListForm.title.trim();
+  debugger
   try {
     if (title  !== "") {
       dispatch(appActions.setIsLoadingAddListForm('loading'));

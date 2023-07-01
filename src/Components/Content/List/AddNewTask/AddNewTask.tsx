@@ -8,12 +8,13 @@ import {SuperButton} from "Components/Super/SuperButton/SuperButton";
 import {SuperInput} from "Components/Super/SuperInput/SuperInput";
 import {ArrType} from "redux/app.reducer";
 import {Select} from "Components/Super/Select/Select";
-import {selectPrioritiesArr} from "redux/app.selectors";
+import {selectPrioritiesArr, selectTasksIsLoading} from "redux/app.selectors";
 import {PriorityIcon} from "Components/Content/List/AddNewTask/PriorityIcon";
 import {DateTask} from "Components/Content/List/AddNewTask/DateTask";
 import {TaskAppType} from "api/taskAPI";
+import {handleServerNetworkError} from "utils/errorUtils";
 
-type AddNewTaskType = {
+type AddNewTaskPropsType = {
   listId: string
   numberOfTasks: number
   task?: TaskAppType
@@ -29,12 +30,13 @@ type FormType = {
   visibleForm: boolean
 }
 
-export const AddNewTask = (props: AddNewTaskType) => {
+export const AddNewTask = (props: AddNewTaskPropsType) => {
   const {listId, numberOfTasks, task, isOpen,  onClose} = props
-  const {title, deadline, description, priority, id, todoListId} = task ?? {}
+  const {title, deadline, description, priority} = task ?? {}
   const dispatch = useAppDispatch();
   const ref = useRef<HTMLDivElement>(null);
   const prioritiesArr = useAppSelector(selectPrioritiesArr)
+  const loading = useAppSelector(selectTasksIsLoading)
   const formik = useFormik({
     initialValues:  {
       taskName: title ?? "",
@@ -47,25 +49,31 @@ export const AddNewTask = (props: AddNewTaskType) => {
       if (!values.taskName) errors.taskName = "Task name required"
       return errors;
     },
-    onSubmit: (values) => {
-      const task = {
+    onSubmit: async (values) => {
+      const newTask = {
         title: values.taskName,
         description: values.description,
         priority: values.priority ? values.priority[2] : 0,
         deadline: values.deadline && values.deadline.toISOString()
       }
-      dispatch(taskThunk.addTask({listId, task, num: numberOfTasks}));
-      formik.resetForm();
-      closeForm()
+      try {
+        debugger
+        task
+          ? await dispatch(taskThunk.editTask({task, newTask}))
+          : await dispatch(taskThunk.addTask({listId, task: newTask, num: numberOfTasks}))
+        closeForm()
+      }  catch (e) {
+        handleServerNetworkError(e, dispatch)
+    }
     },
   });
   const {values, errors, setFieldValue, resetForm, getFieldProps} = formik
 
-  const closeForm = () => {
-    setFieldValue('isOpen',  false)
+  const closeForm =  () => {
     resetForm();
     onClose()
   };
+  const disabled = task ? task.loading : loading
 
   useOutsideClick(ref, closeForm, isOpen);
   useEffect(()=>{return () => closeForm()},[listId])
@@ -77,8 +85,8 @@ export const AddNewTask = (props: AddNewTaskType) => {
           <div ref={ref} className='addTask'>
             <SuperInput
               {...getFieldProps("taskName")}
-              error={formik.touched.taskName && errors.taskName && errors.taskName} />
-
+              error={formik.touched.taskName && errors.taskName && errors.taskName}
+            />
             <SuperInput {...getFieldProps("description")} error={""} required={false}/>
             <div className="container">
               <div className="options">
@@ -92,8 +100,13 @@ export const AddNewTask = (props: AddNewTaskType) => {
                 />
               </div>
               <div className="buttons">
-                <SuperButton title="Cancel" onClick={closeForm} />
-                <SuperButton title="Add Task" type="submit" />
+                <SuperButton title="Cancel" type="reset" onClick={closeForm} disabled={disabled}/>
+                <SuperButton
+                  title={task ? 'Save' : 'Add Task'}
+                  type="submit"
+                  disabled={disabled}
+                  loading={disabled ? 'loading' : 'normal'}
+                />
               </div>
             </div>
           </div>

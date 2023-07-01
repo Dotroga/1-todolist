@@ -19,6 +19,7 @@ const setTask = createAppAsyncThunk<{ listId: string, tasks: TaskAppType[] }, st
         ...i,
         startDate: makeAppDate(i.startDate),
         deadline: makeAppDate(i.deadline),
+        loading: false,
         priority: colorArr.filter((p) => {
           return p[2] === i.priority
         })[0]
@@ -46,6 +47,7 @@ const addTask = createAppAsyncThunk<TaskAppType, { listId: string, task: TaskReq
         ...task,
         priority: colorArr.filter(i => i[2] === task.priority)[0],
         startDate: makeAppDate(task.startDate),
+        loading: false,
         deadline: makeAppDate(task.deadline)
       }
     } else {
@@ -58,15 +60,15 @@ const addTask = createAppAsyncThunk<TaskAppType, { listId: string, task: TaskReq
   }
 })
 
-const editTaskStatus = createAppAsyncThunk<TaskAppType, TaskAppType>
-('tasks/editTask', async (task, thunkAPI) => {
+const editTaskStatus = createAppAsyncThunk<void, TaskAppType>
+('tasks/editStatus', async (task, thunkAPI) => {
   const {dispatch, rejectWithValue} = thunkAPI
   const {todoListId, id, status, title, priority} = task
   const newStatus = status === 0 ? 2 : 0
   const res = await taskAPI.editTask(todoListId, id, {status: newStatus, title, priority: priority[2]})
   try {
     if (res.data.resultCode === ResultCode.Success) {
-      return {...task, status: newStatus}
+      dispatch(tasksActions.editTask({...task, status: newStatus}))
     } else {
       handleServerAppError(res.data, dispatch)
       return rejectWithValue(null)
@@ -77,15 +79,74 @@ const editTaskStatus = createAppAsyncThunk<TaskAppType, TaskAppType>
   }
 })
 
+const editTask = createAppAsyncThunk<void, {task: TaskAppType, newTask: TaskRequestType}>
+('tasks/edit', async ({task, newTask}, thunkAPI) => {
+  const {dispatch, rejectWithValue, getState} = thunkAPI
+  const {todoListId, id} = task
+  dispatch(tasksActions.setLoading({todoListId, id, value: true}))
+  const res = await taskAPI.editTask(task.todoListId, task.id, newTask)
+  try {
+    if (res.data.resultCode === ResultCode.Success) {
+      const {title, description, priority, deadline} = res.data.data.item
+      const colorArr = getState().app.prioritiesArr
+      const newTask: TaskAppType = {...task,
+        title,
+        description,
+        priority: colorArr.filter(i => i[2] === priority)[0],
+        deadline: makeAppDate(deadline),
+        loading: false
+      }
+      dispatch(tasksActions.editTask(newTask))
+    } else {
+      handleServerAppError(res.data, dispatch)
+      dispatch(tasksActions.setLoading({todoListId, id, value: false}))
+      return rejectWithValue(null)
+    }
+  } catch (e) {
+    dispatch(tasksActions.setLoading({todoListId, id, value: false}))
+    handleServerNetworkError(e, dispatch)
+    return rejectWithValue(null)
+  }
+})
+
+const removeTask = createAppAsyncThunk<{todoListId: string, id: string}, {todoListId: string, id: string}>
+('tasks/remove', async ({todoListId, id}, thunkAPI) => {
+  debugger
+  const {dispatch, rejectWithValue} = thunkAPI
+  dispatch(tasksActions.setLoading({todoListId, id, value: true}))
+  const res = await taskAPI.removeTask(todoListId, id)
+  try {
+    if (res.data.resultCode === ResultCode.Success) {
+    return {todoListId, id}
+    } else {
+      handleServerAppError(res.data, dispatch)
+      dispatch(tasksActions.setLoading({todoListId, id, value: false}))
+      return rejectWithValue(null)
+    }
+  } catch (e) {
+    dispatch(tasksActions.setLoading({todoListId, id, value: false}))
+    handleServerNetworkError(e, dispatch)
+    return rejectWithValue(null)
+  }
+})
 
 const slice = createSlice({
   name: 'tasks',
   initialState: {} as TasksType,
   reducers: {
-    removeTask(state, action: PayloadAction<{ listId: string, id: string }>) {
-      const index = state[action.payload.listId].findIndex((t) => t.id === action.payload.listId);
-      index !== -1 && state[action.payload.listId].splice(index, 1)
+    setLoading(state, action: PayloadAction<{todoListId: string, id: string, value: boolean}>) {
+      const index = state[action.payload.todoListId].findIndex((t) => t.id === action.payload.id);
+      if (index !== -1) {
+        state[action.payload.todoListId][index].loading = action.payload.value;
+      }
     },
+    editTask(state, action: PayloadAction<TaskAppType>) {
+      const listId = action.payload.todoListId
+      const index = state[listId].findIndex((t) => t.id === action.payload.id);
+      state[listId] = [...state[listId].slice(0, index), action.payload,
+        ...state[listId].slice(index + 1)
+      ]
+    }
   },
   extraReducers: builder => {
     builder
@@ -94,14 +155,6 @@ const slice = createSlice({
       })
       .addCase(setTask.fulfilled, (state, action) => {
         state[action.payload.listId] = action.payload.tasks
-      })
-      .addCase(editTaskStatus.fulfilled, (state, action) => {
-        const index = state[action.payload.todoListId].findIndex((t) => t.id === action.payload.id);
-        state[action.payload.todoListId] = [
-          ...state[action.payload.todoListId].slice(0, index),
-          action.payload,
-          ...state[action.payload.todoListId].slice(index + 1)
-        ]
       })
       .addCase(listsActions.setLists, (state, action) => {
         action.payload.lists.forEach((l) => state[l.id] = [])
@@ -112,16 +165,13 @@ const slice = createSlice({
       .addCase(listsActions.removeList, (state, action) => {
         delete state[action.payload.listId]
       })
-
+      .addCase(removeTask.fulfilled, (state, action) => {
+        const index = state[action.payload.todoListId].findIndex((t) => t.id === action.payload.id);
+        index !== -1 && state[action.payload.todoListId].splice(index, 1)
+      })
   }
 })
 export const tasks = slice.reducer
 export const tasksActions = slice.actions
-export const taskThunk = {setTask, addTask, editTaskStatus}
-
-
-//
-// const monthNames = ["January", "February", "March", "April", "May", "June",
-//   "July", "August", "September", "October", "November", "December"]
-// const startDate = `${date.getMonth() + 1} ${monthNames[date.getMonth()]} ${date.toTimeString().slice(0, 5)}`
+export const taskThunk = {setTask, addTask, editTaskStatus, editTask, removeTask}
 
