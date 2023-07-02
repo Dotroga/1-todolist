@@ -3,6 +3,7 @@ import {useCalendar} from "./useCalendar";
 import {checkDateIsEqual, checkIsToday} from "./utils";
 import {CalendarWrapper} from "./Calendar.styled";
 import {CalendarHeader} from "./CalendarHeader";
+import {AdditionalSetting} from "Components/Super/Calendar/AdditionalSetting";
 
 export type CalendarProps = {
   locale?: string
@@ -13,10 +14,14 @@ export type CalendarProps = {
 
 export const Calendar: React.FC<CalendarProps> = (props) => {
   const {locale, selectedDate: date, selectDate, firstWeekDayNumber = 2} = {...props}
+
   const { functions, state } = useCalendar({
     locale, selectedDate: date, firstWeekDayNumber});
+  const today = new Date().getTime()
+  debugger
   return (
     <CalendarWrapper >
+      <AdditionalSetting />
       <CalendarHeader {...props} functions={functions} state={state} />
       <div className='calendar__body'>
         {state.mode === 'days' && (
@@ -31,9 +36,9 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
                 const isToday = checkIsToday(day.date);
                 const isSelectedDay = checkDateIsEqual(day.date, state.selectedDay.date);
                 const isAdditionalDay = day.monthIndex !== state.selectedMonth.monthIndex;
-
                 return (
-                  <div
+                  <button
+                    disabled={day.timestamp <= today - 86400000}
                     key={`${day.dayNumber}-${day.monthIndex}`}
                     aria-hidden
                     onClick={() => {
@@ -48,7 +53,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
                     ].join(' ')}
                   >
                     {day.dayNumber}
-                  </div>
+                  </button>
                 );
               })}
             </div>

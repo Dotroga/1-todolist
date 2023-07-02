@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 export const CalendarWrapper = styled.div`
+  user-select: none;
   transform-origin: bottom;
   bottom: 0;
   width: 230px;
-  height: 268px;
   text-transform: capitalize;
   border: ${({theme}) => theme.colors.color};
   background-color: ${({theme}) => theme.colors.bg};
@@ -45,9 +45,13 @@ export const CalendarWrapper = styled.div`
   }
 
   .calendar__day {
+    background-color: transparent;
+    border: none;
+    outline: none;
     border-radius: 5px;
     padding: 5.5px 0;
     cursor: pointer;
+    color: ${({theme}) => theme.colors.font};
   }
 
   .calendar__day:hover {
@@ -58,7 +62,7 @@ export const CalendarWrapper = styled.div`
     padding: 5.5px;
     font-weight: 300;
     cursor: pointer;
-    color: #687493;
+    color: ${({theme}) => theme.colors.secondFont};
   }
 
   .calendar__pick__item {
