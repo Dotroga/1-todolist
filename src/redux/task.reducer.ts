@@ -111,13 +111,38 @@ const editTask = createAppAsyncThunk<void, {task: TaskAppType, newTask: TaskRequ
 
 const removeTask = createAppAsyncThunk<{todoListId: string, id: string}, {todoListId: string, id: string}>
 ('tasks/remove', async ({todoListId, id}, thunkAPI) => {
-  debugger
   const {dispatch, rejectWithValue} = thunkAPI
   dispatch(tasksActions.setLoading({todoListId, id, value: true}))
   const res = await taskAPI.removeTask(todoListId, id)
   try {
     if (res.data.resultCode === ResultCode.Success) {
     return {todoListId, id}
+    } else {
+      handleServerAppError(res.data, dispatch)
+      dispatch(tasksActions.setLoading({todoListId, id, value: false}))
+      return rejectWithValue(null)
+    }
+  } catch (e) {
+    dispatch(tasksActions.setLoading({todoListId, id, value: false}))
+    handleServerNetworkError(e, dispatch)
+    return rejectWithValue(null)
+  }
+})
+
+const reorderTask = createAppAsyncThunk<{todoListId: string, index: number, change: 'up' | 'down'}, {todoListId: string, id: string, index: number, change: 'up' | 'down'}>
+('tasks/reorder', async ({todoListId, id, index, change}, thunkAPI) => {
+  const {dispatch, rejectWithValue, getState} = thunkAPI
+  const tasks = getState().tasks[todoListId]
+  let afterListId: string | null
+  if (change === 'up') {
+    afterListId = index > 1 ? tasks[index - 2].id : null
+  }  else {
+    afterListId = tasks[index].id
+  }
+  const res = await taskAPI.reorderTask(todoListId, id, afterListId)
+  try {
+    if (res.data.resultCode === ResultCode.Success) {
+      return {todoListId, index, change}
     } else {
       handleServerAppError(res.data, dispatch)
       dispatch(tasksActions.setLoading({todoListId, id, value: false}))
@@ -169,9 +194,20 @@ const slice = createSlice({
         const index = state[action.payload.todoListId].findIndex((t) => t.id === action.payload.id);
         index !== -1 && state[action.payload.todoListId].splice(index, 1)
       })
+      .addCase(reorderTask.fulfilled, (state, action) => {
+        const {todoListId, index, change} = action.payload
+        const task = state[todoListId][index]
+        if (change === 'up') {
+          state[todoListId][index] = state[todoListId][index - 1]
+          state[todoListId][index - 1] = task
+        } else {
+          state[todoListId][index] = state[todoListId][index + 1]
+          state[todoListId][index + 1] = task
+        }
+      })
   }
 })
 export const tasks = slice.reducer
 export const tasksActions = slice.actions
-export const taskThunk = {setTask, addTask, editTaskStatus, editTask, removeTask}
+export const taskThunk = {setTask, addTask, editTaskStatus, editTask, removeTask, reorderTask}
 

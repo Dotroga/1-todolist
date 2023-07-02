@@ -9,9 +9,11 @@ export const taskAPI = {
   createTask: (listId: string, task: TaskRequestType) =>
     instance.post<ResponseType<{ item: TaskResponseType }>>(`todo-lists/${listId}/tasks`, task),
   editTask: (listId: string, taskId: string, task: TaskRequestType) =>
-    instance.put<ResponseType<{ item : TaskResponseType }>>(`/todo-lists/${listId}/tasks/${taskId}`, task),
+    instance.put<ResponseType<{ item : TaskResponseType }>>(`todo-lists/${listId}/tasks/${taskId}`, task),
   removeTask: (listId: string, taskId: string) =>
-    instance.delete<ResponseType>(`/todo-lists/${listId}/tasks/${taskId}`)
+    instance.delete<ResponseType>(`todo-lists/${listId}/tasks/${taskId}`),
+  reorderTask: (listId: string, id: string, putAfterItemId: string | null) =>
+    instance.put<ResponseType>(`todo-lists/${listId}/tasks/${id}/reorder`, {putAfterItemId})
 }
 
 type GetTasksResponse<T = []> = {

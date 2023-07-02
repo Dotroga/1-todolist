@@ -20,23 +20,24 @@ type PropsType = {
 
 export const AdditionalOptionsTask: React.FC<PropsType> = (props) => {
   const {task, index, isOpen, opened, closes} = props
+  const {todoListId, id} = task
   const dispatch = useAppDispatch()
   const [isOpenEditTask, setEditTask] = useState(false)
   const isLoading = useAppSelector(selectTasksIsLoading)
-  const length = useAppSelector(selectTaskLength(task.todoListId))
+  const length = useAppSelector(selectTaskLength(todoListId))
   const editing = () => {
     closes()
     setEditTask(true)
   }
   const remove = () => {
     closes()
-    dispatch(taskThunk.removeTask({todoListId: task.todoListId, id: task.id}))
+    dispatch(taskThunk.removeTask({todoListId, id}))
   }
   const reorderDown = () => {
-
+    dispatch(taskThunk.reorderTask({todoListId, id, index, change: 'down'}))
   }
   const reorderUp = () => {
-
+    dispatch(taskThunk.reorderTask({todoListId, id, index, change: 'up'}))
   }
   return (
     <Wrapper className='AdditionalOptions' isOpen={isOpen}>
@@ -56,7 +57,7 @@ export const AdditionalOptionsTask: React.FC<PropsType> = (props) => {
         <AddNewTask
             isOpen={isOpenEditTask}
             task={task}
-            listId={task.todoListId}
+            listId={todoListId}
             numberOfTasks={length}
             onClose={()=>setEditTask(false)}/>
       }
