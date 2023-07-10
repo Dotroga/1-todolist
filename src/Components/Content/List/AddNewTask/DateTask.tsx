@@ -4,13 +4,13 @@ import styled, {css} from "styled-components";
 
 type PropsType = {
   value: Date | undefined
-  onChange: (value: Date) => void
+  onChange: (value: Date | undefined) => void
 }
 
 export const DateTask:React.FC<PropsType> = ({value, onChange}) => {
   const [isOpen, setIsOpen] = useState(false)
   const opened = () => setIsOpen(!isOpen)
-  const handler = (date: Date) => {
+  const handler = (date: Date | undefined) => {
     onChange(date)
     setIsOpen(false)
   }

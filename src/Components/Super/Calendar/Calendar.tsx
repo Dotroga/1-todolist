@@ -8,7 +8,7 @@ import {AdditionalSetting} from "Components/Super/Calendar/AdditionalSetting";
 export type CalendarProps = {
   locale?: string
   selectedDate: Date
-  selectDate: (date: Date) => void
+  selectDate: (date: Date | undefined) => void
   firstWeekDayNumber?: number
 }
 
@@ -18,10 +18,9 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
   const { functions, state } = useCalendar({
     locale, selectedDate: date, firstWeekDayNumber});
   const today = new Date().getTime()
-  debugger
   return (
     <CalendarWrapper >
-      <AdditionalSetting />
+      <AdditionalSetting selectDate={selectDate}/>
       <CalendarHeader {...props} functions={functions} state={state} />
       <div className='calendar__body'>
         {state.mode === 'days' && (

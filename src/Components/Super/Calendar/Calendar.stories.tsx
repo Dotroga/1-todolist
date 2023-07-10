@@ -13,6 +13,6 @@ export const CalendarOne: Story = (args) => {
 
   return <Calendar
     selectedDate={selectedDate}
-    selectDate={(date) => setSelectedDay(date)}
+    selectDate={(date) => setSelectedDay(date!)}
   />
 }

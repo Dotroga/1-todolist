@@ -92,7 +92,7 @@ export const AddNewTask = (props: AddNewTaskPropsType) => {
               <div className="options">
                 <DateTask
                   value={values.deadline}
-                  onChange={(value: Date) => setFieldValue('deadline', value)}
+                  onChange={(value: Date | undefined) => setFieldValue('deadline', value)}
                 />
                 <Select arr={prioritiesArr} icon={PriorityIcon} name="Priority"
                         onChange={(value: ArrType) => setFieldValue('priority', value)}
