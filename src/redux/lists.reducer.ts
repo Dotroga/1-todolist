@@ -125,7 +125,7 @@ const reorderList = (listId: string, lists: ListType[], change: 'up' | 'down') =
     })
 }
 
-const slice = createSlice({
+export const slice = createSlice({
   name: 'lists',
   initialState: [] as ListType[],
   reducers: {

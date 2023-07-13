@@ -41,10 +41,10 @@ export const List: React.FC<{ list: ListType , index: number}> = ({ list, index 
 };
 
 const Wrapper = styled.div`
+  margin-top: 35px;
   display: flex;
   flex-direction: column;
   padding: 20px;
- 
 `;
 
 const ListTitle = styled.div<{ color: string, isOpen: boolean}>`
